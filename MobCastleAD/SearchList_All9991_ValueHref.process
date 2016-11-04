@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pd:name>MobCastleAD/SearchList_All9991_ValueHref.process</pd:name>
+    <pd:startName>SearchAllTables</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <AllRS>
+                <xsl:value-of select="tib:concat-sequence-format($AllRS/AccumulatedOutput/jdbcGeneralActivityOutput/unknownResultset, &quot;    &#xA;&#xA;&quot;)"/>
+            </AllRS>
+        </root>
+    </pd:returnBindings>
+    <pd:starter name="SearchAllTables">
+        <pd:type>com.tibco.plugin.http.HTTPEventSource</pd:type>
+        <pd:resourceType>httppalette.httpEventSource</pd:resourceType>
+        <pd:x>52</pd:x>
+        <pd:y>48</pd:y>
+        <config>
+            <outputMode>String</outputMode>
+            <defaultEncoding>UTF8</defaultEncoding>
+            <inputOutputVersion>5.3.0</inputOutputVersion>
+            <newMimeSupport>true</newMimeSupport>
+            <parsePostData>true</parsePostData>
+            <sharedChannel>/MobCastleAD/9991.sharedhttp</sharedChannel>
+            <customField>
+                <row>
+                    <attribute>searchValue</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>optional</attributeCard>
+                </row>
+            </customField>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Accept" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Charset" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Encoding" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Length" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Connection" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="AllRS" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>884</pd:endX>
+    <pd:endY>190</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1474554341528</pd:targetNamespace>
+    <pd:activity name="SetOtherTableNames">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>670</pd:x>
+        <pd:y>52</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="tableName" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <tableName>
+                    <xsl:value-of select="&quot;product&quot;"/>
+                </tableName>
+                <tableName>
+                    <xsl:value-of select="&quot;offer&quot;"/>
+                </tableName>
+                <tableName>
+                    <xsl:value-of select="&quot;n&quot;"/>
+                </tableName>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>16</pd:x>
+        <pd:y>124</pd:y>
+        <pd:width>538</pd:width>
+        <pd:height>170</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$SetOtherTableNames/root/tableName</pd:over>
+            <pd:iterationElementSlot>e</pd:iterationElementSlot>
+            <pd:indexSlot>i</pd:indexSlot>
+            <pd:outSlot>AllRS</pd:outSlot>
+            <pd:activityOutputName>Call Process</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>SearchOthers</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Log</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SearchOthers</pd:from>
+            <pd:to>Call Process</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Call Process</pd:from>
+            <pd:to>Log</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="SearchOthers">
+            <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+            <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+            <pd:x>125</pd:x>
+            <pd:y>201</pd:y>
+            <config>
+                <timeout>10</timeout>
+                <commit>false</commit>
+                <maxRows>100</maxRows>
+                <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+            </config>
+            <pd:inputBindings>
+                <jdbcGeneralActivityInput>
+                    <statement>
+                        <xsl:value-of select="concat(&quot;select &quot;,$e/tableName,&quot;_id,&quot;,$e/tableName,&quot;_name,&quot;,$e/tableName,&quot;_status from &quot;,$e/tableName,&quot; where &quot;,$e/tableName,&quot;_id like '%&quot;,$SearchAllTables/ProcessStarterOutput/parameters/searchValue,&quot;%' or &quot;,$e/tableName,&quot;_name like '%&quot;,$SearchAllTables/ProcessStarterOutput/parameters/searchValue,&quot;%'&quot;)"/>
+                    </statement>
+                </jdbcGeneralActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Log">
+            <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
+            <pd:resourceType>ae.activities.log</pd:resourceType>
+            <pd:x>402</pd:x>
+            <pd:y>201</pd:y>
+            <config>
+                <role>User</role>
+            </config>
+            <pd:inputBindings>
+                <ns0:ActivityInput>
+                    <message>
+                        <xsl:value-of select="$Call-Process/root/param"/>
+                    </message>
+                </ns0:ActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Call Process">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>272</pd:x>
+            <pd:y>204</pd:y>
+            <config>
+                <processName>/MobCastleAD/FormatDBResultToHTML.process</processName>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <unknownResultset>
+                        <xsl:for-each select="$SearchOthers/jdbcGeneralActivityOutput/unknownResultset/row">
+                            <row>
+                                <xsl:for-each select="column">
+                                    <column>
+                                        <name>
+                                            <xsl:value-of select="name"/>
+                                        </name>
+                                        <xsl:if test="not((value/@xsi:nil=(&quot;true&quot;)) or (value/@xsi:nil=(&quot;1&quot;)))">
+                                            <value>
+                                                <xsl:value-of select="value"/>
+                                            </value>
+                                        </xsl:if>
+                                    </column>
+                                </xsl:for-each>
+                            </row>
+                        </xsl:for-each>
+                    </unknownResultset>
+                    <Tablename>
+                        <xsl:value-of select="$e/tableName"/>
+                    </Tablename>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="SearchAdvertiser">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>271</pd:x>
+        <pd:y>48</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="concat(&quot;select advertiser_id,advertiser_name from advertiser where advertiser_id like '%&quot;,$SearchAllTables/ProcessStarterOutput/parameters/searchValue,&quot;%' or advertiser_name like '%&quot;,$SearchAllTables/ProcessStarterOutput/parameters/searchValue,&quot;%'&quot;)"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ShowFirstPage">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:x>763</pd:x>
+        <pd:y>189</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>SearchAllTables</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of select="concat($GenerateAllQueryHead/ns:ReadActivityOutputTextClass/fileContent/textContent,$AD_ToHTML/root/param,tib:concat-sequence-format($AllRS/AccumulatedOutput/root, &quot;&#xA;&quot;))"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GenerateAllQueryHead">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>632</pd:x>
+        <pd:y>195</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ProjectGV/ProjectFolder,&quot;\QueryAllHead.html&quot;)"/>
+                </fileName>
+                <encoding>
+                    <xsl:value-of select="&quot;UTF-8&quot;"/>
+                </encoding>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AD_ToHTML">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>459</pd:x>
+        <pd:y>48</pd:y>
+        <config>
+            <processName>/MobCastleAD/FormatDBResultToHTML.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <unknownResultset>
+                    <xsl:for-each select="$SearchAdvertiser/jdbcGeneralActivityOutput/unknownResultset/row">
+                        <row>
+                            <xsl:for-each select="column">
+                                <column>
+                                    <name>
+                                        <xsl:value-of select="name"/>
+                                    </name>
+                                    <xsl:if test="not((value/@xsi:nil=(&quot;true&quot;)) or (value/@xsi:nil=(&quot;1&quot;)))">
+                                        <value>
+                                            <xsl:value-of select="value"/>
+                                        </value>
+                                    </xsl:if>
+                                </column>
+                            </xsl:for-each>
+                        </row>
+                    </xsl:for-each>
+                </unknownResultset>
+                <Tablename>
+                    <xsl:value-of select="&quot;advertiser&quot;"/>
+                </Tablename>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="NotAllowed">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:x>645</pd:x>
+        <pd:y>118</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>SearchAllTables</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="&quot; Url not allowed for access. Please contact web site Admin if any help needed.&quot;"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>SearchAllTables</pd:from>
+        <pd:to>SearchAdvertiser</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>contains($SearchAllTables/ProcessStarterOutput/RequestURI, "searchAll")</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>GenerateAllQueryHead</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetOtherTableNames</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SearchAdvertiser</pd:from>
+        <pd:to>AD_ToHTML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ShowFirstPage</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GenerateAllQueryHead</pd:from>
+        <pd:to>ShowFirstPage</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AD_ToHTML</pd:from>
+        <pd:to>SetOtherTableNames</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SearchAllTables</pd:from>
+        <pd:to>NotAllowed</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>NotAllowed</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

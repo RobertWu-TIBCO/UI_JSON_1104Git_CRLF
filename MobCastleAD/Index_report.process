@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns4="http://xmlns.tibco.com/encodings/mime" xmlns:ns3="http://www.tibco.com/pe/EngineTypes">
+    <pd:name>MobCastleAD/Index_report.process</pd:name>
+    <pd:startName>Index</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings/>
+    <pd:starter name="Index">
+        <pd:type>com.tibco.plugin.http.HTTPEventSource</pd:type>
+        <pd:resourceType>httppalette.httpEventSource</pd:resourceType>
+        <pd:x>45</pd:x>
+        <pd:y>129</pd:y>
+        <config>
+            <outputMode>String</outputMode>
+            <defaultEncoding>UTF8</defaultEncoding>
+            <inputOutputVersion>5.3.0</inputOutputVersion>
+            <newMimeSupport>true</newMimeSupport>
+            <parsePostData>true</parsePostData>
+            <sharedChannel>/MobCastleAD/9990.sharedhttp</sharedChannel>
+            <useHTTPAuthentication>true</useHTTPAuthentication>
+            <customField>
+                <row>
+                    <attribute>startdate</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>optional</attributeCard>
+                </row>
+                <row>
+                    <attribute>enddate</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>optional</attributeCard>
+                </row>
+                <row>
+                    <attribute>accuracy</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>optional</attributeCard>
+                </row>
+                <row>
+                    <attribute>offer</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>optional</attributeCard>
+                </row>
+                <row>
+                    <attribute>n</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>optional</attributeCard>
+                </row>
+                <row>
+                    <attribute>reportname</attribute>
+                    <attributeType>string</attributeType>
+                    <attributeCard>optional</attributeCard>
+                </row>
+            </customField>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Accept" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Charset" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Encoding" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Length" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Connection" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endX>805</pd:endX>
+    <pd:endY>123</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1475394218090</pd:targetNamespace>
+    <pd:activity name="ReadHtmlView">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>206</pd:x>
+        <pd:y>128</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ProjectGV/ProjectFolder,&quot;\first.html&quot;)"/>
+                </fileName>
+                <encoding>
+                    <xsl:value-of select="&quot;UTF-8&quot;"/>
+                </encoding>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SendSearchInput">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:x>375</pd:x>
+        <pd:y>130</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>Index</eventSource>
+            <Headers>
+                <xs:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="root">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xs:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xs:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xs:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xs:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of xmlns:xsl="http://www.w3.org/1999/XSL/Transform" select="$ReadHtmlView/ns:ReadActivityOutputTextClass/fileContent/textContent"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SendReport">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:description>concat("report is here : &lt;br&gt;", tib:concat-sequence-format($Index/ProcessStarterOutput/parameters/*, "&lt;br&gt; "),"&lt;br&gt; offer query : &lt;br&gt;",$SaveConcat/root/offer,"&lt;br&gt;n query : &lt;br&gt;",$SaveConcat/root/n)</pd:description>
+        <pd:x>802</pd:x>
+        <pd:y>364</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>Index</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of select="$FormatReportResponse/root/formatReport"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="offer_query">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:description>concat("select ",$e/tableName,"_id,",$e/tableName,"_name,",$e/tableName,"_status from ",$e/tableName," where ",$e/tableName,"_id like '%",$SearchAllTables/ProcessStarterOutput/parameters/searchValue,"%' or ",$e/tableName,"_name like '%",$SearchAllTables/ProcessStarterOutput/parameters/searchValue,"%'")</pd:description>
+        <pd:x>48</pd:x>
+        <pd:y>264</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="concat(&quot;select offer_id,offer_name,offer_status from offer where offer_status not like '%pause%' and offer_id like '%&quot;,$Index/ProcessStarterOutput/parameters/offer,&quot;%' or offer_name like '%&quot;,$Index/ProcessStarterOutput/parameters/offer,&quot;%'&quot;)"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="n_query">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>160</pd:x>
+        <pd:y>265</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="concat(&quot;select n_id,n_name,n_status from n where n_status not like '%pause%' and  n_id like '%&quot;,$Index/ProcessStarterOutput/parameters/n,&quot;%' or n_name like '%&quot;,$Index/ProcessStarterOutput/parameters/n,&quot;%'&quot;)"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SaveConcat">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>282</pd:x>
+        <pd:y>265</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="offer" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="n" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="enddate" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <offer>
+                    <xsl:value-of select="tib:concat-sequence-format(for $row in $offer_query/jdbcGeneralActivityOutput/unknownResultset/row return tib:concat-sequence-format($row/column/value, &quot;-&quot;), &quot;,&quot;)"/>
+                </offer>
+                <n>
+                    <xsl:value-of select="tib:concat-sequence-format(for $row in $n_query/jdbcGeneralActivityOutput/unknownResultset/row return tib:concat-sequence-format($row/column/value, &quot;-&quot;), &quot;,&quot;)"/>
+                </n>
+                <xsl:choose>
+                    <xsl:when test="$Index/ProcessStarterOutput/parameters/enddate=&quot;&quot;">
+                        <enddate>
+                            <xsl:value-of select="substring-before(current-date(), &quot;+&quot;)"/>
+                        </enddate>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:if test="$Index/ProcessStarterOutput/parameters/enddate">
+                            <enddate>
+                                <xsl:value-of select="$Index/ProcessStarterOutput/parameters/enddate"/>
+                            </enddate>
+                        </xsl:if>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="External Command">
+        <pd:type>com.tibco.plugin.cmdexec.CmdExecActivity</pd:type>
+        <pd:resourceType>ae.activities.CmdExecActivity</pd:resourceType>
+        <pd:x>423</pd:x>
+        <pd:y>263</pd:y>
+        <config>
+            <outputToString>true</outputToString>
+            <lineSplit>None</lineSplit>
+        </config>
+        <pd:inputBindings>
+            <CmdInput>
+                <command>
+                    <xsl:value-of select="concat(&quot;python report_merge.py &quot;,$Index/ProcessStarterOutput/parameters/startdate,&quot; &quot;,$SaveConcat/root/enddate,&quot; &quot;,$Index/ProcessStarterOutput/parameters/accuracy,&quot; &quot;,$SaveConcat/root/offer,&quot; &quot;,$SaveConcat/root/n,&quot; &quot;,$_processContext/ns3:ProcessContext/ProcessId )"/>
+                </command>
+                <workingDirectory>
+                    <xsl:value-of select="&quot;E:\SoftWares\Project\log\&quot;"/>
+                </workingDirectory>
+            </CmdInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Read File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:description>the csv is not utf-8 encoded</pd:description>
+        <pd:x>129</pd:x>
+        <pd:y>374</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat(&quot;E:\SoftWares\Project\log&quot;,&quot;\report_&quot;,$_processContext/ns3:ProcessContext/ProcessId,&quot;.csv&quot;)"/>
+                </fileName>
+                <encoding>
+                    <xsl:value-of select="&quot;CP936&quot;"/>
+                </encoding>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Remove File">
+        <pd:type>com.tibco.plugin.file.FileRemoveActivity</pd:type>
+        <pd:resourceType>ae.activities.FileRemoveActivity</pd:resourceType>
+        <pd:x>560</pd:x>
+        <pd:y>252</pd:y>
+        <config/>
+        <pd:inputBindings>
+            <ns:RemoveActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="$Read-File/ns:ReadActivityOutputTextClass/fileInfo/fullName"/>
+                </fileName>
+            </ns:RemoveActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="FormatReportResponse">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>668</pd:x>
+        <pd:y>367</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="formatReport" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <formatReport>
+                    <xsl:value-of select="concat($ReportCSS/ns:ReadActivityOutputTextClass/fileContent/textContent,&quot;&lt;tr>&lt;td>&quot;,tib:substring-before-last($Java-Code/javaCodeActivityOutput/out, &quot;&lt;tr>&quot;), &quot;&lt;/table>&quot;,$DownloadReport/ns:ReadActivityOutputTextClass/fileContent/textContent,&quot;&lt;a href=http://60.205.189.32:9990/downloadreport?reportname=&quot;,$Read-File/ns:ReadActivityOutputTextClass/fileInfo/fullName,&quot; name=report.csv>download Report Process&lt;/a> &lt;/body>&lt;/html>&quot;)"/>
+                </formatReport>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Java Code">
+        <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+        <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+        <pd:x>240</pd:x>
+        <pd:y>372</pd:y>
+        <config>
+            <fileName>Index_reportJavaCode</fileName>
+            <packageName>MobCastleAD.Index_report</packageName>
+            <fullsource>package MobCastleAD.Index_report;
+import java.util.*;
+import java.io.*;
+public class Index_reportJavaCode{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String in = "";
+	protected String out = "";
+	public String getin() {
+		return in;
+	}
+	public void setin(String val) {
+		in = val;
+	}
+	public String getout() {
+		return out;
+	}
+	public void setout(String val) {
+		out = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public Index_reportJavaCode() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String in
+	Out : String out
+* Available Variables: DO NOT MODIFY *****/
+
+out=in.replaceAll("\n","&lt;p&gt;");
+out=out.replaceAll("&lt;p&gt;","&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;");
+out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
+}
+}
+</fullsource>
+            <inputData>
+                <row>
+                    <fieldName>in</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+            </inputData>
+            <outputData>
+                <row>
+                    <fieldName>out</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+            </outputData>
+            <byteCode/>
+        </config>
+        <pd:inputBindings>
+            <javaCodeActivityInput>
+                <in>
+                    <xsl:value-of select="$Read-File/ns:ReadActivityOutputTextClass/fileContent/textContent"/>
+                </in>
+            </javaCodeActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ReportCSS">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>352</pd:x>
+        <pd:y>370</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ProjectGV/ProjectFolder,&quot;\ReportTableCSS.txt&quot;)"/>
+                </fileName>
+                <encoding>
+                    <xsl:value-of select="&quot;UTF-8&quot;"/>
+                </encoding>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="DownloadReport">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>528</pd:x>
+        <pd:y>370</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ProjectGV/ProjectFolder,&quot;\TestSaveHTMLByJS.html&quot;)"/>
+                </fileName>
+                <encoding>
+                    <xsl:value-of select="&quot;UTF-8&quot;"/>
+                </encoding>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="NotAllowed">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:x>262</pd:x>
+        <pd:y>199</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>Index</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <asciiContent>
+                    <xsl:value-of select="&quot; Url not allowed for access. Please contact web site Admin if any help needed.&quot;"/>
+                </asciiContent>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="DownloadCSVReport">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:description>the csv is not utf-8 encoded</pd:description>
+        <pd:x>195</pd:x>
+        <pd:y>35</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="$Index/ProcessStarterOutput/parameters/reportname"/>
+                </fileName>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SendReportCSV">
+        <pd:type>com.tibco.plugin.http.HTTPResponseActivity</pd:type>
+        <pd:resourceType>httppalette.httpWebResponse</pd:resourceType>
+        <pd:description>concat("report is here : &lt;br&gt;", tib:concat-sequence-format($Index/ProcessStarterOutput/parameters/*, "&lt;br&gt; "),"&lt;br&gt; offer query : &lt;br&gt;",$SaveConcat/root/offer,"&lt;br&gt;n query : &lt;br&gt;",$SaveConcat/root/n)</pd:description>
+        <pd:x>334</pd:x>
+        <pd:y>36</pd:y>
+        <config>
+            <closeConnection>true</closeConnection>
+            <eventSource>Index</eventSource>
+            <Headers>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="StatusLine" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </Headers>
+        </config>
+        <pd:inputBindings>
+            <ResponseActivityInput>
+                <Headers/>
+                <ns4:mimeEnvelopeElement>
+                    <mimePart>
+                        <mimeHeaders>
+                            <content-disposition>
+                                <xsl:value-of select="concat(&quot;attachment;filename=&quot;,$DownloadCSVReport/ns:ReadActivityOutputTextClass/fileInfo/fileName)"/>
+                            </content-disposition>
+                            <content-type>
+                                <xsl:value-of select="&quot;text/csv&quot;"/>
+                            </content-type>
+                        </mimeHeaders>
+                        <fileName>
+                            <xsl:value-of select="$DownloadCSVReport/ns:ReadActivityOutputTextClass/fileInfo/fullName"/>
+                        </fileName>
+                    </mimePart>
+                </ns4:mimeEnvelopeElement>
+            </ResponseActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:description>if not grouped, file download may has not finished and the file could not be deleted</pd:description>
+        <pd:x>480</pd:x>
+        <pd:y>1</pd:y>
+        <pd:width>169</pd:width>
+        <pd:height>141</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>errorLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:indexSlot>index</pd:indexSlot>
+            <pd:errorCondition>$RemoveFile_CSV/ns:RemoveActivityOutputClass/fileInfo/fileName</pd:errorCondition>
+            <pd:suspendAfterErrorRetry>false</pd:suspendAfterErrorRetry>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>RemoveFile_CSV</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>RemoveFile_CSV</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="RemoveFile_CSV">
+            <pd:type>com.tibco.plugin.file.FileRemoveActivity</pd:type>
+            <pd:resourceType>ae.activities.FileRemoveActivity</pd:resourceType>
+            <pd:x>552</pd:x>
+            <pd:y>64</pd:y>
+            <config/>
+            <pd:inputBindings>
+                <ns:RemoveActivityInputClass>
+                    <fileName>
+                        <xsl:value-of select="$DownloadCSVReport/ns:ReadActivityOutputTextClass/fileInfo/fullName"/>
+                    </fileName>
+                </ns:RemoveActivityInputClass>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>Index</pd:from>
+        <pd:to>ReadHtmlView</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Index/ProcessStarterOutput/RequestURI="/db"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReadHtmlView</pd:from>
+        <pd:to>SendSearchInput</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SendSearchInput</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Index</pd:from>
+        <pd:to>offer_query</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Index/ProcessStarterOutput/RequestURI="/report"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>offer_query</pd:from>
+        <pd:to>n_query</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>n_query</pd:from>
+        <pd:to>SaveConcat</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SaveConcat</pd:from>
+        <pd:to>External Command</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>External Command</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>Java Code</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SendReport</pd:from>
+        <pd:to>Remove File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>"DownloadCSV"=1</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Remove File</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FormatReportResponse</pd:from>
+        <pd:to>SendReport</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Java Code</pd:from>
+        <pd:to>ReportCSS</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReportCSS</pd:from>
+        <pd:to>DownloadReport</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>DownloadReport</pd:from>
+        <pd:to>FormatReportResponse</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Index</pd:from>
+        <pd:to>NotAllowed</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>NotAllowed</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SendReport</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Index</pd:from>
+        <pd:to>DownloadCSVReport</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>contains($Index/ProcessStarterOutput/RequestURI, "/downloadreport")</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>DownloadCSVReport</pd:from>
+        <pd:to>SendReportCSV</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SendReportCSV</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

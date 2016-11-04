@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns3="http://www.tibco.com/namespaces/tnt/plugins/file">
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>FrontJSONUI/Level2/report.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:AllJSONRequests"/>
+    <pd:startX>80</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <pfx:SubEnd>
+            <xsl:if test="$FormatReportResponse/root/formatReport">
+                <pfx:JSONResponse>
+                    <xsl:value-of select="$FormatReportResponse/root/formatReport"/>
+                </pfx:JSONResponse>
+            </xsl:if>
+        </pfx:SubEnd>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:SubEnd"/>
+    <pd:endX>712</pd:endX>
+    <pd:endY>69</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1478154485942</pd:targetNamespace>
+    <pd:activity name="offer_query">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:description>concat("select ",$e/tableName,"_id,",$e/tableName,"_name,",$e/tableName,"_status from ",$e/tableName," where ",$e/tableName,"_id like '%",$SearchAllTables/ProcessStarterOutput/parameters/searchValue,"%' or ",$e/tableName,"_name like '%",$SearchAllTables/ProcessStarterOutput/parameters/searchValue,"%'")</pd:description>
+        <pd:x>81</pd:x>
+        <pd:y>196</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="concat(&#xA;&quot;select * from view_label_offer_status_notpause &quot;,&#xA;&quot;where offer_id like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:searchvalue,&#xA;&quot;%' or offer_name like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:searchvalue,&#xA;&quot;%'&quot;)"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="n_query">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>202</pd:x>
+        <pd:y>196</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="concat(&quot;select * from view_label_n_status_notpause where n_id like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:searchvalue,&#xA;&quot;%' or n_name like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:searchvalue,&#xA;&quot;%'&quot;)"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SaveConcat">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>202</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="offer" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="n" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="startdate" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="enddate" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <offer>
+                    <xsl:value-of select="tib:concat-sequence-format(for $row in $offer_query/jdbcGeneralActivityOutput/unknownResultset/row return tib:concat-sequence-format($row/column/value, &quot;-&quot;), &quot;,&quot;)"/>
+                </offer>
+                <n>
+                    <xsl:value-of select="tib:concat-sequence-format(for $row in $n_query/jdbcGeneralActivityOutput/unknownResultset/row return tib:concat-sequence-format($row/column/value, &quot;-&quot;), &quot;,&quot;)"/>
+                </n>
+                <xsl:choose>
+                    <xsl:when test="$Start/pfx:AllJSONRequests/pfx:enddate!=&quot;&quot;">
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:enddate">
+                            <startdate>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:enddate"/>
+                            </startdate>
+                        </xsl:if>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <startdate>
+                            <xsl:value-of select="substring-before(current-date(), &quot;+&quot;)"/>
+                        </startdate>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:choose xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                    <xsl:when test="$Start/pfx:AllJSONRequests/pfx:enddate=&quot;&quot;">
+                        <enddate>
+                            <xsl:value-of select="substring-before(current-date(), &quot;+&quot;)"/>
+                        </enddate>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:enddate">
+                            <enddate>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:enddate"/>
+                            </enddate>
+                        </xsl:if>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="External Command">
+        <pd:type>com.tibco.plugin.cmdexec.CmdExecActivity</pd:type>
+        <pd:resourceType>ae.activities.CmdExecActivity</pd:resourceType>
+        <pd:x>329</pd:x>
+        <pd:y>68</pd:y>
+        <config>
+            <outputToString>true</outputToString>
+            <lineSplit>None</lineSplit>
+        </config>
+        <pd:inputBindings>
+            <CmdInput>
+                <command>
+                    <xsl:value-of select="concat(&quot;python report_merge.py &quot;,&#xA;$SaveConcat/root/startdate,&#xA;&quot; &quot;,&#xA;$SaveConcat/root/enddate,&#xA;&quot; &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:accuracy,&#xA;&quot; &quot;,&#xA;$SaveConcat/root/offer,&#xA;&quot; &quot;,&#xA;$SaveConcat/root/n,&#xA;&quot; &quot;,&#xA;$_processContext/ns:ProcessContext/ProcessId&#xA; )"/>
+                </command>
+                <workingDirectory>
+                    <xsl:value-of select="&quot;E:\SoftWares\Project\log\&quot;"/>
+                </workingDirectory>
+            </CmdInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Read File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:description>the csv is not utf-8 encoded</pd:description>
+        <pd:x>329</pd:x>
+        <pd:y>188</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat(&quot;E:\SoftWares\Project\log&quot;,&quot;\report_&quot;,&#xA;$_processContext/ns:ProcessContext/ProcessId,&#xA;&quot;.csv&quot;)"/>
+                </fileName>
+                <encoding>
+                    <xsl:value-of select="&quot;CP936&quot;"/>
+                </encoding>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="FormatReportResponse">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>568</pd:x>
+        <pd:y>178</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="formatReport" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <formatReport>
+                    <xsl:value-of select="concat(&#xA;$ReportCSS/ns3:ReadActivityOutputTextClass/fileContent/textContent,&#xA;&quot;&lt;tr>&lt;td>&quot;,&#xA;tib:substring-before-last($Java-Code/javaCodeActivityOutput/out, &quot;&lt;tr>&quot;), &#xA;&quot;&lt;/table>&quot;,&#xA;$DownloadReport/ns3:ReadActivityOutputTextClass/fileContent/textContent,&#xA;&quot;&lt;a href=http://60.205.189.32:9990/downloadreport?reportname=&quot;,&#xA;$Read-File/ns3:ReadActivityOutputTextClass/fileInfo/fullName,&#xA;&quot; name=report.csv>download Report Process&lt;/a> &lt;/body>&lt;/html>&quot;&#xA;)"/>
+                </formatReport>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Java Code">
+        <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+        <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+        <pd:x>434</pd:x>
+        <pd:y>192</pd:y>
+        <config>
+            <fileName>reportJavaCode</fileName>
+            <packageName>FrontJSONUI.Level2.report</packageName>
+            <fullsource>package FrontJSONUI.Level2.report;
+import java.util.*;
+import java.io.*;
+public class reportJavaCode{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String in = "";
+	protected String out = "";
+	public String getin() {
+		return in;
+	}
+	public void setin(String val) {
+		in = val;
+	}
+	public String getout() {
+		return out;
+	}
+	public void setout(String val) {
+		out = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public reportJavaCode() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String in
+	Out : String out
+* Available Variables: DO NOT MODIFY *****/
+
+out=in.replaceAll("\n","&lt;p&gt;");
+out=out.replaceAll("&lt;p&gt;","&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;");
+out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
+}
+}
+</fullsource>
+            <inputData>
+                <row>
+                    <fieldName>in</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+            </inputData>
+            <outputData>
+                <row>
+                    <fieldName>out</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+            </outputData>
+            <byteCode>
+                <class>
+                    <name>reportJavaCode</name>
+                    <byteCode>yv66vgAAADQAMAkACwAfCQALACAKAAwAIQgAIggAIwgAJAoAJQAmCAAnCAAoCAApBwAqBwArAQACaW4BABJMamF2YS9sYW5nL1N0cmluZzsBAANvdXQBAAVnZXRpbgEAFCgpTGphdmEvbGFuZy9TdHJpbmc7AQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEABXNldGluAQAVKExqYXZhL2xhbmcvU3RyaW5nOylWAQAGZ2V0b3V0AQAGc2V0b3V0AQAGPGluaXQ+AQADKClWAQAGaW52b2tlAQAKRXhjZXB0aW9ucwcALAEAClNvdXJjZUZpbGUBABNyZXBvcnRKYXZhQ29kZS5qYXZhDAANAA4MAA8ADgwAGAAZAQAAAQABCgEAAzxwPgcALQwALgAvAQASPC90ZD48L3RyPjx0cj48dGQ+AQABLAEACTwvdGQ+PHRkPgEAKEZyb250SlNPTlVJL0xldmVsMi9yZXBvcnQvcmVwb3J0SmF2YUNvZGUBABBqYXZhL2xhbmcvT2JqZWN0AQATamF2YS9sYW5nL0V4Y2VwdGlvbgEAEGphdmEvbGFuZy9TdHJpbmcBAApyZXBsYWNlQWxsAQA4KExqYXZhL2xhbmcvU3RyaW5nO0xqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZzsAIQALAAwAAAACAAQADQAOAAAABAAPAA4AAAAGAAEAEAARAAEAEgAAAB0AAQABAAAABSq0AAGwAAAAAQATAAAABgABAAAACQABABQAFQABABIAAAAiAAIAAgAAAAYqK7UAAbEAAAABABMAAAAKAAIAAAAMAAUADQABABYAEQABABIAAAAdAAEAAQAAAAUqtAACsAAAAAEAEwAAAAYAAQAAAA8AAQAXABUAAQASAAAAIgACAAIAAAAGKiu1AAKxAAAAAQATAAAACgACAAAAEgAFABMAAQAYABkAAQASAAAANQACAAEAAAARKrcAAyoSBLUAASoSBLUAArEAAAABABMAAAASAAQAAAAVAAQABgAKAAcAEAAWAAEAGgAZAAIAEgAAAFIABAABAAAALioqtAABEgUSBrYAB7UAAioqtAACEgYSCLYAB7UAAioqtAACEgkSCrYAB7UAArEAAAABABMAAAASAAQAAAAdAA8AHgAeAB8ALQAgABsAAAAEAAEAHAABAB0AAAACAB4=</byteCode>
+                </class>
+            </byteCode>
+        </config>
+        <pd:inputBindings>
+            <javaCodeActivityInput>
+                <in>
+                    <xsl:value-of select="$Read-File/ns3:ReadActivityOutputTextClass/fileContent/textContent"/>
+                </in>
+            </javaCodeActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ReportCSS">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>440</pd:x>
+        <pd:y>59</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ProjectGV/ProjectFolder,&quot;\ReportTableCSS.txt&quot;)"/>
+                </fileName>
+                <encoding>
+                    <xsl:value-of select="&quot;UTF-8&quot;"/>
+                </encoding>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="DownloadReport">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>563</pd:x>
+        <pd:y>61</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns1:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ProjectGV/ProjectFolder,&quot;\TestSaveHTMLByJS.html&quot;)"/>
+                </fileName>
+                <encoding>
+                    <xsl:value-of select="&quot;UTF-8&quot;"/>
+                </encoding>
+            </ns1:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>offer_query</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>offer_query</pd:from>
+        <pd:to>n_query</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>n_query</pd:from>
+        <pd:to>SaveConcat</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SaveConcat</pd:from>
+        <pd:to>External Command</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>External Command</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>Java Code</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Java Code</pd:from>
+        <pd:to>ReportCSS</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ReportCSS</pd:from>
+        <pd:to>DownloadReport</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>DownloadReport</pd:from>
+        <pd:to>FormatReportResponse</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FormatReportResponse</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

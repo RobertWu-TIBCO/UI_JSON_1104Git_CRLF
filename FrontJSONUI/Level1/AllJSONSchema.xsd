@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="SubEnd">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="JSONResponse" type="xs:string" minOccurs="0"/>
+				<xs:element name="TestXPATH" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AllJSONRequests">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="token" type="xs:string"/>
+				<xs:element name="tablename" type="xs:string" minOccurs="0"/>
+				<xs:element name="searchvalue" type="xs:string" minOccurs="0"/>
+				<xs:element name="id" type="xs:string" minOccurs="0"/>
+				<xs:element name="startdate" type="xs:string" minOccurs="0"/>
+				<xs:element name="enddate" type="xs:string" minOccurs="0"/>
+			  	<xs:element name="accuracy" type="xs:string" minOccurs="0"/>
+				<xs:element ref="EditArray" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EditArray">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="advertiser_address" type="xs:string" minOccurs="0"/>
+				<xs:element name="advertiser_concat" type="xs:string" minOccurs="0"/>
+				<xs:element name="advertiser_email" type="xs:string" minOccurs="0"/>
+				<xs:element name="advertiser_id" type="xs:string" minOccurs="0"/>
+				<xs:element name="advertiser_name" type="xs:string" minOccurs="0"/>
+				<xs:element name="advertiser_pwd" type="xs:string" minOccurs="0"/>
+				<xs:element name="advertiser_tel" type="xs:string" minOccurs="0"/>
+				<xs:element name="backup_campaign_id" type="xs:string" minOccurs="0"/>
+				<xs:element name="campaign_expend_c" type="xs:string" minOccurs="0"/>
+				<xs:element name="campaign_expend_n" type="xs:string" minOccurs="0"/>
+				<xs:element name="campaign_expend_t" type="xs:string" minOccurs="0"/>
+				<xs:element name="campaign_id" type="xs:string" minOccurs="0"/>
+				<xs:element name="campaign_pl" type="xs:string" minOccurs="0"/>
+				<xs:element name="campaign_rm" type="xs:string" minOccurs="0"/>
+				<xs:element name="campaign_status" type="xs:string" minOccurs="0"/>
+				<xs:element name="campaign_tl" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_address" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_concat" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_dcp" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_earning_c" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_earning_t" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_email" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_id" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_name" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_pl" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_pwd" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_status" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_tel" type="xs:string" minOccurs="0"/>
+				<xs:element name="n_tlm" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_cap" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_click_tl" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_dcp" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_earning_c" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_earning_n" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_earning_t" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_e_date" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_e_expend_c" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_e_expend_n" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_e_expend_t" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_id" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_name" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_status" type="xs:string" minOccurs="0"/>
+				<xs:element name="offer_s_date" type="xs:string" minOccurs="0"/>
+				<xs:element name="precord_c" type="xs:string" minOccurs="0"/>
+				<xs:element name="precord_id" type="xs:string" minOccurs="0"/>
+				<xs:element name="precord_m" type="xs:string" minOccurs="0"/>
+				<xs:element name="precord_n" type="xs:string" minOccurs="0"/>
+				<xs:element name="precord_t" type="xs:string" minOccurs="0"/>
+				<xs:element name="precord_time" type="xs:string" minOccurs="0"/>
+				<xs:element name="product_dcp" type="xs:string" minOccurs="0"/>
+				<xs:element name="product_id" type="xs:string" minOccurs="0"/>
+				<xs:element name="product_lp" type="xs:string" minOccurs="0"/>
+				<xs:element name="product_name" type="xs:string" minOccurs="0"/>
+				<xs:element name="product_OS" type="xs:string" minOccurs="0"/>
+				<xs:element name="product_status" type="xs:string" minOccurs="0"/>
+				<xs:element name="product_type" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>FrontJSONUI/Level2/add.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:AllJSONRequests"/>
+    <pd:startX>45</pd:startX>
+    <pd:startY>62</pd:startY>
+    <pd:returnBindings>
+        <pfx:SubEnd>
+            <pfx:JSONResponse>
+                <xsl:value-of select="$Render-JSON/ns:ActivityOutputClass/jsonString"/>
+            </pfx:JSONResponse>
+        </pfx:SubEnd>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:SubEnd"/>
+    <pd:endX>462</pd:endX>
+    <pd:endY>62</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1477401151551</pd:targetNamespace>
+    <pd:activity name="Call Process">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description>concat(
+"update ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+" set ",
+tib:concat-sequence-format(
+for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return(
+name($var),
+"='",
+$var,
+"'"
+),","
+),
+" where ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"_id=",
+$Start/pfx:AllJSONRequests/pfx:id
+)
+
+
+
+concat("insert into ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"(",
+name($Start/pfx:AllJSONRequests/pfx:EditArray/*),
+") values(",
+$Start/pfx:AllJSONRequests/pfx:EditArray,
+") ON DUPLICATE KEY UPDATE camp_clickcounter=111")</pd:description>
+        <pd:x>212</pd:x>
+        <pd:y>62</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&#xA;&quot;insert into &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;(&quot;,&#xA;tib:concat-sequence-format(for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return local-name($var),&quot;,&quot;),&#xA;&quot;) values('&quot;,&#xA;tib:concat-sequence-format(for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return $var,&quot;','&quot;),&#xA;&quot;') &quot;&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>336</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="responsestatus" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="redirecturl" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <root>
+                    <responsestatus>
+                        <xsl:value-of select="&quot;success&quot;"/>
+                    </responsestatus>
+                    <redirecturl>
+                        <xsl:value-of select="concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;-detail?id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                    </redirecturl>
+                </root>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="IfCampaignGeneratePL">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description>concat(
+"update ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+" set ",
+tib:concat-sequence-format(
+for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return(
+name($var),
+"='",
+$var,
+"'"
+),","
+),
+" where ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"_id=",
+$Start/pfx:AllJSONRequests/pfx:id
+)
+
+
+
+concat("insert into ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"(",
+name($Start/pfx:AllJSONRequests/pfx:EditArray/*),
+") values(",
+$Start/pfx:AllJSONRequests/pfx:EditArray,
+") ON DUPLICATE KEY UPDATE camp_clickcounter=111")</pd:description>
+        <pd:x>201</pd:x>
+        <pd:y>190</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/CampaignFatherGeneratePL.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <relatedids>
+                    <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_id">
+                        <offer>
+                            <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_id"/>
+                        </offer>
+                    </xsl:if>
+                    <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:n_id">
+                        <n>
+                            <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:n_id"/>
+                        </n>
+                    </xsl:if>
+                </relatedids>
+                <forupdate>
+                    <sql>
+                        <xsl:value-of select="concat(&#xA;&quot;insert into &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;(&quot;,&#xA;tib:concat-sequence-format(for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return local-name($var),&quot;,&quot;),&#xA;&quot;) values('&quot;,&#xA;tib:concat-sequence-format(for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return $var,&quot;','&quot;),&#xA;&quot;') &quot;&#xA;)"/>
+                    </sql>
+                    <campaign_tl>
+                        <xsl:value-of select="concat(&#xA;&quot;http://www.91mobcastle.com:9094/click?offer_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_id,&#xA;&quot;&amp;n_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:n_id,&#xA;&quot;&amp;&quot;&#xA;)"/>
+                    </campaign_tl>
+                </forupdate>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetNextID">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>51</pd:x>
+        <pd:y>191</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&#xA;&quot;select  * from view_nextid_&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="AddCampaign">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description>concat(
+"update ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+" set ",
+tib:concat-sequence-format(
+for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return(
+name($var),
+"='",
+$var,
+"'"
+),","
+),
+" where ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"_id=",
+$Start/pfx:AllJSONRequests/pfx:id
+)
+
+
+
+concat("insert into ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"(",
+name($Start/pfx:AllJSONRequests/pfx:EditArray/*),
+") values(",
+$Start/pfx:AllJSONRequests/pfx:EditArray,
+") ON DUPLICATE KEY UPDATE camp_clickcounter=111")</pd:description>
+        <pd:x>339</pd:x>
+        <pd:y>192</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&#xA;&quot;insert into &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;(&quot;,&#xA;tib:concat-sequence-format(for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return local-name($var),&quot;,&quot;),&#xA;&quot;,campaign_tl) values('&quot;,&#xA;tib:concat-sequence-format(for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return $var,&quot;','&quot;),&#xA;&quot;','&quot;,&#xA;$IfCampaignGeneratePL/root/camp_tl,&#xA;&quot;') &quot;&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Call Process</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>IfCampaignGeneratePL</pd:from>
+        <pd:to>AddCampaign</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetNextID</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetNextID</pd:from>
+        <pd:to>Call Process</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetNextID</pd:from>
+        <pd:to>IfCampaignGeneratePL</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/pfx:AllJSONRequests/pfx:tablename="campaign"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AddCampaign</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
