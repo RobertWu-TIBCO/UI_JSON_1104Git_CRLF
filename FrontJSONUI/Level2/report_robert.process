@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/ns/no_namespace_schema_location/FrontJSONUI/Level2/CSVFormat.sharedparse" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:ns12="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns3="http://www.tibco.com/namespaces/tnt/plugins/file">
-    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/ns/no_namespace_schema_location/FrontJSONUI/Level2/CSVFormat.sharedparse" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns4="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns3="http://www.tibco.com/namespaces/tnt/plugins/file">
     <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/FrontJSONUI/Level2/CSVFormat.sharedparse" schemaLocation="/FrontJSONUI/Level2/CSVFormat.sharedparse"/>
-    <pd:name>FrontJSONUI/Level2/report.process</pd:name>
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>FrontJSONUI/Level2/report_robert.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startType ref="pfx:AllJSONRequests"/>
     <pd:startX>80</pd:startX>
@@ -10,14 +10,14 @@
     <pd:returnBindings>
         <pfx:SubEnd>
             <pfx:JSONResponse>
-                <xsl:value-of select="concat($FormatReportResponse/root/formatReport, $JSON_AllResponse/ns12:ActivityOutputClass/jsonString)"/>
+                <xsl:value-of select="concat(&#xA;$FormatReportResponse/root/formatReport,&#xA;$JSON_AllResponse/ns4:ActivityOutputClass/jsonString&#xA;)"/>
             </pfx:JSONResponse>
         </pfx:SubEnd>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx:SubEnd"/>
-    <pd:endX>487</pd:endX>
-    <pd:endY>146</pd:endY>
+    <pd:endX>711</pd:endX>
+    <pd:endY>194</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1478154485942</pd:targetNamespace>
@@ -36,7 +36,7 @@
         <pd:inputBindings>
             <jdbcGeneralActivityInput>
                 <statement>
-                    <xsl:value-of select="concat(&#xA;&quot;select * from view_label_offer_status_notpause &quot;,&#xA;&quot;where offer_id like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:offerreportsearch,&#xA;&quot;%' or offer_name like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:offerreportsearch,&#xA;&quot;%'&quot;,&#xA;&quot; order by offer_id desc&quot;&#xA;)"/>
+                    <xsl:value-of select="concat(&#xA;&quot;select * from view_label_offer_status_notpause &quot;,&#xA;&quot;where offer_id like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:searchvalue,&#xA;&quot;%' or offer_name like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:searchvalue,&#xA;&quot;%'&quot;)"/>
                 </statement>
             </jdbcGeneralActivityInput>
         </pd:inputBindings>
@@ -44,8 +44,8 @@
     <pd:activity name="n_query">
         <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
         <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
-        <pd:x>78</pd:x>
-        <pd:y>324</pd:y>
+        <pd:x>202</pd:x>
+        <pd:y>196</pd:y>
         <config>
             <timeout>10</timeout>
             <commit>false</commit>
@@ -55,7 +55,7 @@
         <pd:inputBindings>
             <jdbcGeneralActivityInput>
                 <statement>
-                    <xsl:value-of select="concat(&quot;select * from view_label_n_status_notpause where n_id like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:nreportsearch,&#xA;&quot;%' or n_name like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:nreportsearch,&#xA;&quot;%'&quot;,&#xA;&quot; order by n_id desc&quot;&#xA;)"/>
+                    <xsl:value-of select="concat(&quot;select * from view_label_n_status_notpause where n_id like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:searchvalue,&#xA;&quot;%' or n_name like '%&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:searchvalue,&#xA;&quot;%'&quot;)"/>
                 </statement>
             </jdbcGeneralActivityInput>
         </pd:inputBindings>
@@ -63,8 +63,8 @@
     <pd:activity name="SaveConcat">
         <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
         <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-        <pd:x>179</pd:x>
-        <pd:y>328</pd:y>
+        <pd:x>202</pd:x>
+        <pd:y>65</pd:y>
         <config>
             <element>
                 <xsd:element name="root">
@@ -82,16 +82,16 @@
         <pd:inputBindings>
             <root>
                 <offer>
-                    <xsl:value-of select="tib:concat-sequence-format(&#xA;for $row in $offer_query/jdbcGeneralActivityOutput/unknownResultset/row return $row/column[1]/value, &quot;','&quot;)"/>
+                    <xsl:value-of select="tib:concat-sequence-format(for $row in $offer_query/jdbcGeneralActivityOutput/unknownResultset/row return tib:concat-sequence-format($row/column/value, &quot;-&quot;), &quot;,&quot;)"/>
                 </offer>
                 <n>
-                    <xsl:value-of select="tib:concat-sequence-format(&#xA;for $row in $n_query/jdbcGeneralActivityOutput/unknownResultset/row return$row/column[1]/value, &quot;','&quot;)"/>
+                    <xsl:value-of select="tib:concat-sequence-format(for $row in $n_query/jdbcGeneralActivityOutput/unknownResultset/row return tib:concat-sequence-format($row/column/value, &quot;-&quot;), &quot;,&quot;)"/>
                 </n>
                 <xsl:choose>
-                    <xsl:when test="$Start/pfx:AllJSONRequests/pfx:startdate!=&quot;&quot;">
-                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:startdate">
+                    <xsl:when test="$Start/pfx:AllJSONRequests/pfx:enddate!=&quot;&quot;">
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:enddate">
                             <startdate>
-                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:startdate"/>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:enddate"/>
                             </startdate>
                         </xsl:if>
                     </xsl:when>
@@ -121,8 +121,8 @@
     <pd:activity name="External Command">
         <pd:type>com.tibco.plugin.cmdexec.CmdExecActivity</pd:type>
         <pd:resourceType>ae.activities.CmdExecActivity</pd:resourceType>
-        <pd:x>327</pd:x>
-        <pd:y>62</pd:y>
+        <pd:x>329</pd:x>
+        <pd:y>68</pd:y>
         <config>
             <outputToString>true</outputToString>
             <lineSplit>None</lineSplit>
@@ -130,10 +130,10 @@
         <pd:inputBindings>
             <CmdInput>
                 <command>
-                    <xsl:value-of select="concat(&quot;python report_merge_new.py &quot;,&#xA;$SaveConcat/root/startdate,&#xA;&quot; &quot;,&#xA;$SaveConcat/root/enddate,&#xA;&quot; &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:accuracy,&#xA;&quot; &quot;,&#xA;$SaveConcat_OfferNPair/root/offernpair&#xA; )"/>
+                    <xsl:value-of select="concat(&quot;python report_merge.py &quot;,&#xA;$SaveConcat/root/startdate,&#xA;&quot; &quot;,&#xA;$SaveConcat/root/enddate,&#xA;&quot; &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:accuracy,&#xA;&quot; &quot;,&#xA;$SaveConcat/root/offer,&#xA;&quot; &quot;,&#xA;$SaveConcat/root/n,&#xA;&quot; &quot;,&#xA;$_processContext/ns:ProcessContext/ProcessId&#xA; )"/>
                 </command>
                 <workingDirectory>
-                    <xsl:value-of select="$_globalVariables/ns2:GlobalVariables/JSONUI/pythonworkdir"/>
+                    <xsl:value-of select="&quot;E:\SoftWares\Project\log\&quot;"/>
                 </workingDirectory>
             </CmdInput>
         </pd:inputBindings>
@@ -142,28 +142,24 @@
         <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
         <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
         <pd:description>the csv is not utf-8 encoded</pd:description>
-        <pd:x>259</pd:x>
+        <pd:x>329</pd:x>
         <pd:y>188</pd:y>
         <config>
             <encoding>text</encoding>
-            <excludeContent>false</excludeContent>
         </config>
         <pd:inputBindings>
             <ns1:ReadActivityInputClass>
                 <fileName>
-                    <xsl:value-of select="concat(&#xA;$_globalVariables/ns2:GlobalVariables/JSONUI/pythonworkdir,&#xA;&quot;report_&quot;,&#xA;$_processContext/ns:ProcessContext/ProcessId,&#xA;&quot;.csv&quot;)"/>
+                    <xsl:value-of select="&quot;F:\GeekWorkLearn\MyFootPrint\QQFiles\Projects\report_7267443.csv&quot;"/>
                 </fileName>
-                <encoding>
-                    <xsl:value-of select="&quot;CP936&quot;"/>
-                </encoding>
             </ns1:ReadActivityInputClass>
         </pd:inputBindings>
     </pd:activity>
     <pd:activity name="FormatReportResponse">
         <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
         <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-        <pd:x>675</pd:x>
-        <pd:y>56</pd:y>
+        <pd:x>568</pd:x>
+        <pd:y>193</pd:y>
         <config>
             <element>
                 <xsd:element name="root">
@@ -186,18 +182,19 @@
     <pd:activity name="Java Code">
         <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
         <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
-        <pd:x>416</pd:x>
-        <pd:y>185</pd:y>
+        <pd:x>434</pd:x>
+        <pd:y>192</pd:y>
         <config>
-            <fileName>reportJavaCode</fileName>
-            <packageName>FrontJSONUI.Level2.report</packageName>
-            <fullsource>package FrontJSONUI.Level2.report;
+            <fileName>report_robertJavaCode</fileName>
+            <packageName>FrontJSONUI.Level2.report_robert</packageName>
+            <fullsource>package FrontJSONUI.Level2.report_robert;
 import java.util.*;
 import java.io.*;
-public class reportJavaCode{
+public class report_robertJavaCode{
 /****** START SET/GET METHOD, DO NOT MODIFY *****/
 	protected String in = "";
 	protected String out = "";
+	protected String[] out_json = null;
 	public String getin() {
 		return in;
 	}
@@ -210,13 +207,20 @@ public class reportJavaCode{
 	public void setout(String val) {
 		out = val;
 	}
+	public String[] getout_json() {
+		return out_json;
+	}
+	public void setout_json(String[] val) {
+		out_json = val;
+	}
 /****** END SET/GET METHOD, DO NOT MODIFY *****/
-	public reportJavaCode() {
+	public report_robertJavaCode() {
 	}
 	public void invoke() throws Exception {
 /* Available Variables: DO NOT MODIFY
 	In  : String in
 	Out : String out
+	Out : String[] out_json
 * Available Variables: DO NOT MODIFY *****/
 
 out=in.replaceAll("\n","&lt;p&gt;");
@@ -238,11 +242,16 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
                     <fieldType>string</fieldType>
                     <fieldRequired>optional</fieldRequired>
                 </row>
+                <row>
+                    <fieldName>out_json</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>repeating</fieldRequired>
+                </row>
             </outputData>
             <byteCode>
                 <class>
-                    <name>reportJavaCode</name>
-                    <byteCode>yv66vgAAADQAMAkACwAfCQALACAKAAwAIQgAIggAIwgAJAoAJQAmCAAnCAAoCAApBwAqBwArAQACaW4BABJMamF2YS9sYW5nL1N0cmluZzsBAANvdXQBAAVnZXRpbgEAFCgpTGphdmEvbGFuZy9TdHJpbmc7AQAEQ29kZQEAD0xpbmVOdW1iZXJUYWJsZQEABXNldGluAQAVKExqYXZhL2xhbmcvU3RyaW5nOylWAQAGZ2V0b3V0AQAGc2V0b3V0AQAGPGluaXQ+AQADKClWAQAGaW52b2tlAQAKRXhjZXB0aW9ucwcALAEAClNvdXJjZUZpbGUBABNyZXBvcnRKYXZhQ29kZS5qYXZhDAANAA4MAA8ADgwAGAAZAQAAAQABCgEAAzxwPgcALQwALgAvAQASPC90ZD48L3RyPjx0cj48dGQ+AQABLAEACTwvdGQ+PHRkPgEAKEZyb250SlNPTlVJL0xldmVsMi9yZXBvcnQvcmVwb3J0SmF2YUNvZGUBABBqYXZhL2xhbmcvT2JqZWN0AQATamF2YS9sYW5nL0V4Y2VwdGlvbgEAEGphdmEvbGFuZy9TdHJpbmcBAApyZXBsYWNlQWxsAQA4KExqYXZhL2xhbmcvU3RyaW5nO0xqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZzsAIQALAAwAAAACAAQADQAOAAAABAAPAA4AAAAGAAEAEAARAAEAEgAAAB0AAQABAAAABSq0AAGwAAAAAQATAAAABgABAAAACQABABQAFQABABIAAAAiAAIAAgAAAAYqK7UAAbEAAAABABMAAAAKAAIAAAAMAAUADQABABYAEQABABIAAAAdAAEAAQAAAAUqtAACsAAAAAEAEwAAAAYAAQAAAA8AAQAXABUAAQASAAAAIgACAAIAAAAGKiu1AAKxAAAAAQATAAAACgACAAAAEgAFABMAAQAYABkAAQASAAAANQACAAEAAAARKrcAAyoSBLUAASoSBLUAArEAAAABABMAAAASAAQAAAAVAAQABgAKAAcAEAAWAAEAGgAZAAIAEgAAAFIABAABAAAALioqtAABEgUSBrYAB7UAAioqtAACEgYSCLYAB7UAAioqtAACEgkSCrYAB7UAArEAAAABABMAAAASAAQAAAAdAA8AHgAeAB8ALQAgABsAAAAEAAEAHAABAB0AAAACAB4=</byteCode>
+                    <name>report_robertJavaCode</name>
+                    <byteCode>yv66vgAAADQAOAkADAAmCQAMACcJAAwAKAoADQApCAAqCAArCAAsCgAtAC4IAC8IADAIADEHADIHADMBAAJpbgEAEkxqYXZhL2xhbmcvU3RyaW5nOwEAA291dAEACG91dF9qc29uAQATW0xqYXZhL2xhbmcvU3RyaW5nOwEABWdldGluAQAUKClMamF2YS9sYW5nL1N0cmluZzsBAARDb2RlAQAPTGluZU51bWJlclRhYmxlAQAFc2V0aW4BABUoTGphdmEvbGFuZy9TdHJpbmc7KVYBAAZnZXRvdXQBAAZzZXRvdXQBAAtnZXRvdXRfanNvbgEAFSgpW0xqYXZhL2xhbmcvU3RyaW5nOwEAC3NldG91dF9qc29uAQAWKFtMamF2YS9sYW5nL1N0cmluZzspVgEABjxpbml0PgEAAygpVgEABmludm9rZQEACkV4Y2VwdGlvbnMHADQBAApTb3VyY2VGaWxlAQAacmVwb3J0X3JvYmVydEphdmFDb2RlLmphdmEMAA4ADwwAEAAPDAARABIMAB8AIAEAAAEAAQoBAAM8cD4HADUMADYANwEAEjwvdGQ+PC90cj48dHI+PHRkPgEAASwBAAk8L3RkPjx0ZD4BADZGcm9udEpTT05VSS9MZXZlbDIvcmVwb3J0X3JvYmVydC9yZXBvcnRfcm9iZXJ0SmF2YUNvZGUBABBqYXZhL2xhbmcvT2JqZWN0AQATamF2YS9sYW5nL0V4Y2VwdGlvbgEAEGphdmEvbGFuZy9TdHJpbmcBAApyZXBsYWNlQWxsAQA4KExqYXZhL2xhbmcvU3RyaW5nO0xqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZzsAIQAMAA0AAAADAAQADgAPAAAABAAQAA8AAAAEABEAEgAAAAgAAQATABQAAQAVAAAAHQABAAEAAAAFKrQAAbAAAAABABYAAAAGAAEAAAAKAAEAFwAYAAEAFQAAACIAAgACAAAABiortQABsQAAAAEAFgAAAAoAAgAAAA0ABQAOAAEAGQAUAAEAFQAAAB0AAQABAAAABSq0AAKwAAAAAQAWAAAABgABAAAAEAABABoAGAABABUAAAAiAAIAAgAAAAYqK7UAArEAAAABABYAAAAKAAIAAAATAAUAFAABABsAHAABABUAAAAdAAEAAQAAAAUqtAADsAAAAAEAFgAAAAYAAQAAABYAAQAdAB4AAQAVAAAAIgACAAIAAAAGKiu1AAOxAAAAAQAWAAAACgACAAAAGQAFABoAAQAfACAAAQAVAAAAPgACAAEAAAAWKrcABCoSBbUAASoSBbUAAioBtQADsQAAAAEAFgAAABYABQAAABwABAAGAAoABwAQAAgAFQAdAAEAIQAgAAIAFQAAAFIABAABAAAALioqtAABEgYSB7YACLUAAioqtAACEgcSCbYACLUAAioqtAACEgoSC7YACLUAArEAAAABABYAAAASAAQAAAAlAA8AJgAeACcALQAoACIAAAAEAAEAIwABACQAAAACACU=</byteCode>
                 </class>
             </byteCode>
         </config>
@@ -257,15 +266,15 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
     <pd:activity name="ReportCSS">
         <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
         <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
-        <pd:x>416</pd:x>
-        <pd:y>54</pd:y>
+        <pd:x>440</pd:x>
+        <pd:y>59</pd:y>
         <config>
             <encoding>text</encoding>
         </config>
         <pd:inputBindings>
             <ns1:ReadActivityInputClass>
                 <fileName>
-                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ProjectGV/ProjectFolder,&quot;\BakHTML\ReportTableCSS.txt&quot;)"/>
+                    <xsl:value-of select="&quot;G:\SRAll\AllMayDay\2016-08-26\20161025JSON\MobCastleAD1006RemoteReport_JSON\BakHtml\ReportTableCSS.txt&quot;"/>
                 </fileName>
                 <encoding>
                     <xsl:value-of select="&quot;UTF-8&quot;"/>
@@ -276,15 +285,15 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
     <pd:activity name="DownloadReport">
         <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
         <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
-        <pd:x>535</pd:x>
-        <pd:y>53</pd:y>
+        <pd:x>563</pd:x>
+        <pd:y>61</pd:y>
         <config>
             <encoding>text</encoding>
         </config>
         <pd:inputBindings>
             <ns1:ReadActivityInputClass>
                 <fileName>
-                    <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/ProjectGV/ProjectFolder,&quot;\BakHTML\TestSaveHTMLByJS.html&quot;)"/>
+                    <xsl:value-of select="&quot;G:\SRAll\AllMayDay\2016-08-26\20161025JSON\MobCastleAD1006RemoteReport_JSON\BakHtml\TestSaveHTMLByJS.html&quot;"/>
                 </fileName>
                 <encoding>
                     <xsl:value-of select="&quot;UTF-8&quot;"/>
@@ -295,22 +304,25 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
     <pd:activity name="ParseCSVData">
         <pd:type>com.tibco.plugin.parse.ParseActivity</pd:type>
         <pd:resourceType>ae.activities.ParseActivity</pd:resourceType>
-        <pd:x>332</pd:x>
-        <pd:y>315</pd:y>
+        <pd:x>84</pd:x>
+        <pd:y>304</pd:y>
         <config>
-            <InputType>String</InputType>
-            <Encoding>ASCII</Encoding>
+            <InputType>File</InputType>
+            <Encoding>UTF8</Encoding>
             <ParseSharedConfig>/FrontJSONUI/Level2/CSVFormat.sharedparse</ParseSharedConfig>
             <SkipBlankLines>true</SkipBlankLines>
-            <SpecifyStartRecord>false</SpecifyStartRecord>
+            <SpecifyStartRecord>true</SpecifyStartRecord>
         </config>
         <pd:inputBindings>
             <Input>
-                <text>
-                    <xsl:value-of select="$External-Command/CmdOutputWithActivityOutput/output[1]"/>
-                </text>
+                <fileName>
+                    <xsl:value-of select="&quot;F:\GeekWorkLearn\MyFootPrint\QQFiles\Projects\report_7267443.csv&quot;"/>
+                </fileName>
+                <startRecord>
+                    <xsl:value-of select="2"/>
+                </startRecord>
                 <noOfRecords>
-                    <xsl:value-of select="10000"/>
+                    <xsl:value-of select="100"/>
                 </noOfRecords>
             </Input>
         </pd:inputBindings>
@@ -318,10 +330,10 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
     <pd:group name="Group">
         <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
         <pd:resourceType>ae.process.group</pd:resourceType>
-        <pd:x>435</pd:x>
-        <pd:y>186</pd:y>
-        <pd:width>348</pd:width>
-        <pd:height>239</pd:height>
+        <pd:x>221</pd:x>
+        <pd:y>247</pd:y>
+        <pd:width>640</pd:width>
+        <pd:height>149</pd:height>
         <pd:collapsedWidth>57</pd:collapsedWidth>
         <pd:collapsedHeight>70</pd:collapsedHeight>
         <pd:groupVariables/>
@@ -346,7 +358,7 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
             <pd:conditionType>always</pd:conditionType>
         </pd:transition>
         <pd:transition>
-            <pd:from>GenerateCSVFile</pd:from>
+            <pd:from>RepeatLines</pd:from>
             <pd:to>end</pd:to>
             <pd:lineType>Default</pd:lineType>
             <pd:lineColor>-16777216</pd:lineColor>
@@ -375,20 +387,6 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         </pd:transition>
         <pd:transition>
             <pd:from>ExtendType_EarningType_Repeat</pd:from>
-            <pd:to>OfferNLable</pd:to>
-            <pd:lineType>Default</pd:lineType>
-            <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>always</pd:conditionType>
-        </pd:transition>
-        <pd:transition>
-            <pd:from>RepeatLines</pd:from>
-            <pd:to>GenerateCSVFile</pd:to>
-            <pd:lineType>Default</pd:lineType>
-            <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>always</pd:conditionType>
-        </pd:transition>
-        <pd:transition>
-            <pd:from>OfferNLable</pd:from>
             <pd:to>RepeatLines</pd:to>
             <pd:lineType>Default</pd:lineType>
             <pd:lineColor>-16777216</pd:lineColor>
@@ -397,15 +395,15 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:activity name="ExtendType">
             <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
             <pd:resourceType>ae.process.subprocess</pd:resourceType>
-            <pd:x>497</pd:x>
-            <pd:y>349</pd:y>
+            <pd:x>428</pd:x>
+            <pd:y>317</pd:y>
             <config>
                 <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
             </config>
             <pd:inputBindings>
                 <root>
                     <sql>
-                        <xsl:value-of select="concat(&#xA;&quot;select campaign_expend_t,campaign_expend_c,campaign_expend_n,&quot;,&#xA;&quot;campaign_rm,campaign_id from campaign where offer_id=&quot;,&#xA;$csvelement/pfx:reportline_python/pfx:offer_query,&#xA;&quot; and n_id=&quot;,&#xA;$csvelement/pfx:reportline_python/pfx:n_query&#xA;)"/>
+                        <xsl:value-of select="concat(&#xA;&quot;select campaign_expend_t,campaign_expend_c,campaign_expend_n,&quot;,&#xA;&quot;campaign_rm,campaign_id from campaign where offer_id=&quot;,&#xA;$GetOfferId_NId/root/repeatelements/offer_id,&#xA;&quot; and n_id=&quot;,&#xA;$GetOfferId_NId/root/repeatelements/n_id&#xA;)"/>
                     </sql>
                 </root>
             </pd:inputBindings>
@@ -413,15 +411,15 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:activity name="EarningType">
             <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
             <pd:resourceType>ae.process.subprocess</pd:resourceType>
-            <pd:x>545</pd:x>
-            <pd:y>242</pd:y>
+            <pd:x>527</pd:x>
+            <pd:y>317</pd:y>
             <config>
                 <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
             </config>
             <pd:inputBindings>
                 <root>
                     <sql>
-                        <xsl:value-of select="concat(&#xA;&quot;select offer_earning_t,offer_earning_c,offer_earning_n,&quot;,&#xA;&quot;offer_e_expend_t,offer_e_expend_c,offer_e_expend_n,&quot;,&#xA;&quot;offer_id from offer where offer_id=&quot;,&#xA;$csvelement/pfx:reportline_python/pfx:offer_query&#xA;)"/>
+                        <xsl:value-of select="concat(&#xA;&quot;select offer_earning_t,offer_earning_c,offer_earning_n,&quot;,&#xA;&quot;offer_e_expend_t,offer_e_expend_c,offer_e_expend_n,&quot;,&#xA;&quot;offer_id from offer where offer_id=&quot;,&#xA;$GetOfferId_NId/root/repeatelements/offer_id&#xA;)"/>
                     </sql>
                 </root>
             </pd:inputBindings>
@@ -429,8 +427,8 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:activity name="GetOfferId_NId">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-            <pd:x>488</pd:x>
-            <pd:y>244</pd:y>
+            <pd:x>329</pd:x>
+            <pd:y>316</pd:y>
             <config>
                 <element>
                     <xsd:element name="root">
@@ -453,10 +451,10 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
                 <root>
                     <repeatelements>
                         <offer_id>
-                            <xsl:value-of select="$csvelement/pfx:reportline_python/pfx:offer_query"/>
+                            <xsl:value-of select="substring-before($csvelement/pfx:reportline_python/pfx:offer_query, &quot;-&quot;)"/>
                         </offer_id>
                         <n_id>
-                            <xsl:value-of select="$csvelement/pfx:reportline_python/pfx:n_query"/>
+                            <xsl:value-of select="substring-before($csvelement/pfx:reportline_python/pfx:n_query, &quot;-&quot;)"/>
                         </n_id>
                     </repeatelements>
                 </root>
@@ -465,8 +463,8 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:activity name="ExtendType_EarningType_Repeat">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-            <pd:x>581</pd:x>
-            <pd:y>345</pd:y>
+            <pd:x>647</pd:x>
+            <pd:y>319</pd:y>
             <config>
                 <element>
                     <xsd:element name="root">
@@ -502,10 +500,10 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
                         </in_price>
                     </xsl:if>
                     <offer_link>
-                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns2:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns2:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;&quot;offer&quot;,&#xA;&quot;-detail.html?id=&quot;,&#xA;$csvelement/pfx:reportline_python/pfx:offer_query&#xA;)"/>
+                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns2:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns2:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;&quot;offer&quot;,&#xA;&quot;-detail.html?id=&quot;,&#xA;$GetOfferId_NId/root/repeatelements/offer_id&#xA;)"/>
                     </offer_link>
                     <n_link>
-                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns2:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns2:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;&quot;n&quot;,&#xA;&quot;-detail.html?id=&quot;,&#xA;$csvelement/pfx:reportline_python/pfx:n_query&#xA;)"/>
+                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns2:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns2:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;&quot;n&quot;,&#xA;&quot;-detail.html?id=&quot;,&#xA;$GetOfferId_NId/root/repeatelements/n_id&#xA;)"/>
                     </n_link>
                 </root>
             </pd:inputBindings>
@@ -513,8 +511,8 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:activity name="RepeatLines">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-            <pd:x>681</pd:x>
-            <pd:y>348</pd:y>
+            <pd:x>762</pd:x>
+            <pd:y>319</pd:y>
             <config>
                 <element ref="pfx:reportline"/>
             </config>
@@ -525,17 +523,21 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
                             <xsl:value-of select="$csvelement/pfx:reportline_python/pfx:time"/>
                         </pfx:time>
                     </xsl:if>
-                    <pfx:offer_query>
-                        <xsl:value-of select="$OfferNLable/root/offerlabel"/>
-                    </pfx:offer_query>
+                    <xsl:if test="$csvelement/pfx:reportline_python/pfx:offer_query">
+                        <pfx:offer_query>
+                            <xsl:value-of select="$csvelement/pfx:reportline_python/pfx:offer_query"/>
+                        </pfx:offer_query>
+                    </xsl:if>
                     <xsl:if test="$ExtendType_EarningType_Repeat/root/offer_link">
                         <pfx:offer_link>
                             <xsl:value-of select="$ExtendType_EarningType_Repeat/root/offer_link"/>
                         </pfx:offer_link>
                     </xsl:if>
-                    <pfx:n_query>
-                        <xsl:value-of select="$OfferNLable/root/nlabel"/>
-                    </pfx:n_query>
+                    <xsl:if test="$csvelement/pfx:reportline_python/pfx:n_query">
+                        <pfx:n_query>
+                            <xsl:value-of select="$csvelement/pfx:reportline_python/pfx:n_query"/>
+                        </pfx:n_query>
+                    </xsl:if>
                     <xsl:if test="$ExtendType_EarningType_Repeat/root/n_link">
                         <pfx:n_link>
                             <xsl:value-of select="$ExtendType_EarningType_Repeat/root/n_link"/>
@@ -550,7 +552,7 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
                         </pfx:normal>
                     </xsl:if>
                     <pfx:conversionrate>
-                        <xsl:value-of select="if ($csvelement/pfx:reportline_python/pfx:click&lt;&#xA;(&#xA;$csvelement/pfx:reportline_python/pfx:normal +&#xA;$csvelement/pfx:reportline_python/pfx:rm +&#xA;$csvelement/pfx:reportline_python/pfx:duplicated&#xA;)&#xA;) then &quot;100.0000%&quot; else &#xA;concat(&#xA;tib:round-fraction(((&#xA;($csvelement/pfx:reportline_python/pfx:normal+$csvelement/pfx:reportline_python/pfx:rm)&#xA;div&#xA;$csvelement/pfx:reportline_python/pfx:click&#xA;)*100)&#xA;,4),&#xA;&quot;%&quot;)"/>
+                        <xsl:value-of select="concat(&#xA;tib:round-fraction(((&#xA;($csvelement/pfx:reportline_python/pfx:normal+$csvelement/pfx:reportline_python/pfx:rm)&#xA;div&#xA;$csvelement/pfx:reportline_python/pfx:click&#xA;)*100)&#xA;,4),&#xA;&quot;%&quot;)"/>
                     </pfx:conversionrate>
                     <xsl:if test="$ExtendType_EarningType_Repeat/root/extend_type">
                         <pfx:campaign_expendtype>
@@ -585,60 +587,12 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
                 </pfx:reportline>
             </pd:inputBindings>
         </pd:activity>
-        <pd:activity name="GenerateCSVFile">
-            <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
-            <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
-            <pd:x>688</pd:x>
-            <pd:y>242</pd:y>
-            <config>
-                <encoding>text</encoding>
-                <compressFile>None</compressFile>
-                <append>true</append>
-                <createMissingDirectories>true</createMissingDirectories>
-            </config>
-            <pd:inputBindings>
-                <ns3:WriteActivityInputTextClass>
-                    <fileName>
-                        <xsl:value-of select="concat(&#xA;$_globalVariables/ns2:GlobalVariables/JSONUI/pythonworkdir,&#xA;&quot;report_&quot;,&#xA;$_processContext/ns:ProcessContext/ProcessId,&#xA;&quot;.csv&quot;)"/>
-                    </fileName>
-                    <textContent>
-                        <xsl:value-of select="concat(&#xA;tib:concat-sequence-format(&#xA;for $ele in $RepeatLines/pfx:reportline/* return(&#xA;if(contains(local-name($ele),&quot;_link&quot;)&#xA;)&#xA;then &#xA;&quot;&quot;&#xA;else&#xA;concat(&#xA;$ele,&#xA;&quot;,&quot;&#xA;)&#xA;), &#xA;&quot;&quot;&#xA;),&#xA;&quot;&#xA;&quot;&#xA;)"/>
-                    </textContent>
-                    <encoding>
-                        <xsl:value-of select="&quot;CP936&quot;"/>
-                    </encoding>
-                </ns3:WriteActivityInputTextClass>
-            </pd:inputBindings>
-        </pd:activity>
-        <pd:activity name="OfferNLable">
-            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
-            <pd:resourceType>ae.process.subprocess</pd:resourceType>
-            <pd:x>613</pd:x>
-            <pd:y>242</pd:y>
-            <config>
-                <processName>/FrontJSONUI/Level3/Common_GenOfferNLabel.process</processName>
-            </config>
-            <pd:inputBindings>
-                <root>
-                    <xsl:if test="$csvelement/pfx:reportline_python/pfx:offer_query">
-                        <offerid>
-                            <xsl:value-of select="$csvelement/pfx:reportline_python/pfx:offer_query"/>
-                        </offerid>
-                    </xsl:if>
-                    <xsl:if test="$csvelement/pfx:reportline_python/pfx:n_query">
-                        <nid>
-                            <xsl:value-of select="$csvelement/pfx:reportline_python/pfx:n_query"/>
-                        </nid>
-                    </xsl:if>
-                </root>
-            </pd:inputBindings>
-        </pd:activity>
     </pd:group>
     <pd:activity name="JSON_AllResponse">
         <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
         <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
-        <pd:x>759</pd:x>
-        <pd:y>142</pd:y>
+        <pd:x>867</pd:x>
+        <pd:y>189</pd:y>
         <config>
             <SchemaType>xsdType</SchemaType>
             <BadgerfishCheck>false</BadgerfishCheck>
@@ -655,105 +609,90 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
             </ActivityInputEditor>
         </config>
         <pd:inputBindings>
-            <ns12:ActivityInputClass>
+            <ns4:ActivityInputClass>
                 <root>
                     <responsestatus>
                         <xsl:value-of select="&quot;success&quot;"/>
                     </responsestatus>
                     <reportlink>
-                        <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/JSONUI/downloadreportink,$GenerateCSVFile/ns3:WriteActivityOutputClass/fileInfo/fullName)"/>
+                        <xsl:value-of select="concat($_globalVariables/ns2:GlobalVariables/JSONUI/downloadreportink,$Read-File/ns3:ReadActivityOutputTextClass/fileInfo/fullName)"/>
                     </reportlink>
-                    <xsl:copy-of select="$RepeatLinesResponse/AccumulatedOutput/pfx:reportline"/>
+                    <xsl:for-each select="$RepeatLinesResponse/AccumulatedOutput/pfx:reportline">
+                        <pfx:reportline>
+                            <xsl:if test="pfx:time">
+                                <pfx:time>
+                                    <xsl:value-of select="pfx:time"/>
+                                </pfx:time>
+                            </xsl:if>
+                            <xsl:if test="pfx:offer_query">
+                                <pfx:offer_query>
+                                    <xsl:value-of select="pfx:offer_query"/>
+                                </pfx:offer_query>
+                            </xsl:if>
+                            <xsl:if test="pfx:offer_link">
+                                <pfx:offer_link>
+                                    <xsl:value-of select="pfx:offer_link"/>
+                                </pfx:offer_link>
+                            </xsl:if>
+                            <xsl:if test="pfx:n_query">
+                                <pfx:n_query>
+                                    <xsl:value-of select="pfx:n_query"/>
+                                </pfx:n_query>
+                            </xsl:if>
+                            <xsl:if test="pfx:n_link">
+                                <pfx:n_link>
+                                    <xsl:value-of select="pfx:n_link"/>
+                                </pfx:n_link>
+                            </xsl:if>
+                            <xsl:if test="pfx:click">
+                                <pfx:click>
+                                    <xsl:value-of select="pfx:click"/>
+                                </pfx:click>
+                            </xsl:if>
+                            <xsl:if test="pfx:normal">
+                                <pfx:normal>
+                                    <xsl:value-of select="pfx:normal"/>
+                                </pfx:normal>
+                            </xsl:if>
+                            <xsl:if test="pfx:conversionrate">
+                                <pfx:conversionrate>
+                                    <xsl:value-of select="pfx:conversionrate"/>
+                                </pfx:conversionrate>
+                            </xsl:if>
+                            <xsl:if test="pfx:campaign_expendtype">
+                                <pfx:campaign_expendtype>
+                                    <xsl:value-of select="pfx:campaign_expendtype"/>
+                                </pfx:campaign_expendtype>
+                            </xsl:if>
+                            <xsl:if test="pfx:out_price">
+                                <pfx:out_price>
+                                    <xsl:value-of select="pfx:out_price"/>
+                                </pfx:out_price>
+                            </xsl:if>
+                            <xsl:if test="pfx:offer_earningtype">
+                                <pfx:offer_earningtype>
+                                    <xsl:value-of select="pfx:offer_earningtype"/>
+                                </pfx:offer_earningtype>
+                            </xsl:if>
+                            <xsl:if test="pfx:in_price">
+                                <pfx:in_price>
+                                    <xsl:value-of select="pfx:in_price"/>
+                                </pfx:in_price>
+                            </xsl:if>
+                            <xsl:if test="pfx:rm">
+                                <pfx:rm>
+                                    <xsl:value-of select="pfx:rm"/>
+                                </pfx:rm>
+                            </xsl:if>
+                            <xsl:if test="pfx:duplicated">
+                                <pfx:duplicated>
+                                    <xsl:value-of select="pfx:duplicated"/>
+                                </pfx:duplicated>
+                            </xsl:if>
+                        </pfx:reportline>
+                    </xsl:for-each>
                 </root>
-            </ns12:ActivityInputClass>
-        </pd:inputBindings>
-    </pd:activity>
-    <pd:activity name="GetCampId">
-        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
-        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
-        <pd:x>180</pd:x>
-        <pd:y>200</pd:y>
-        <config>
-            <timeout>10</timeout>
-            <commit>false</commit>
-            <maxRows>100</maxRows>
-            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
-        </config>
-        <pd:inputBindings>
-            <jdbcGeneralActivityInput>
-                <statement>
-                    <xsl:value-of select="concat(&quot;select campaign_id,offer_id,n_id from campaign where offer_id in ('&quot;,&#xA;$SaveConcat/root/offer,&#xA;&quot;') and n_id in ('&quot;,&#xA;$SaveConcat/root/n,&#xA;&quot;')&quot;)"/>
-                </statement>
-            </jdbcGeneralActivityInput>
-        </pd:inputBindings>
-    </pd:activity>
-    <pd:activity name="SaveConcat_OfferNPair">
-        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
-        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-        <pd:x>178</pd:x>
-        <pd:y>62</pd:y>
-        <config>
-            <element>
-                <xsd:element name="root">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="offernpair" type="xsd:string" minOccurs="0"/>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-            </element>
-        </config>
-        <pd:inputBindings>
-            <root>
-                <offernpair>
-                    <xsl:value-of select="tib:concat-sequence-format(&#xA;for $row in $GetCampId/jdbcGeneralActivityOutput/unknownResultset/row return concat($row/column[2]/value,&quot;:&quot;,$row/column[3]/value),&#xA;&quot;,&quot;)"/>
-                </offernpair>
-            </root>
-        </pd:inputBindings>
-    </pd:activity>
-    <pd:activity name="DelReortFile">
-        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
-        <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>628</pd:x>
-        <pd:y>141</pd:y>
-        <config>
-            <spawn>true</spawn>
-            <processName>/FrontJSONUI/Level3/Common_DeleteFile.process</processName>
-        </config>
-        <pd:inputBindings>
-            <root>
-                <fileToDelete>
-                    <xsl:value-of select="$GenerateCSVFile/ns3:WriteActivityOutputClass/fileInfo/fullName"/>
-                </fileToDelete>
-                <fileWaitTime>
-                    <xsl:value-of select="90000"/>
-                </fileWaitTime>
-            </root>
-        </pd:inputBindings>
-    </pd:activity>
-    <pd:activity name="GenerateCSVFile_Header">
-        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
-        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
-        <pd:x>339</pd:x>
-        <pd:y>419</pd:y>
-        <config>
-            <encoding>text</encoding>
-            <compressFile>None</compressFile>
-            <append>true</append>
-            <createMissingDirectories>true</createMissingDirectories>
-        </config>
-        <pd:inputBindings>
-            <ns3:WriteActivityInputTextClass>
-                <fileName>
-                    <xsl:value-of select="concat(&#xA;$_globalVariables/ns2:GlobalVariables/JSONUI/pythonworkdir,&#xA;&quot;report_&quot;,&#xA;$_processContext/ns:ProcessContext/ProcessId,&#xA;&quot;.csv&quot;)"/>
-                </fileName>
-                <textContent>
-                    <xsl:value-of select="concat(&#xA;&quot;time,offer_query,n_query,click,normal,cvr(rm+normal),Extend(Out)Type,Extend(Out)Price,Earning(In)Type,Earning(In)Price,rm,duplicated&quot;,&#xA;&quot;&#xA;&quot;&#xA;)"/>
-                </textContent>
-                <encoding>
-                    <xsl:value-of select="&quot;CP936&quot;"/>
-                </encoding>
-            </ns3:WriteActivityInputTextClass>
+            </ns4:ActivityInputClass>
         </pd:inputBindings>
     </pd:activity>
     <pd:transition>
@@ -761,7 +700,8 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:to>offer_query</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>1=2</pd:xpath>
     </pd:transition>
     <pd:transition>
         <pd:from>offer_query</pd:from>
@@ -778,13 +718,18 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
-        <pd:from>External Command</pd:from>
-        <pd:to>Read File</pd:to>
-        <pd:xpathDescription>ReadCSVFile</pd:xpathDescription>
+        <pd:from>SaveConcat</pd:from>
+        <pd:to>External Command</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>xpath</pd:conditionType>
-        <pd:xpath>1=2</pd:xpath>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>External Command</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
         <pd:from>Read File</pd:from>
@@ -792,7 +737,7 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>xpath</pd:conditionType>
-        <pd:xpath>$Start/pfx:AllJSONRequests/pfx:searchvalue="htmlreport"</pd:xpath>
+        <pd:xpath>1="html"</pd:xpath>
     </pd:transition>
     <pd:transition>
         <pd:from>Java Code</pd:from>
@@ -823,16 +768,22 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
         <pd:from>Read File</pd:from>
         <pd:to>ParseCSVData</pd:to>
-        <pd:xpathDescription>UseFilename</pd:xpathDescription>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
         <pd:from>ParseCSVData</pd:from>
-        <pd:to>GenerateCSVFile_Header</pd:to>
+        <pd:to>Group</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>
@@ -846,56 +797,7 @@ out=out.replaceAll(",","&lt;/td&gt;&lt;td&gt;");
     </pd:transition>
     <pd:transition>
         <pd:from>JSON_AllResponse</pd:from>
-        <pd:to>DelReortFile</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>SaveConcat</pd:from>
-        <pd:to>GetCampId</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>GetCampId</pd:from>
-        <pd:to>SaveConcat_OfferNPair</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>SaveConcat_OfferNPair</pd:from>
-        <pd:to>External Command</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>External Command</pd:from>
         <pd:to>End</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>error</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>External Command</pd:from>
-        <pd:to>ParseCSVData</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>DelReortFile</pd:from>
-        <pd:to>End</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>GenerateCSVFile_Header</pd:from>
-        <pd:to>Group</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>

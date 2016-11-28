@@ -1,40 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType">
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
     <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
-    <pd:name>FrontJSONUI/Level2/check.process</pd:name>
+    <pd:name>FrontJSONUI/TestAndBak/bak_check_reorder.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startType ref="pfx:AllJSONRequests"/>
-    <pd:startX>664</pd:startX>
-    <pd:startY>502</pd:startY>
+    <pd:startX>57</pd:startX>
+    <pd:startY>279</pd:startY>
     <pd:returnBindings>
-        <pfx:SubEnd>
-            <pfx:JSONResponse>
+        <root>
+            <JSONResponse>
                 <xsl:value-of select="$Render-JSON/ns:ActivityOutputClass/jsonString"/>
-            </pfx:JSONResponse>
-            <pfx:TestXPATH>
+            </JSONResponse>
+            <TestXPATH>
                 <xsl:value-of select="tib:concat-sequence-format(&#xA;$SonTable/jdbcGeneralActivityOutput/unknownResultset[1]/row/column[2]/value,&quot;_id,&quot;)"/>
-            </pfx:TestXPATH>
-        </pfx:SubEnd>
+            </TestXPATH>
+        </root>
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
-    <pd:endType ref="pfx:SubEnd"/>
-    <pd:endX>833</pd:endX>
-    <pd:endY>277</pd:endY>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="JSONResponse" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="TestXPATH" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>867</pd:endX>
+    <pd:endY>268</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables/>
     <pd:targetNamespace>http://xmlns.example.com/1477401151551</pd:targetNamespace>
     <pd:activity name="CheckRequestTable_details">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>488</pd:x>
-        <pd:y>499</pd:y>
+        <pd:x>62</pd:x>
+        <pd:y>141</pd:y>
         <config>
             <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
                 <sql>
-                    <xsl:value-of select="concat(&#xA;&quot;select * from &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot; where &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                    <xsl:value-of select="concat(&#xA;&quot;select * from view_details_&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot; where &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
                 </sql>
             </root>
         </pd:inputBindings>
@@ -42,8 +51,8 @@
     <pd:activity name="GetSonTableDetails">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>403</pd:x>
-        <pd:y>268</pd:y>
+        <pd:x>66</pd:x>
+        <pd:y>36</pd:y>
         <config>
             <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
@@ -60,8 +69,8 @@
     <pd:activity name="SonTable">
         <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
         <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
-        <pd:x>189</pd:x>
-        <pd:y>50</pd:y>
+        <pd:x>182</pd:x>
+        <pd:y>144</pd:y>
         <config>
             <timeout>10</timeout>
             <commit>false</commit>
@@ -79,8 +88,8 @@
     <pd:activity name="CheckPrecord">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>402</pd:x>
-        <pd:y>137</pd:y>
+        <pd:x>356</pd:x>
+        <pd:y>37</pd:y>
         <config>
             <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
@@ -95,37 +104,22 @@
     <pd:activity name="RedisCounter">
         <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
         <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
-        <pd:x>654</pd:x>
-        <pd:y>51</pd:y>
+        <pd:x>368</pd:x>
+        <pd:y>239</pd:y>
         <config>
             <fileName>checkRedisCounter</fileName>
             <packageName>FrontJSONUI.Level2.check</packageName>
             <fullsource>package FrontJSONUI.Level2.check;
 import java.util.*;
 import java.io.*;
-import redis.clients.jedis.Jedis;     
 public class checkRedisCounter{
 /****** START SET/GET METHOD, DO NOT MODIFY *****/
 	protected String[] campaign_id = null;
-	protected String clickCount = "";
-	protected String conversionCount = "";
 	public String[] getcampaign_id() {
 		return campaign_id;
 	}
 	public void setcampaign_id(String[] val) {
 		campaign_id = val;
-	}
-	public String getclickCount() {
-		return clickCount;
-	}
-	public void setclickCount(String val) {
-		clickCount = val;
-	}
-	public String getconversionCount() {
-		return conversionCount;
-	}
-	public void setconversionCount(String val) {
-		conversionCount = val;
 	}
 /****** END SET/GET METHOD, DO NOT MODIFY *****/
 	public checkRedisCounter() {
@@ -133,25 +127,12 @@ public class checkRedisCounter{
 	public void invoke() throws Exception {
 /* Available Variables: DO NOT MODIFY
 	In  : String[] campaign_id
-	Out : String clickCount
-	Out : String conversionCount
 * Available Variables: DO NOT MODIFY *****/
 
+
+
 // string array campaign_id loop in redis counter 
-
-
-
-
-		Jedis jedis = new Jedis("127.0.0.1", 6379);
-		for (String i : campaign_id) {
-			clickCount= jedis.hget("clickCounter", i);
-			conversionCount= jedis.hget("conversionCounter", i);
-			System.out.println("###redis click counter for campaign_id : " + i
-					+ " is : " + clickCount);
-			System.out.println("###redis conversion counter for campaign_id : "
-					+ i + " is : " + conversionCount);
-		}
-	}
+}
 }
 </fullsource>
             <inputData>
@@ -161,24 +142,6 @@ public class checkRedisCounter{
                     <fieldRequired>repeating</fieldRequired>
                 </row>
             </inputData>
-            <outputData>
-                <row>
-                    <fieldName>clickCount</fieldName>
-                    <fieldType>string</fieldType>
-                    <fieldRequired>optional</fieldRequired>
-                </row>
-                <row>
-                    <fieldName>conversionCount</fieldName>
-                    <fieldType>string</fieldType>
-                    <fieldRequired>optional</fieldRequired>
-                </row>
-            </outputData>
-            <byteCode>
-                <class>
-                    <name>checkRedisCounter</name>
-                    <byteCode>yv66vgAAADQAVgkAFQAzCQAVADQJABUANQoAFgA2CAA3BwA4CAA5CgAGADoIADsKAAYAPAgAPQkAPgA/BwBACgANADYIAEEKAA0AQggAQwoADQBECgBFAEYIAEcHAEgHAEkBAAtjYW1wYWlnbl9pZAEAE1tMamF2YS9sYW5nL1N0cmluZzsBAApjbGlja0NvdW50AQASTGphdmEvbGFuZy9TdHJpbmc7AQAPY29udmVyc2lvbkNvdW50AQAOZ2V0Y2FtcGFpZ25faWQBABUoKVtMamF2YS9sYW5nL1N0cmluZzsBAARDb2RlAQAPTGluZU51bWJlclRhYmxlAQAOc2V0Y2FtcGFpZ25faWQBABYoW0xqYXZhL2xhbmcvU3RyaW5nOylWAQANZ2V0Y2xpY2tDb3VudAEAFCgpTGphdmEvbGFuZy9TdHJpbmc7AQANc2V0Y2xpY2tDb3VudAEAFShMamF2YS9sYW5nL1N0cmluZzspVgEAEmdldGNvbnZlcnNpb25Db3VudAEAEnNldGNvbnZlcnNpb25Db3VudAEABjxpbml0PgEAAygpVgEABmludm9rZQEADVN0YWNrTWFwVGFibGUHAEgHADgHABgBAApFeGNlcHRpb25zBwBKAQAKU291cmNlRmlsZQEAFmNoZWNrUmVkaXNDb3VudGVyLmphdmEMABcAGAwAGQAaDAAbABoMACgAKQEAAAEAGXJlZGlzL2NsaWVudHMvamVkaXMvSmVkaXMBAAkxMjcuMC4wLjEMACgASwEADGNsaWNrQ291bnRlcgwATABNAQARY29udmVyc2lvbkNvdW50ZXIHAE4MAE8AUAEAF2phdmEvbGFuZy9TdHJpbmdCdWlsZGVyAQApIyMjcmVkaXMgY2xpY2sgY291bnRlciBmb3IgY2FtcGFpZ25faWQgOiAMAFEAUgEABiBpcyA6IAwAUwAjBwBUDABVACUBAC4jIyNyZWRpcyBjb252ZXJzaW9uIGNvdW50ZXIgZm9yIGNhbXBhaWduX2lkIDogAQAqRnJvbnRKU09OVUkvTGV2ZWwyL2NoZWNrL2NoZWNrUmVkaXNDb3VudGVyAQAQamF2YS9sYW5nL09iamVjdAEAE2phdmEvbGFuZy9FeGNlcHRpb24BABYoTGphdmEvbGFuZy9TdHJpbmc7SSlWAQAEaGdldAEAOChMamF2YS9sYW5nL1N0cmluZztMamF2YS9sYW5nL1N0cmluZzspTGphdmEvbGFuZy9TdHJpbmc7AQAQamF2YS9sYW5nL1N5c3RlbQEAA291dAEAFUxqYXZhL2lvL1ByaW50U3RyZWFtOwEABmFwcGVuZAEALShMamF2YS9sYW5nL1N0cmluZzspTGphdmEvbGFuZy9TdHJpbmdCdWlsZGVyOwEACHRvU3RyaW5nAQATamF2YS9pby9QcmludFN0cmVhbQEAB3ByaW50bG4AIQAVABYAAAADAAQAFwAYAAAABAAZABoAAAAEABsAGgAAAAgAAQAcAB0AAQAeAAAAHQABAAEAAAAFKrQAAbAAAAABAB8AAAAGAAEAAAALAAEAIAAhAAEAHgAAACIAAgACAAAABiortQABsQAAAAEAHwAAAAoAAgAAAA4ABQAPAAEAIgAjAAEAHgAAAB0AAQABAAAABSq0AAKwAAAAAQAfAAAABgABAAAAEQABACQAJQABAB4AAAAiAAIAAgAAAAYqK7UAArEAAAABAB8AAAAKAAIAAAAUAAUAFQABACYAIwABAB4AAAAdAAEAAQAAAAUqtAADsAAAAAEAHwAAAAYAAQAAABcAAQAnACUAAQAeAAAAIgACAAIAAAAGKiu1AAOxAAAAAQAfAAAACgACAAAAGgAFABsAAQAoACkAAQAeAAAAPgACAAEAAAAWKrcABCoBtQABKhIFtQACKhIFtQADsQAAAAEAHwAAABYABQAAAB0ABAAHAAkACAAPAAkAFQAeAAEAKgApAAIAHgAAAOAABAAGAAAAj7sABlkSBxEY67cACEwqtAABTSy+PgM2BBUEHaIAcywVBDI6BSorEgkZBbYACrUAAiorEgsZBbYACrUAA7IADLsADVm3AA4SD7YAEBkFtgAQEhG2ABAqtAACtgAQtgAStgATsgAMuwANWbcADhIUtgAQGQW2ABASEbYAECq0AAO2ABC2ABK2ABOEBAGn/42xAAAAAgAfAAAAIgAIAAAAKwANACwAJAAtADAALgA8AC8AYgAxAIgALACOADQAKwAAABcAAv8AGAAFBwAsBwAtBwAuAQEAAPgAdQAvAAAABAABADAAAQAxAAAAAgAy</byteCode>
-                </class>
-            </byteCode>
         </config>
         <pd:inputBindings>
             <javaCodeActivityInput>
@@ -193,8 +156,8 @@ public class checkRedisCounter{
     <pd:activity name="GetCampIdForRedis">
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
-        <pd:x>399</pd:x>
-        <pd:y>51</pd:y>
+        <pd:x>359</pd:x>
+        <pd:y>147</pd:y>
         <config>
             <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
@@ -209,8 +172,8 @@ public class checkRedisCounter{
     <pd:activity name="Render JSON">
         <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
         <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
-        <pd:x>661</pd:x>
-        <pd:y>272</pd:y>
+        <pd:x>837</pd:x>
+        <pd:y>108</pd:y>
         <config>
             <SchemaType>xsdType</SchemaType>
             <BadgerfishCheck>false</BadgerfishCheck>
@@ -222,8 +185,6 @@ public class checkRedisCounter{
                             <xsd:element name="tableresults" minOccurs="0">
                                 <xsd:complexType>
                                     <xsd:sequence>
-                                        <xsd:element name="clickCount" type="xsd:string" minOccurs="0"/>
-                                        <xsd:element name="conversionCount" type="xsd:string" minOccurs="0"/>
                                         <xsd:element name="detailline" minOccurs="0" maxOccurs="unbounded">
                                             <xsd:complexType>
                                                 <xsd:sequence>
@@ -278,85 +239,35 @@ public class checkRedisCounter{
                         <xsl:value-of select="&quot;success&quot;"/>
                     </responsestatus>
                     <tableresults>
-                        <xsl:if test="$RedisCounter/javaCodeActivityOutput/clickCount">
-                            <clickCount>
-                                <xsl:value-of select="$RedisCounter/javaCodeActivityOutput/clickCount"/>
-                            </clickCount>
-                        </xsl:if>
-                        <xsl:if test="$RedisCounter/javaCodeActivityOutput/conversionCount">
-                            <conversionCount>
-                                <xsl:value-of select="$RedisCounter/javaCodeActivityOutput/conversionCount"/>
-                            </conversionCount>
-                        </xsl:if>
-                        <xsl:for-each select="$ReplacedDetails/AccumulatedOutput/detailline">
+                        <xsl:for-each select="$CheckRequestTable_details/unknownResultset/row/column">
                             <detailline>
                                 <xsl:if test="name">
                                     <name>
                                         <xsl:value-of select="name"/>
                                     </name>
                                 </xsl:if>
-                                <xsl:if test="value">
+                                <xsl:if test="current()/name">
                                     <value>
-                                        <xsl:value-of select="value"/>
+                                        <xsl:value-of select="if (contains(&#xA;concat(tib:concat-sequence-format($SonTable/jdbcGeneralActivityOutput/unknownResultset[1]/row/column[2]/value,&quot;_id,&quot;), &quot;_id&quot;),&#xA;current()/name&#xA;))&#xA;then &#xA;tib:concat-sequence(for $var in $AllFatherLabels/AccumulatedOutput/fatherLabel return (&#xA;if(contains($var, current()/value))&#xA;then &#xA;$var&#xA;else &quot;&quot;&#xA;))&#xA;else current()/value"/>
                                     </value>
                                 </xsl:if>
-                                <xsl:if test="link">
-                                    <link>
-                                        <xsl:value-of select="link"/>
-                                    </link>
-                                </xsl:if>
+                                <link>
+                                    <xsl:value-of select="if (contains(&#xA;concat(tib:concat-sequence-format($SonTable/jdbcGeneralActivityOutput/unknownResultset[1]/row/column[2]/value,&quot;_id,&quot;), &quot;_id&quot;),&#xA;current()/name&#xA;))&#xA;then&#xA;concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&#xA;substring-before(current()/name,&quot;_&quot;),&#xA;&quot;-detail?id=&quot;,&#xA;current()/value&#xA;)&#xA;else&#xA;&quot;&quot;"/>
+                                </link>
                             </detailline>
                         </xsl:for-each>
                     </tableresults>
-                    <relatedresults>
-                        <xsl:for-each select="$GetSonTableDetails/unknownResultset/row">
-                            <relatedline>
-                                <label>
-                                    <xsl:value-of select="tib:concat-sequence-format(current()/column/value, &quot;-&quot;)"/>
-                                </label>
-                                <link>
-                                    <xsl:value-of select="concat(&#xA;if($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;$SonTable/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[1]/value,&#xA;&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
-                                </link>
-                            </relatedline>
-                        </xsl:for-each>
-                    </relatedresults>
-                    <precordresults>
-                        <xsl:for-each select="$CheckPrecord/unknownResultset/row">
-                            <precordline>
-                                <xsl:if test="column[3]/value">
-                                    <time>
-                                        <xsl:value-of select="column[3]/value"/>
-                                    </time>
-                                </xsl:if>
-                                <xsl:if test="column[4]/value">
-                                    <type>
-                                        <xsl:value-of select="column[4]/value"/>
-                                    </type>
-                                </xsl:if>
-                                <xsl:if test="column[5]/value">
-                                    <currency>
-                                        <xsl:value-of select="column[5]/value"/>
-                                    </currency>
-                                </xsl:if>
-                                <xsl:if test="column[6]/value">
-                                    <cap>
-                                        <xsl:value-of select="column[6]/value"/>
-                                    </cap>
-                                </xsl:if>
-                            </precordline>
-                        </xsl:for-each>
-                    </precordresults>
                 </root>
             </ns:ActivityInputClass>
         </pd:inputBindings>
     </pd:activity>
-    <pd:group name="GetDetailLabelsGroup">
+    <pd:group name="Group">
         <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
         <pd:resourceType>ae.process.group</pd:resourceType>
-        <pd:x>1</pd:x>
-        <pd:y>286</pd:y>
-        <pd:width>378</pd:width>
-        <pd:height>271</pd:height>
+        <pd:x>471</pd:x>
+        <pd:y>104</pd:y>
+        <pd:width>291</pd:width>
+        <pd:height>169</pd:height>
         <pd:collapsedWidth>57</pd:collapsedWidth>
         <pd:collapsedHeight>70</pd:collapsedHeight>
         <pd:groupVariables/>
@@ -364,51 +275,41 @@ public class checkRedisCounter{
         <config>
             <pd:groupType>inputLoop</pd:groupType>
             <pd:serializable>false</pd:serializable>
-            <pd:over>$CheckRequestTable_details/unknownResultset/row/column</pd:over>
-            <pd:iterationElementSlot>element1</pd:iterationElementSlot>
-            <pd:indexSlot>index1</pd:indexSlot>
-            <pd:outSlot>ReplacedDetails</pd:outSlot>
-            <pd:activityOutputName>Map_GetDetailLabels</pd:activityOutputName>
+            <pd:over>$SonTable/jdbcGeneralActivityOutput/unknownResultset/row</pd:over>
+            <pd:iterationElementSlot>element</pd:iterationElementSlot>
+            <pd:indexSlot>index</pd:indexSlot>
+            <pd:outSlot>AllFatherLabels</pd:outSlot>
+            <pd:activityOutputName>FatherLabel</pd:activityOutputName>
             <pd:accumulateOutput>true</pd:accumulateOutput>
         </config>
         <pd:inputBindings/>
         <pd:expanded>true</pd:expanded>
         <pd:transition>
             <pd:from>start</pd:from>
-            <pd:to>GetDetailLabels</pd:to>
+            <pd:to>GetFatherTableLabel</pd:to>
             <pd:lineType>Default</pd:lineType>
             <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>xpath</pd:conditionType>
-            <pd:xpath>contains($element1/column/name, "_id") 
-and 
-not(contains($element1/column/name, $Start/pfx:AllJSONRequests/pfx:tablename))</pd:xpath>
+            <pd:conditionType>always</pd:conditionType>
         </pd:transition>
         <pd:transition>
-            <pd:from>start</pd:from>
-            <pd:to>Map_GetDetailLabels</pd:to>
-            <pd:lineType>Default</pd:lineType>
-            <pd:lineColor>-16777216</pd:lineColor>
-            <pd:conditionType>otherwise</pd:conditionType>
-        </pd:transition>
-        <pd:transition>
-            <pd:from>Map_GetDetailLabels</pd:from>
+            <pd:from>FatherLabel</pd:from>
             <pd:to>end</pd:to>
             <pd:lineType>Default</pd:lineType>
             <pd:lineColor>-16777216</pd:lineColor>
             <pd:conditionType>always</pd:conditionType>
         </pd:transition>
         <pd:transition>
-            <pd:from>GetDetailLabels</pd:from>
-            <pd:to>Map_GetDetailLabels</pd:to>
+            <pd:from>GetFatherTableLabel</pd:from>
+            <pd:to>FatherLabel</pd:to>
             <pd:lineType>Default</pd:lineType>
             <pd:lineColor>-16777216</pd:lineColor>
             <pd:conditionType>always</pd:conditionType>
         </pd:transition>
-        <pd:activity name="GetDetailLabels">
+        <pd:activity name="GetFatherTableLabel">
             <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
             <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
-            <pd:x>108</pd:x>
-            <pd:y>343</pd:y>
+            <pd:x>558</pd:x>
+            <pd:y>176</pd:y>
             <config>
                 <timeout>10</timeout>
                 <commit>false</commit>
@@ -418,46 +319,46 @@ not(contains($element1/column/name, $Start/pfx:AllJSONRequests/pfx:tablename))</
             <pd:inputBindings>
                 <jdbcGeneralActivityInput>
                     <statement>
-                        <xsl:value-of select="concat(&quot;select * from view_label_&quot;,&#xA;substring-before($element1/column/name,&quot;_&quot;),&#xA;&quot; where &quot;,&#xA;$element1/column/name,&#xA;&quot;=&quot;,&#xA;$element1/column/value)"/>
+                        <xsl:value-of select="concat(&#xA;&quot;select * from view_label_&quot;,&#xA;$element/row/column[2]/value,&#xA;&quot; where &quot;,&#xA;$element/row/column[2]/value,&#xA;&quot;_id=&quot;,&#xA;&quot;&quot;)"/>
                     </statement>
                 </jdbcGeneralActivityInput>
             </pd:inputBindings>
         </pd:activity>
-        <pd:activity name="Map_GetDetailLabels">
+        <pd:activity name="FatherLabel">
             <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
             <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
-            <pd:x>202</pd:x>
-            <pd:y>428</pd:y>
+            <pd:x>663</pd:x>
+            <pd:y>181</pd:y>
             <config>
                 <element>
-                    <xsd:element name="detailline">
-                        <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="name" type="xsd:string" minOccurs="0"/>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
-                                <xsd:element name="link" type="xsd:string" minOccurs="0"/>
-                            </xsd:sequence>
-                        </xsd:complexType>
-                    </xsd:element>
+                    <xsd:element name="fatherLabel" type="xsd:string"/>
                 </element>
             </config>
             <pd:inputBindings>
-                <detailline>
-                    <xsl:if test="$element1/column/name">
-                        <name>
-                            <xsl:value-of select="$element1/column/name"/>
-                        </name>
-                    </xsl:if>
-                    <value>
-                        <xsl:value-of select="if(exists($GetDetailLabels/jdbcGeneralActivityOutput/unknownResultset/row)) then&#xA;tib:concat-sequence-format($GetDetailLabels/jdbcGeneralActivityOutput/unknownResultset/row/column/value,&quot;-&quot;)&#xA;else &#xA;$element1/column/value"/>
-                    </value>
-                    <link>
-                        <xsl:value-of select="if(exists($GetDetailLabels/jdbcGeneralActivityOutput/unknownResultset/row)) then&#xA;concat(&#xA;if($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;substring-before($element1/column/name,&quot;_&quot;),&#xA;&quot;-detail.html?id=&quot;,&#xA;$element1/column/value&#xA;)&#xA;else &#xA;&quot;&quot;"/>
-                    </link>
-                </detailline>
+                <fatherLabel>
+                    <xsl:value-of select="tib:concat-sequence-format($GetFatherTableLabel/jdbcGeneralActivityOutput/unknownResultset/row/column/value,&quot;-&quot;)"/>
+                </fatherLabel>
             </pd:inputBindings>
         </pd:activity>
     </pd:group>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>CheckRequestTable_details</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:description>original :
+
+if not campaign table , get Son And Father Tables</pd:description>
+        <pd:from>CheckRequestTable_details</pd:from>
+        <pd:to>SonTable</pd:to>
+        <pd:xpathDescription/>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
     <pd:transition>
         <pd:from>GetSonTableDetails</pd:from>
         <pd:to>CheckPrecord</pd:to>
@@ -466,6 +367,34 @@ not(contains($element1/column/name, $Start/pfx:AllJSONRequests/pfx:tablename))</
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>xpath</pd:conditionType>
         <pd:xpath>$Start/pfx:AllJSONRequests/pfx:tablename="offer"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetCampIdForRedis</pd:from>
+        <pd:to>RedisCounter</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetSonTableDetails</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>RedisCounter</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
     </pd:transition>
     <pd:transition>
         <pd:from>Render JSON</pd:from>
@@ -484,27 +413,6 @@ not(contains($element1/column/name, $Start/pfx:AllJSONRequests/pfx:tablename))</
         <pd:xpath>$Start/pfx:AllJSONRequests/pfx:tablename="campaign"</pd:xpath>
     </pd:transition>
     <pd:transition>
-        <pd:from>CheckPrecord</pd:from>
-        <pd:to>GetCampIdForRedis</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>CheckRequestTable_details</pd:from>
-        <pd:to>GetDetailLabelsGroup</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>GetDetailLabelsGroup</pd:from>
-        <pd:to>SonTable</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
         <pd:from>SonTable</pd:from>
         <pd:to>GetSonTableDetails</pd:to>
         <pd:lineType>Default</pd:lineType>
@@ -512,29 +420,8 @@ not(contains($element1/column/name, $Start/pfx:AllJSONRequests/pfx:tablename))</
         <pd:conditionType>otherwise</pd:conditionType>
     </pd:transition>
     <pd:transition>
-        <pd:from>Start</pd:from>
-        <pd:to>CheckRequestTable_details</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>GetCampIdForRedis</pd:from>
-        <pd:to>RedisCounter</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>GetSonTableDetails</pd:from>
-        <pd:to>Render JSON</pd:to>
-        <pd:lineType>Default</pd:lineType>
-        <pd:lineColor>-16777216</pd:lineColor>
-        <pd:conditionType>always</pd:conditionType>
-    </pd:transition>
-    <pd:transition>
-        <pd:from>RedisCounter</pd:from>
-        <pd:to>Render JSON</pd:to>
+        <pd:from>CheckPrecord</pd:from>
+        <pd:to>GetCampIdForRedis</pd:to>
         <pd:lineType>Default</pd:lineType>
         <pd:lineColor>-16777216</pd:lineColor>
         <pd:conditionType>always</pd:conditionType>

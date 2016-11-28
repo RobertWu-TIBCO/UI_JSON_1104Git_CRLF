@@ -5,6 +5,57 @@
 	 targetNamespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd"
 	 elementFormDefault="qualified"
 	 attributeFormDefault="unqualified">
+	<xs:element name="reportresults" type="reportresults"/>
+	<xs:element name="reportresults_python" type="reportresults_python"/>
+	<xs:complexType name="reportresults_python">
+		<xs:sequence>
+			<xs:element ref="reportline_python" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="reportresults">
+		<xs:sequence>
+			<xs:element ref="reportline" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="reportline_python" type="reportline_python"/>
+	<xs:complexType name="reportline_python">
+		<xs:sequence>
+			<xs:element name="time" type="xs:string" minOccurs="0"/>
+			<xs:element name="offer_query" type="xs:string" minOccurs="0"/>
+			<xs:element name="n_query" type="xs:string" minOccurs="0"/>
+			<xs:element name="click" type="xs:string" minOccurs="0"/>
+			<xs:element name="normal" type="xs:string" minOccurs="0"/>
+			<xs:element name="rm" type="xs:string" minOccurs="0"/>
+			<xs:element name="duplicated" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="reportline" type="reportline"/>
+	<xs:complexType name="reportline">
+		<xs:sequence>
+			<xs:element name="time" type="xs:string" minOccurs="0"/>
+			<xs:element name="offer_query" type="xs:string" minOccurs="0"/>
+			<xs:element name="offer_link" type="xs:string" minOccurs="0"/>
+			<xs:element name="n_query" type="xs:string" minOccurs="0"/>
+			<xs:element name="n_link" type="xs:string" minOccurs="0"/>
+			<xs:element name="click" type="xs:string" minOccurs="0"/>
+			<xs:element name="normal" type="xs:string" minOccurs="0"/>
+			<xs:element name="conversionrate" type="xs:string" minOccurs="0"/>
+			<xs:element name="campaign_expendtype" type="xs:string" minOccurs="0"/>
+			<xs:element name="out_price" type="xs:string" minOccurs="0"/>
+			<xs:element name="offer_earningtype" type="xs:string" minOccurs="0"/>
+			<xs:element name="in_price" type="xs:string" minOccurs="0"/>
+			<xs:element name="rm" type="xs:string" minOccurs="0"/>
+			<xs:element name="duplicated" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="RequestResponseEnd">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="request" type="xs:string" minOccurs="0"/>
+				<xs:element name="response" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="SubEnd">
 		<xs:complexType>
 			<xs:sequence>
@@ -17,12 +68,16 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element name="token" type="xs:string"/>
+				<xs:element name="operation" type="xs:string" minOccurs="0"/>
 				<xs:element name="tablename" type="xs:string" minOccurs="0"/>
 				<xs:element name="searchvalue" type="xs:string" minOccurs="0"/>
+				<xs:element name="offerreportsearch" type="xs:string" minOccurs="0"/>
+				<xs:element name="nreportsearch" type="xs:string" minOccurs="0"/>
 				<xs:element name="id" type="xs:string" minOccurs="0"/>
 				<xs:element name="startdate" type="xs:string" minOccurs="0"/>
 				<xs:element name="enddate" type="xs:string" minOccurs="0"/>
-			  	<xs:element name="accuracy" type="xs:string" minOccurs="0"/>
+				<xs:element name="accuracy" type="xs:string" minOccurs="0"/>
+				<xs:element name="reportname" type="xs:string" minOccurs="0"/>
 				<xs:element ref="EditArray" minOccurs="0"/>
 			</xs:sequence>
 		</xs:complexType>

@@ -17,5 +17,13 @@
 			<type>String</type>
 			<modTime>1475743586227</modTime>
 		</globalVariable>
+		<globalVariable>
+			<name>csvfilefolder</name>
+			<value>E:\EasyOSLink\PCMasterMove\Documents\Tencent Files\1533661890\FileRecv\</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1478243209814</modTime>
+		</globalVariable>
 	</globalVariables>
 </repository>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>FrontJSONUI/Level2/APIv1.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:AllJSONRequests"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <pfx:SubEnd>
+            <pfx:JSONResponse>
+                <xsl:value-of select="$CallAPI/pfx:SubEnd/pfx:JSONResponse"/>
+            </pfx:JSONResponse>
+        </pfx:SubEnd>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:SubEnd"/>
+    <pd:endX>453</pd:endX>
+    <pd:endY>67</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1479959155491</pd:targetNamespace>
+    <pd:activity name="CallAPI">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>291</pd:x>
+        <pd:y>68</pd:y>
+        <config>
+            <processName>/FrontJSONUI/API/APIv1_Disallow.process</processName>
+            <processNameXPath>concat(
+"/FrontJSONUI/API/",
+$Start/pfx:AllJSONRequests/pfx:operation,
+".process"
+)</processNameXPath>
+        </config>
+        <pd:inputBindings>
+            <xsl:copy-of select="$Start/pfx:AllJSONRequests"/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>CallAPI</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CallAPI</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

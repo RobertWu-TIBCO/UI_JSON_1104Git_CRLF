@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+    <pd:name>FrontJSONUI/Level3/Common_LabelGenerator.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="viewname" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="iflike" type="xsd:int" minOccurs="0"/>
+                    <xsd:element name="tablename" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <xsl:for-each select="$CommonLabelSearch/unknownResultset/row">
+                <commonlabel>
+                    <xsl:value-of select="tib:concat-sequence-format(current()/column/value, &quot;-&quot;)"/>
+                </commonlabel>
+            </xsl:for-each>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="commonlabel" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1479874826192</pd:targetNamespace>
+    <pd:activity name="CommonLabelSearch">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>295</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:choose>
+                    <xsl:when test="$Start/root/iflike=1">
+                        <sql>
+                            <xsl:value-of select="concat(&#xA;&quot;select * from &quot;,&#xA; $Start/root/viewname ,&#xA;&quot; where &quot; ,&#xA;$Start/root/tablename,&#xA;&quot;_id like '%&quot;,&#xA;$Start/root/value,&#xA;&quot;%' or &quot;,&#xA;$Start/root/tablename,&#xA;&quot;_name like '%&quot;&#xA;)"/>
+                        </sql>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <sql>
+                            <xsl:value-of select="concat(&#xA;&quot;select * from &quot;,&#xA; $Start/root/viewname,&#xA;&quot; where &quot;,&#xA;$Start/root/tablename,&quot;_id=&quot;,&#xA;$Start/root/value&#xA;)"/>
+                        </sql>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>CommonLabelSearch</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CommonLabelSearch</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

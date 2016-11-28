@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/ParseRS.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/ParseRS.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType">
     <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/ParseRS.xsd" schemaLocation="/ParseRS.xsd"/>
     <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
     <pd:name>FrontJSONUI/Level2/search.process</pd:name>
@@ -28,12 +28,12 @@
         <pd:x>214</pd:x>
         <pd:y>54</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
                 <sql>
-                    <xsl:value-of select="concat(&quot;select * from view_label_&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot; where &quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;_name like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%' or &quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;_id like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%'&quot;&#xA;)"/>
+                    <xsl:value-of select="concat(&quot;select * from view_label_&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot; where &quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;_name like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%' or &quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;_id like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%'&quot;,&#xA;&quot; order by &quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;_id desc&quot;&#xA;)"/>
                 </sql>
             </root>
         </pd:inputBindings>
@@ -110,7 +110,7 @@
                                 <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
                             </label>
                             <link>
-                                <xsl:value-of select="concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;-detail?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
                             </link>
                         </searchresults>
                     </xsl:for-each>
@@ -161,12 +161,13 @@
             <pd:x>399</pd:x>
             <pd:y>208</pd:y>
             <config>
-                <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+                <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+                <spawn>false</spawn>
             </config>
             <pd:inputBindings>
                 <root>
                     <sql>
-                        <xsl:value-of select="concat(&quot;select * from view_label_&quot;,&#xA;$element/alltables,&#xA;&quot; where &quot;,&#xA;$element/alltables,&#xA;&quot;_name like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%' or &quot;,&#xA;$element/alltables,&#xA;&quot;_id like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%'&quot;&#xA;)"/>
+                        <xsl:value-of select="concat(&quot;select * from view_label_&quot;,&#xA;$element/alltables,&#xA;&quot; where &quot;,&#xA;$element/alltables,&#xA;&quot;_name like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%' or &quot;,&#xA;$element/alltables,&#xA;&quot;_id like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%'&quot;,&#xA;&quot; order by &quot;,&#xA;$element/alltables,&#xA;&quot;_id desc&quot;&#xA;)"/>
                     </sql>
                 </root>
             </pd:inputBindings>
@@ -234,7 +235,7 @@
                                 <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
                             </label>
                             <link>
-                                <xsl:value-of select="concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&quot;advertiser&quot;,&quot;-detail?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&quot;advertiser&quot;,&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
                             </link>
                         </advertiserresults>
                     </xsl:for-each>
@@ -244,7 +245,7 @@
                                 <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
                             </label>
                             <link>
-                                <xsl:value-of select="concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&quot;product&quot;,&quot;-detail?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&quot;product&quot;,&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
                             </link>
                         </productresults>
                     </xsl:for-each>
@@ -254,7 +255,7 @@
                                 <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
                             </label>
                             <link>
-                                <xsl:value-of select="concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&quot;offer&quot;,&quot;-detail?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&quot;offer&quot;,&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
                             </link>
                         </offerresults>
                     </xsl:for-each>
@@ -264,7 +265,7 @@
                                 <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
                             </label>
                             <link>
-                                <xsl:value-of select="concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&quot;n&quot;,&quot;-detail?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&quot;n&quot;,&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
                             </link>
                         </nresults>
                     </xsl:for-each>

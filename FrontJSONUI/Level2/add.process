@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType">
     <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
     <pd:name>FrontJSONUI/Level2/add.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -53,7 +53,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>212</pd:x>
         <pd:y>62</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
@@ -89,7 +89,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
                         <xsl:value-of select="&quot;success&quot;"/>
                     </responsestatus>
                     <redirecturl>
-                        <xsl:value-of select="concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;-detail?id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;-detail.html?id=&quot;,&#xA;$GetNextID/unknownResultset[1]/row[1]/column[1]/value&#xA;)"/>
                     </redirecturl>
                 </root>
             </ns:ActivityInputClass>
@@ -128,7 +128,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>201</pd:x>
         <pd:y>190</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/CampaignFatherGeneratePL.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_CampaignFather_GeneratePL.process</processName>
         </config>
         <pd:inputBindings>
             <root>
@@ -149,7 +149,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
                         <xsl:value-of select="concat(&#xA;&quot;insert into &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;(&quot;,&#xA;tib:concat-sequence-format(for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return local-name($var),&quot;,&quot;),&#xA;&quot;) values('&quot;,&#xA;tib:concat-sequence-format(for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return $var,&quot;','&quot;),&#xA;&quot;') &quot;&#xA;)"/>
                     </sql>
                     <campaign_tl>
-                        <xsl:value-of select="concat(&#xA;&quot;http://www.91mobcastle.com:9094/click?offer_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_id,&#xA;&quot;&amp;n_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:n_id,&#xA;&quot;&amp;&quot;&#xA;)"/>
+                        <xsl:value-of select="concat(&#xA;&quot;https://www.91mobcastle.com:9096/click?offer_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_id,&#xA;&quot;&amp;n_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:n_id,&#xA;&quot;&amp;&quot;&#xA;)"/>
                     </campaign_tl>
                 </forupdate>
             </root>
@@ -161,7 +161,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>51</pd:x>
         <pd:y>191</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
@@ -204,7 +204,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>339</pd:x>
         <pd:y>192</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>

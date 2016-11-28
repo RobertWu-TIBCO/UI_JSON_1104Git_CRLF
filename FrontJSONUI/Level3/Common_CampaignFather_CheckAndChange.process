@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <pd:name>FrontJSONUI/Level3/Common_CampaignFather_CheckAndChange.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="originalstatus" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="offer" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="n" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="currentstatus">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="offer" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="n" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>27</pd:startX>
+    <pd:startY>183</pd:startY>
+    <pd:returnBindings>
+        <xsl:for-each select="$GetOfferCheckChange/jdbcGeneralActivityOutput/unknownResultset[1]">
+            <unknownResultset>
+                <xsl:for-each select="row">
+                    <row>
+                        <xsl:for-each select="column">
+                            <column>
+                                <name>
+                                    <xsl:value-of select="name"/>
+                                </name>
+                                <xsl:if test="not((value/@xsi:nil=(&quot;true&quot;)) or (value/@xsi:nil=(&quot;1&quot;)))">
+                                    <value>
+                                        <xsl:value-of select="value"/>
+                                    </value>
+                                </xsl:if>
+                            </column>
+                        </xsl:for-each>
+                    </row>
+                </xsl:for-each>
+            </unknownResultset>
+        </xsl:for-each>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endX>461</pd:endX>
+    <pd:endY>187</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1477402109040</pd:targetNamespace>
+    <pd:activity name="GetOfferCheckChange">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>155</pd:x>
+        <pd:y>182</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="$Start/root/originalstatus/offer"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetNCheckChange">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>323</pd:x>
+        <pd:y>185</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="$Start/root/originalstatus/n"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetOfferCheckChange_Update">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>152</pd:x>
+        <pd:y>68</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="$Start/root/currentstatus/offer"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetNCheckChange_Update">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>462</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>100</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="$Start/root/currentstatus/n"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetOfferCheckChange</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetOfferCheckChange</pd:from>
+        <pd:to>GetNCheckChange</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetOfferCheckChange_Update</pd:from>
+        <pd:to>GetNCheckChange</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetNCheckChange_Update</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetNCheckChange</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetOfferCheckChange</pd:from>
+        <pd:to>GetOfferCheckChange_Update</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$GetOfferCheckChange/jdbcGeneralActivityOutput/unknownResultset/row[1]/column[1]/value="pause"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetNCheckChange</pd:from>
+        <pd:to>GetNCheckChange_Update</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$GetNCheckChange/jdbcGeneralActivityOutput/unknownResultset[1]/row[1]/column[1]/value</pd:xpath>
+    </pd:transition>
+</pd:ProcessDefinition>

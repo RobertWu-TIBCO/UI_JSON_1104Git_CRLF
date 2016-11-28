@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BWSharedResource>
-    <name>MySql</name>
+    <name>3307DickAD</name>
     <resourceType>ae.shared.JDBCSharedResource</resourceType>
     <config>
         <driver>com.mysql.jdbc.Driver</driver>
-        <maxConnections>100</maxConnections>
-        <loginTimeout>0</loginTimeout>
+        <maxConnections>10</maxConnections>
+        <loginTimeout>30</loginTimeout>
         <connectionType>JDBC</connectionType>
         <UseSharedJndiConfig>false</UseSharedJndiConfig>
-        <location>jdbc:mysql://localhost:3306/dickad</location>
+        <location>jdbc:mysql://localhost:3307/dickad</location>
         <user>root</user>
-        <password>#!BHQDTgwrJ8FX1fR/WcWyeuTzud0AvNTfvFxPRWOP+tA=</password>
+        <password>#!aV+TEAEAuWUvGiD7xh/N1Q==</password>
     </config>
 </BWSharedResource>

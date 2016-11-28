@@ -1,2 +1,0 @@
-# UI_JSON_1104Git_CRLF
-AD UI Get JSON Reply JSON Almost Finish on 20161104

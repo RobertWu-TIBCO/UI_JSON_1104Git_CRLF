@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>FrontJSONUI/TestClient/AddAllTables/JSONClient_JSONOperation_Add_N.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="addtable" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>72</pd:startX>
+    <pd:startY>63</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1477399703404</pd:targetNamespace>
+    <pd:activity name="Send HTTP Request">
+        <pd:type>com.tibco.plugin.http.client.HttpRequestActivity</pd:type>
+        <pd:resourceType>httppalette.httpRequest</pd:resourceType>
+        <pd:x>308</pd:x>
+        <pd:y>66</pd:y>
+        <config>
+            <inputOutputVersion>5.3.0</inputOutputVersion>
+            <newMimeSupport>true</newMimeSupport>
+            <authScheme>NONE</authScheme>
+            <serverport>%%JSONUI/port%%</serverport>
+            <InputHeaders>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Accept" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Charset" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Accept-Encoding" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </InputHeaders>
+            <OutputHeaders>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="Allow" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Length" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Content-Encoding" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Date" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </OutputHeaders>
+        </config>
+        <pd:inputBindings>
+            <RequestActivityInput>
+                <Method>
+                    <xsl:value-of select="&quot;POST&quot;"/>
+                </Method>
+                <PostData>
+                    <xsl:value-of select="$Render-JSON/ns:ActivityOutputClass/jsonString"/>
+                </PostData>
+            </RequestActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>190</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor ref="pfx:AllJSONRequests"/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <pfx:AllJSONRequests>
+                    <pfx:token>
+                        <xsl:value-of select="&quot;000000&quot;"/>
+                    </pfx:token>
+                    <pfx:operation>
+                        <xsl:value-of select="&quot;add&quot;"/>
+                    </pfx:operation>
+                    <pfx:tablename>
+                        <xsl:value-of select="$Start/root/addtable"/>
+                    </pfx:tablename>
+                    <pfx:EditArray>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[5]/value">
+                            <pfx:n_address>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[5]/value"/>
+                            </pfx:n_address>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[6]/value">
+                            <pfx:n_concat>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[6]/value"/>
+                            </pfx:n_concat>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[7]/value">
+                            <pfx:n_dcp>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[7]/value"/>
+                            </pfx:n_dcp>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[10]/value">
+                            <pfx:n_earning_c>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[10]/value"/>
+                            </pfx:n_earning_c>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[9]/value">
+                            <pfx:n_earning_t>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[9]/value"/>
+                            </pfx:n_earning_t>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[2]/value">
+                            <pfx:n_email>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[2]/value"/>
+                            </pfx:n_email>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[4]/value">
+                            <pfx:n_name>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[4]/value"/>
+                            </pfx:n_name>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[12]/value">
+                            <pfx:n_pl>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[12]/value"/>
+                            </pfx:n_pl>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[3]/value">
+                            <pfx:n_pwd>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[3]/value"/>
+                            </pfx:n_pwd>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[11]/value">
+                            <pfx:n_status>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[11]/value"/>
+                            </pfx:n_status>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[8]/value">
+                            <pfx:n_tel>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[8]/value"/>
+                            </pfx:n_tel>
+                        </xsl:if>
+                        <xsl:if test="$GetSampleData/unknownResultset/row[1]/column[13]/value">
+                            <pfx:n_tlm>
+                                <xsl:value-of select="$GetSampleData/unknownResultset/row[1]/column[13]/value"/>
+                            </pfx:n_tlm>
+                        </xsl:if>
+                    </pfx:EditArray>
+                </pfx:AllJSONRequests>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetSampleData">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>109</pd:x>
+        <pd:y>168</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&quot;select * from &quot;,$Start/root/addtable,&quot; limit 1&quot;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetSampleData</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>Send HTTP Request</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Send HTTP Request</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetSampleData</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

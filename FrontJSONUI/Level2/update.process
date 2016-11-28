@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType">
     <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
     <pd:name>FrontJSONUI/Level2/update.process</pd:name>
     <pd:startName>Start</pd:startName>
@@ -53,7 +53,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>272</pd:x>
         <pd:y>192</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
@@ -89,7 +89,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
                         <xsl:value-of select="&quot;success&quot;"/>
                     </responsestatus>
                     <redirecturl>
-                        <xsl:value-of select="concat(&#xA;&quot;http://91mobcastle.com/detail/&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;-detail?id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;-detail.html?id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
                     </redirecturl>
                 </root>
             </ns:ActivityInputClass>
@@ -128,7 +128,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>464</pd:x>
         <pd:y>197</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
@@ -171,7 +171,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>269</pd:x>
         <pd:y>52</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/CampaignFatherCheckAndChange.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_CampaignFather_CheckAndChange.process</processName>
         </config>
         <pd:inputBindings>
             <root>
@@ -227,7 +227,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>84</pd:x>
         <pd:y>48</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
@@ -241,15 +241,15 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:description/>
-        <pd:x>274</pd:x>
-        <pd:y>334</pd:y>
+        <pd:x>275</pd:x>
+        <pd:y>335</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
                 <sql>
-                    <xsl:value-of select="concat(&#xA;&quot;insert into precord(offer_id ,precord_time ,precord_t ,precord_c ,precord_n ,precord_m) values(&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id,&#xA;substring-before(current-dateTime(), &quot;+&quot;),&#xA;$GetCurrentOfferPrices/unknownResultset/row[1]/column[1]/value&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[2]/value&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[3]/value&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[4]/value&#xA;)"/>
+                    <xsl:value-of select="concat(&#xA;&quot;insert into precord(offer_id ,precord_time ,precord_t ,precord_c ,precord_n ,precord_m) values(&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id,&#xA;substring-before(current-dateTime(), &quot;+&quot;),&#xA;&quot;'&quot;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[1]/value,&quot;','&quot;&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[2]/value,&quot;','&quot;&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[3]/value,&quot;','&quot;&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[4]/value,&#xA;&quot;')&quot;&#xA;)"/>
                 </sql>
             </root>
         </pd:inputBindings>
@@ -260,7 +260,7 @@ $Start/pfx:AllJSONRequests/pfx:EditArray,
         <pd:x>80</pd:x>
         <pd:y>330</pd:y>
         <config>
-            <processName>/FrontJSONUI/Level3/SearchSql.process</processName>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
         </config>
         <pd:inputBindings>
             <root>
