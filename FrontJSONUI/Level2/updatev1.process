@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType">
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>FrontJSONUI/Level2/updatev1.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:AllJSONRequests"/>
+    <pd:startX>80</pd:startX>
+    <pd:startY>187</pd:startY>
+    <pd:returnBindings>
+        <pfx:SubEnd>
+            <pfx:JSONResponse>
+                <xsl:value-of select="$Render-JSON/ns:ActivityOutputClass/jsonString"/>
+            </pfx:JSONResponse>
+        </pfx:SubEnd>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:SubEnd"/>
+    <pd:endX>616</pd:endX>
+    <pd:endY>55</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1477401151551</pd:targetNamespace>
+    <pd:activity name="Call Process">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description>concat(
+"update ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+" set ",
+tib:concat-sequence-format(
+for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return(
+name($var),
+"='",
+$var,
+"'"
+),","
+),
+" where ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"_id=",
+$Start/pfx:AllJSONRequests/pfx:id
+)
+
+
+
+concat("insert into ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"(",
+name($Start/pfx:AllJSONRequests/pfx:EditArray/*),
+") values(",
+$Start/pfx:AllJSONRequests/pfx:EditArray,
+") ON DUPLICATE KEY UPDATE camp_clickcounter=111")</pd:description>
+        <pd:x>272</pd:x>
+        <pd:y>192</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&#xA;&quot;update &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot; set &quot;,&#xA;tib:concat-sequence-format(&#xA;for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return(&#xA;concat(local-name($var),&#xA;&quot;='&quot;,&#xA;$var,&#xA;&quot;'&quot;)&#xA;),&quot;,&quot;),&#xA;&quot; where &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>463</pd:x>
+        <pd:y>51</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="responsestatus" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="redirecturl" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <root>
+                    <responsestatus>
+                        <xsl:value-of select="&quot;success&quot;"/>
+                    </responsestatus>
+                    <redirecturl>
+                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;-detail.html?id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                    </redirecturl>
+                </root>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ChangeCampaignToPause">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description>concat(
+"update ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+" set ",
+tib:concat-sequence-format(
+for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return(
+name($var),
+"='",
+$var,
+"'"
+),","
+),
+" where ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"_id=",
+$Start/pfx:AllJSONRequests/pfx:id
+)
+
+
+
+concat("insert into ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"(",
+name($Start/pfx:AllJSONRequests/pfx:EditArray/*),
+") values(",
+$Start/pfx:AllJSONRequests/pfx:EditArray,
+") ON DUPLICATE KEY UPDATE camp_clickcounter=111")</pd:description>
+        <pd:x>464</pd:x>
+        <pd:y>197</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&#xA;&quot;update &quot;,&#xA;&quot;campaign&quot;,&#xA;&quot; set  &quot;,&#xA;&quot;campaign_status&quot;,&#xA;&quot;=&quot;,&#xA;&quot;'&quot;,&#xA;&quot;pause&quot;,&#xA;&quot;'&quot;,&#xA;&quot; where &quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ChangeCampaignFatherToActive">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description>concat(
+"update ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+" set ",
+tib:concat-sequence-format(
+for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return(
+name($var),
+"='",
+$var,
+"'"
+),","
+),
+" where ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"_id=",
+$Start/pfx:AllJSONRequests/pfx:id
+)
+
+
+
+concat("insert into ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"(",
+name($Start/pfx:AllJSONRequests/pfx:EditArray/*),
+") values(",
+$Start/pfx:AllJSONRequests/pfx:EditArray,
+") ON DUPLICATE KEY UPDATE camp_clickcounter=111")</pd:description>
+        <pd:x>269</pd:x>
+        <pd:y>52</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_CampaignFather_CheckAndChange.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <originalstatus>
+                    <offer>
+                        <xsl:value-of select="concat(&#xA;&quot;select offer_status,offer_id from offer where offer_id=&quot;,&#xA;$GetCurrentCampaignStatus/unknownResultset[1]/row[1]/column[2]/value&#xA;)"/>
+                    </offer>
+                    <n>
+                        <xsl:value-of select="concat(&#xA;&quot;select n_status from n where n_id=&quot;,&#xA;$GetCurrentCampaignStatus/unknownResultset[1]/row[1]/column[3]/value&#xA;)"/>
+                    </n>
+                </originalstatus>
+                <currentstatus>
+                    <offer>
+                        <xsl:value-of select="concat(&#xA;&quot;update offer set offer_status='private' where offer_id=&quot;,&#xA;$GetCurrentCampaignStatus/unknownResultset/row[1]/column[2]/value&#xA;)"/>
+                    </offer>
+                    <n>
+                        <xsl:value-of select="concat(&#xA;&quot;update n set n_status='active' where n_id=&quot;,&#xA;$GetCurrentCampaignStatus/unknownResultset/row[1]/column[3]/value&#xA;)"/>
+                    </n>
+                </currentstatus>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetCurrentCampaignStatus">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description>concat(
+"update ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+" set ",
+tib:concat-sequence-format(
+for $var in $Start/pfx:AllJSONRequests/pfx:EditArray/* return(
+name($var),
+"='",
+$var,
+"'"
+),","
+),
+" where ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"_id=",
+$Start/pfx:AllJSONRequests/pfx:id
+)
+
+
+
+concat("insert into ",
+$Start/pfx:AllJSONRequests/pfx:tablename,
+"(",
+name($Start/pfx:AllJSONRequests/pfx:EditArray/*),
+") values(",
+$Start/pfx:AllJSONRequests/pfx:EditArray,
+") ON DUPLICATE KEY UPDATE camp_clickcounter=111")</pd:description>
+        <pd:x>84</pd:x>
+        <pd:y>48</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&#xA;&quot;select campaign_status,offer_id,n_id from campaign &quot;,&#xA;&quot; where &quot;,&#xA;&quot;campaign_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="UpdateToPrecord">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description/>
+        <pd:x>275</pd:x>
+        <pd:y>335</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&#xA;&quot;insert into precord(offer_id ,precord_time ,precord_t ,precord_c ,precord_n ,precord_m) values(&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id,&quot;,'&quot;,&#xA;substring-before(current-dateTime(), &quot;+&quot;),&quot;','&quot;,&#xA;$GetCurrentOfferPrices/unknownResultset/row[1]/column[1]/value,&quot;','&quot;&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[2]/value,&quot;','&quot;&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[3]/value,&quot;','&quot;&#xA;,$GetCurrentOfferPrices/unknownResultset/row[1]/column[4]/value,&#xA;&quot;')&quot;&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetCurrentOfferPrices">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>80</pd:x>
+        <pd:y>330</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&#xA;&quot;select offer_earning_t,offer_earning_c,offer_earning_n,offer_cap,offer_id from offer &quot;,&#xA;&quot; where &quot;,&#xA;&quot;offer_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>604</pd:x>
+        <pd:y>184</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Rethrow">
+        <pd:type>com.tibco.pe.core.RethrowActivity</pd:type>
+        <pd:resourceType>ae.activities.rethrow</pd:resourceType>
+        <pd:x>722</pd:x>
+        <pd:y>183</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Call Process</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Call Process</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Call Process</pd:from>
+        <pd:to>ChangeCampaignToPause</pd:to>
+        <pd:xpathDescription>if offer or n status changed to pause</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_status="pause"
+or $Start/pfx:AllJSONRequests/pfx:EditArray/pfx:n_status="pause"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ChangeCampaignToPause</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ChangeCampaignFatherToActive</pd:from>
+        <pd:to>Call Process</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:description>consider if all campaign under an offer changed to pause, change offer to pause</pd:description>
+        <pd:from>Start</pd:from>
+        <pd:to>GetCurrentCampaignStatus</pd:to>
+        <pd:xpathDescription>campaign and status not pause</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>exists($Start/pfx:AllJSONRequests/pfx:EditArray/pfx:campaign_status) and $Start/pfx:AllJSONRequests/pfx:EditArray/pfx:campaign_status!="pause"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetCurrentCampaignStatus</pd:from>
+        <pd:to>ChangeCampaignFatherToActive</pd:to>
+        <pd:xpathDescription>if original campaign status is pause</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$GetCurrentCampaignStatus/unknownResultset/row[1]/column[1]/value="pause"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetCurrentCampaignStatus</pd:from>
+        <pd:to>Call Process</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetCurrentOfferPrices</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/pfx:AllJSONRequests/pfx:tablename="offer"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>UpdateToPrecord</pd:from>
+        <pd:to>Call Process</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:description>$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_earning_t!=$GetCurrentOfferPrices/unknownResultset/row[1]/column[1]/value
+or $Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_earning_c!=$GetCurrentOfferPrices/unknownResultset/row[1]/column[2]/value
+or $Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_earning_n!=$GetCurrentOfferPrices/unknownResultset/row[1]/column[3]/value
+or $Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_cap!=$GetCurrentOfferPrices/unknownResultset/row[1]/column[4]/value</pd:description>
+        <pd:from>GetCurrentOfferPrices</pd:from>
+        <pd:to>UpdateToPrecord</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_earning_t!=$GetCurrentOfferPrices/unknownResultset/row[1]/column[1]/value
+or $Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_earning_c!=$GetCurrentOfferPrices/unknownResultset/row[1]/column[2]/value
+or $Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_earning_n!=$GetCurrentOfferPrices/unknownResultset/row[1]/column[3]/value
+or $Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offer_cap!=$GetCurrentOfferPrices/unknownResultset/row[1]/column[4]/value</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetCurrentOfferPrices</pd:from>
+        <pd:to>Call Process</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Rethrow</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

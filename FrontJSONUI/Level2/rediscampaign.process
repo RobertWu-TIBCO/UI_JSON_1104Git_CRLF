@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json">
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>FrontJSONUI/Level2/rediscampaign.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:AllJSONRequests"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <pfx:SubEnd>
+            <pfx:JSONResponse>
+                <xsl:value-of select="concat(&#xA;$Render-JSON/ns1:ActivityOutputClass/jsonString,&#xA;$CampBakResponse/ns1:ActivityOutputClass/jsonString&#xA;)"/>
+            </pfx:JSONResponse>
+        </pfx:SubEnd>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:SubEnd"/>
+    <pd:endX>624</pd:endX>
+    <pd:endY>178</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1483496536923</pd:targetNamespace>
+    <pd:activity name="UpdateCampBakupDetails">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>310</pd:x>
+        <pd:y>176</pd:y>
+        <config>
+            <processName>/FrontJSONUI/RedisCommon/SetContentPlus.process</processName>
+            <processNameXPath/>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:if test="$Start/pfx:AllJSONRequests/pfx:id">
+                    <campaign_id>
+                        <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:id"/>
+                    </campaign_id>
+                </xsl:if>
+                <xsl:if test="$GetOfferNId/unknownResultset/row[1]/column[2]/value">
+                    <offer_id>
+                        <xsl:value-of select="$GetOfferNId/unknownResultset/row[1]/column[2]/value"/>
+                    </offer_id>
+                </xsl:if>
+                <xsl:if test="$GetOfferNId/unknownResultset/row[1]/column[3]/value">
+                    <n_id>
+                        <xsl:value-of select="$GetOfferNId/unknownResultset/row[1]/column[3]/value"/>
+                    </n_id>
+                </xsl:if>
+                <campaignswitch>
+                    <campaignrate>
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:campaignrate1">
+                            <campaignrate1>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:campaignrate1"/>
+                            </campaignrate1>
+                        </xsl:if>
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:campaignrate2">
+                            <campaignrate2>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:campaignrate2"/>
+                            </campaignrate2>
+                        </xsl:if>
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:campaignrate3">
+                            <campaignrate3>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:campaignrate3"/>
+                            </campaignrate3>
+                        </xsl:if>
+                    </campaignrate>
+                    <campaigndetail>
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offeridnid1">
+                            <offerid-nid1>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offeridnid1"/>
+                            </offerid-nid1>
+                        </xsl:if>
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offeridnid2">
+                            <offerid-nid2>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offeridnid2"/>
+                            </offerid-nid2>
+                        </xsl:if>
+                        <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offeridnid3">
+                            <offerid-nid3>
+                                <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:offeridnid3"/>
+                            </offerid-nid3>
+                        </xsl:if>
+                    </campaigndetail>
+                </campaignswitch>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>460</pd:x>
+        <pd:y>181</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="responsestatus" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="redirecturl" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns1:ActivityInputClass>
+                <root>
+                    <responsestatus>
+                        <xsl:value-of select="&quot;success&quot;"/>
+                    </responsestatus>
+                    <redirecturl>
+                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:tablename,&#xA;&quot;-detail.html?id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:id&#xA;)"/>
+                    </redirecturl>
+                </root>
+            </ns1:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetOfferNId">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>155</pd:x>
+        <pd:y>178</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&quot;select * from view_report_campaign_offer_n_id where campaign_id=&quot;,$Start/pfx:AllJSONRequests/pfx:id)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetCampBakupDetails">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>304</pd:x>
+        <pd:y>60</pd:y>
+        <config>
+            <processName>/FrontJSONUI/RedisCommon/GetContentPlus.process</processName>
+            <processNameXPath/>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <allids>
+                    <xsl:value-of select="concat(&#xA;$GetOfferNId/unknownResultset/row[1]/column[2]/value,&#xA;&quot;-&quot;,&#xA;$GetOfferNId/unknownResultset/row[1]/column[3]/value&#xA;)"/>
+                </allids>
+                <xsl:if test="$Start/pfx:AllJSONRequests/pfx:id">
+                    <campaign_id>
+                        <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:id"/>
+                    </campaign_id>
+                </xsl:if>
+                <xsl:if test="$GetOfferNId/unknownResultset/row[1]/column[2]/value">
+                    <offer_id>
+                        <xsl:value-of select="$GetOfferNId/unknownResultset/row[1]/column[2]/value"/>
+                    </offer_id>
+                </xsl:if>
+                <xsl:if test="$GetOfferNId/unknownResultset/row[1]/column[3]/value">
+                    <n_id>
+                        <xsl:value-of select="$GetOfferNId/unknownResultset/row[1]/column[3]/value"/>
+                    </n_id>
+                </xsl:if>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CampBakResponse">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>443</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="campaign_id" type="xsd:int" minOccurs="0"/>
+                            <xsd:element name="offer_id" type="xsd:int" minOccurs="0"/>
+                            <xsd:element name="n_id" type="xsd:int" minOccurs="0"/>
+                            <xsd:element name="notinsert" type="xsd:boolean" minOccurs="0"/>
+                            <xsd:element name="appid" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="seat" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="creative_id" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="picpath" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="campaignrate1" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="campaignrate2" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="campaignrate3" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="offeridnid1" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="offeridnid2" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="offeridnid3" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns1:ActivityInputClass>
+                <xsl:copy-of select="$GetCampBakupDetails/root"/>
+            </ns1:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>284</pd:x>
+        <pd:y>270</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Rethrow">
+        <pd:type>com.tibco.pe.core.RethrowActivity</pd:type>
+        <pd:resourceType>ae.activities.rethrow</pd:resourceType>
+        <pd:x>458</pd:x>
+        <pd:y>272</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetOfferNId</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>UpdateCampBakupDetails</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetOfferNId</pd:from>
+        <pd:to>UpdateCampBakupDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>contains($Start/pfx:AllJSONRequests/pfx:operation,"_up")</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetOfferNId</pd:from>
+        <pd:to>GetCampBakupDetails</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>contains($Start/pfx:AllJSONRequests/pfx:operation, "_ch")</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetCampBakupDetails</pd:from>
+        <pd:to>CampBakResponse</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CampBakResponse</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Rethrow</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

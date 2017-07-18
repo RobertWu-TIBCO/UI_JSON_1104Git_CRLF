@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/ns/no_namespace_schema_location/ParseRS.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType">
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/ParseRS.xsd" schemaLocation="/ParseRS.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>FrontJSONUI/Level2/search.process</pd:name>
+    <pd:description>Ready For Playing as a general API to Search Any Table</pd:description>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx2:AllJSONRequests"/>
+    <pd:startX>67</pd:startX>
+    <pd:startY>60</pd:startY>
+    <pd:returnBindings>
+        <pfx2:SubEnd>
+            <pfx2:JSONResponse>
+                <xsl:value-of select="concat($Render-JSON-WithLink/ns:ActivityOutputClass/jsonString,&#xA;$AllTableSearchJSONResponse/ns:ActivityOutputClass/jsonString&#xA;)"/>
+            </pfx2:JSONResponse>
+        </pfx2:SubEnd>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx2:SubEnd"/>
+    <pd:endX>665</pd:endX>
+    <pd:endY>54</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1477401151551</pd:targetNamespace>
+    <pd:activity name="SearchSingleTable">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>214</pd:x>
+        <pd:y>54</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&quot;select * from view_label_&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot; where &quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;_name like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%' or &quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;_id like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%'&quot;,&#xA;&quot; order by &quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;_id desc&quot;&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="CheckTableName">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:description>would not search campaign table</pd:description>
+        <pd:x>67</pd:x>
+        <pd:y>215</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="alltables" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <alltables>
+                    <xsl:value-of select="&quot;advertiser&quot;"/>
+                </alltables>
+                <alltables>
+                    <xsl:value-of select="&quot;product&quot;"/>
+                </alltables>
+                <alltables>
+                    <xsl:value-of select="&quot;offer&quot;"/>
+                </alltables>
+                <alltables>
+                    <xsl:value-of select="&quot;n&quot;"/>
+                </alltables>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render-JSON-WithLink">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>442</pd:x>
+        <pd:y>54</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="responsestatus" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="searchresults" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="label" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="link" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <root>
+                    <responsestatus>
+                        <xsl:value-of select="&quot;success&quot;"/>
+                    </responsestatus>
+                    <xsl:for-each select="$SearchSingleTable/unknownResultset/row">
+                        <searchresults>
+                            <label>
+                                <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
+                            </label>
+                            <link>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:tablename,&#xA;&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                            </link>
+                        </searchresults>
+                    </xsl:for-each>
+                </root>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>234</pd:x>
+        <pd:y>114</pd:y>
+        <pd:width>312</pd:width>
+        <pd:height>168</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$CheckTableName/root/alltables</pd:over>
+            <pd:iterationElementSlot>element</pd:iterationElementSlot>
+            <pd:indexSlot>index</pd:indexSlot>
+            <pd:outSlot>AllTableSearchResults</pd:outSlot>
+            <pd:activityOutputName>SearchAllTables</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>SearchAllTables</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SearchAllTables</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:activity name="SearchAllTables">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>399</pd:x>
+            <pd:y>208</pd:y>
+            <config>
+                <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+                <spawn>false</spawn>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <sql>
+                        <xsl:value-of select="concat(&quot;select * from view_label_&quot;,&#xA;$element/alltables,&#xA;&quot; where &quot;,&#xA;$element/alltables,&#xA;&quot;_name like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%' or &quot;,&#xA;$element/alltables,&#xA;&quot;_id like '%&quot;,&#xA;$Start/pfx2:AllJSONRequests/pfx2:searchvalue,&#xA;&quot;%'&quot;,&#xA;&quot; order by &quot;,&#xA;$element/alltables,&#xA;&quot;_id desc&quot;&#xA;)"/>
+                    </sql>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:activity name="AllTableSearchJSONResponse">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>672</pd:x>
+        <pd:y>208</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="responsestatus" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="advertiserresults" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="label" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="link" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="productresults" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="label" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="link" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="offerresults" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="label" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="link" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="nresults" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="label" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="link" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInputClass>
+                <root>
+                    <responsestatus>
+                        <xsl:value-of select="&quot;success&quot;"/>
+                    </responsestatus>
+                    <xsl:for-each select="$AllTableSearchResults/AccumulatedOutput/unknownResultset[1]/row">
+                        <advertiserresults>
+                            <label>
+                                <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
+                            </label>
+                            <link>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&quot;advertiser&quot;,&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                            </link>
+                        </advertiserresults>
+                    </xsl:for-each>
+                    <xsl:for-each select="$AllTableSearchResults/AccumulatedOutput/unknownResultset[2]/row">
+                        <productresults>
+                            <label>
+                                <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
+                            </label>
+                            <link>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&quot;product&quot;,&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                            </link>
+                        </productresults>
+                    </xsl:for-each>
+                    <xsl:for-each select="$AllTableSearchResults/AccumulatedOutput/unknownResultset[3]/row">
+                        <offerresults>
+                            <label>
+                                <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
+                            </label>
+                            <link>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&quot;offer&quot;,&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                            </link>
+                        </offerresults>
+                    </xsl:for-each>
+                    <xsl:for-each select="$AllTableSearchResults/AccumulatedOutput/unknownResultset[4]/row">
+                        <nresults>
+                            <label>
+                                <xsl:value-of select="tib:concat-sequence-format(current()/column/value,&quot;-&quot;)"/>
+                            </label>
+                            <link>
+                                <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns1:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns1:GlobalVariables/JSONUI/DomainName else &quot;http://91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&quot;n&quot;,&quot;-detail.html?id=&quot;,&#xA;current()/column[1]/value&#xA;)"/>
+                            </link>
+                        </nresults>
+                    </xsl:for-each>
+                </root>
+            </ns:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>141</pd:x>
+        <pd:y>312</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Rethrow">
+        <pd:type>com.tibco.pe.core.RethrowActivity</pd:type>
+        <pd:resourceType>ae.activities.rethrow</pd:resourceType>
+        <pd:x>282</pd:x>
+        <pd:y>312</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>CheckTableName</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CheckTableName</pd:from>
+        <pd:to>SearchSingleTable</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SearchSingleTable</pd:from>
+        <pd:to>Render-JSON-WithLink</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render-JSON-WithLink</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CheckTableName</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>$Start/pfx2:AllJSONRequests/pfx2:tablename="all"</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>AllTableSearchJSONResponse</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AllTableSearchJSONResponse</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Rethrow</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

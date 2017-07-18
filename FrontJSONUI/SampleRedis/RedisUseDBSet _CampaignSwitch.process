@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>FrontJSONUI/SampleRedis/RedisUseDBSet _CampaignSwitch.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="campaign_id" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="appid" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="creative_id" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="picpath" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="notinsert" type="xsd:int" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$SetRedis/root"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="campaign_id" type="xsd:int" minOccurs="0"/>
+                    <xsd:element name="offer_id" type="xsd:int" minOccurs="0"/>
+                    <xsd:element name="n_id" type="xsd:int" minOccurs="0"/>
+                    <xsd:element name="campaign_status" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="campaign_rm" type="xsd:double" minOccurs="0"/>
+                    <xsd:element name="campaign_expend_t" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="campaign_expend_c" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="campaign_expend_n" type="xsd:double" minOccurs="0"/>
+                    <xsd:element name="campaign_tl" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="campaign_pl" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="offer_click_tl" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="notinsert" type="xsd:boolean" minOccurs="0"/>
+                    <xsd:element name="appid" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="seat" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="creative_id" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="picpath" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="campaignswitch" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="campaignrate" minOccurs="0">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="campaignrate1" type="xsd:int" minOccurs="0"/>
+                                            <xsd:element name="campaignrate2" type="xsd:int" minOccurs="0"/>
+                                            <xsd:element name="campaignrate3" type="xsd:int" minOccurs="0"/>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element name="campaigndetail" minOccurs="0">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="offerid-nid1" type="xsd:string" minOccurs="0"/>
+                                            <xsd:element name="offerid-nid2" type="xsd:string" minOccurs="0"/>
+                                            <xsd:element name="offerid-nid3" type="xsd:string" minOccurs="0"/>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="n_pl" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="product_lp" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>500</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1481530637223</pd:targetNamespace>
+    <pd:activity name="SetRedis">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:description>campaign_pl  needs to replace with impid but is complex :
+
+if(contains($GetFromDB/unknownResultset/row[1]/column[6]/value,"${impid}"))
+then
+$GetFromDB/unknownResultset/row[1]/column[6]/value
+else 
+concat(
+$GetFromDB/unknownResultset/row[1]/column[6]/value,
+"${impid}"
+)</pd:description>
+        <pd:x>365</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <processName>/FrontJSONUI/RedisCommon/SetContent.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <campaign_id>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[2]/value"/>
+                </campaign_id>
+                <offer_id>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[3]/value"/>
+                </offer_id>
+                <n_id>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[4]/value"/>
+                </n_id>
+                <campaign_status>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[12]/value"/>
+                </campaign_status>
+                <campaign_rm>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[10]/value"/>
+                </campaign_rm>
+                <campaign_expend_t>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[7]/value"/>
+                </campaign_expend_t>
+                <campaign_expend_c>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[8]/value"/>
+                </campaign_expend_c>
+                <campaign_expend_n>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[9]/value"/>
+                </campaign_expend_n>
+                <campaign_tl>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[6]/value"/>
+                </campaign_tl>
+                <xsl:if test="$GetFromDB/unknownResultset/row[1]/column[5]/value">
+                    <campaign_pl>
+                        <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[5]/value"/>
+                    </campaign_pl>
+                </xsl:if>
+                <offer_click_tl>
+                    <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[1]/value"/>
+                </offer_click_tl>
+                <xsl:if test="$Start/root/notinsert">
+                    <notinsert>
+                        <xsl:value-of select="$Start/root/notinsert"/>
+                    </notinsert>
+                </xsl:if>
+                <appid>
+                    <xsl:value-of select="$Start/root/appid"/>
+                </appid>
+                <seat>
+                    <xsl:value-of select="&quot;57&quot;"/>
+                </seat>
+                <creative_id>
+                    <xsl:value-of select="$Start/root/creative_id"/>
+                </creative_id>
+                <picpath>
+                    <xsl:value-of select="&quot;http://101.200.56.102:8088/&quot;"/>
+                </picpath>
+                <campaignswitch>
+                    <campaignrate>
+                        <campaignrate1>
+                            <xsl:value-of select="0"/>
+                        </campaignrate1>
+                        <campaignrate2>
+                            <xsl:value-of select="0"/>
+                        </campaignrate2>
+                        <campaignrate3>
+                            <xsl:value-of select="0"/>
+                        </campaignrate3>
+                    </campaignrate>
+                </campaignswitch>
+                <xsl:if test="$GetFromDB/unknownResultset/row[1]/column[13]/value">
+                    <n_pl>
+                        <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[13]/value"/>
+                    </n_pl>
+                </xsl:if>
+                <xsl:if test="$GetFromDB/unknownResultset/row[1]/column[14]/value">
+                    <product_lp>
+                        <xsl:value-of select="$GetFromDB/unknownResultset/row[1]/column[14]/value"/>
+                    </product_lp>
+                </xsl:if>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetFromDB">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>249</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_Sql.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <sql>
+                    <xsl:value-of select="concat(&quot;select * from view_api_ssp_campaign_offer_click_tl where campaign_id=&quot;,&#xA;$Start/root/campaign_id&#xA;)"/>
+                </sql>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>141</pd:x>
+        <pd:y>159</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Rethrow">
+        <pd:type>com.tibco.pe.core.RethrowActivity</pd:type>
+        <pd:resourceType>ae.activities.rethrow</pd:resourceType>
+        <pd:x>331</pd:x>
+        <pd:y>158</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetFromDB</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetRedis</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetFromDB</pd:from>
+        <pd:to>SetRedis</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Rethrow</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

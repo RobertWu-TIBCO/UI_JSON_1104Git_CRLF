@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json">
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>ReportFile/StringToMap.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="day" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="hour" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="concolumn" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="groupby" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="keys" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element name="startdate" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="enddate" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="accuracy" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="mergefile" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="jsontime" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>57</pd:startX>
+    <pd:startY>48</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <xsl:for-each select="$AllKeyAllMap/AccumulatedOutput/root">
+                <pfx:reportline>
+                    <xsl:if test="time">
+                        <pfx:time>
+                            <xsl:value-of select="time"/>
+                        </pfx:time>
+                    </xsl:if>
+                    <xsl:if test="offer">
+                        <pfx:offer_query>
+                            <xsl:value-of select="offer"/>
+                        </pfx:offer_query>
+                    </xsl:if>
+                    <pfx:offer_link>
+                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns:GlobalVariables/JSONUI/DomainName else &quot;http://www.91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;&quot;offer&quot;,&#xA;&quot;-detail.html?id=&quot;,&#xA;current()/offerid&#xA;)"/>
+                    </pfx:offer_link>
+                    <xsl:if test="n">
+                        <pfx:n_query>
+                            <xsl:value-of select="n"/>
+                        </pfx:n_query>
+                    </xsl:if>
+                    <pfx:n_link>
+                        <xsl:value-of select="concat(&#xA;if ($_globalVariables/ns:GlobalVariables/JSONUI/DomainName!=&quot;&quot;) then $_globalVariables/ns:GlobalVariables/JSONUI/DomainName else &quot;http://www.91mobcastle.com&quot;,&#xA;&quot;/detail/&quot;,&#xA;&quot;n&quot;,&#xA;&quot;-detail.html?id=&quot;,&#xA;current()/nid&#xA;)"/>
+                    </pfx:n_link>
+                    <xsl:if test="click">
+                        <pfx:click>
+                            <xsl:value-of select="click"/>
+                        </pfx:click>
+                    </xsl:if>
+                    <xsl:if test="normal">
+                        <pfx:normal>
+                            <xsl:value-of select="normal"/>
+                        </pfx:normal>
+                    </xsl:if>
+                    <xsl:if test="conver">
+                        <pfx:conversionrate>
+                            <xsl:value-of select="conver"/>
+                        </pfx:conversionrate>
+                    </xsl:if>
+                    <xsl:if test="campaign_extendtype">
+                        <pfx:campaign_expendtype>
+                            <xsl:value-of select="campaign_extendtype"/>
+                        </pfx:campaign_expendtype>
+                    </xsl:if>
+                    <xsl:if test="out_price">
+                        <pfx:out_price>
+                            <xsl:value-of select="out_price"/>
+                        </pfx:out_price>
+                    </xsl:if>
+                    <xsl:if test="offer_earningtype">
+                        <pfx:offer_earningtype>
+                            <xsl:value-of select="offer_earningtype"/>
+                        </pfx:offer_earningtype>
+                    </xsl:if>
+                    <xsl:if test="in_price">
+                        <pfx:in_price>
+                            <xsl:value-of select="in_price"/>
+                        </pfx:in_price>
+                    </xsl:if>
+                    <xsl:if test="rm">
+                        <pfx:rm>
+                            <xsl:value-of select="rm"/>
+                        </pfx:rm>
+                    </xsl:if>
+                    <xsl:if test="dup">
+                        <pfx:duplicated>
+                            <xsl:value-of select="dup"/>
+                        </pfx:duplicated>
+                    </xsl:if>
+                    <xsl:if test="allcon">
+                        <pfx:allcon>
+                            <xsl:value-of select="allcon"/>
+                        </pfx:allcon>
+                    </xsl:if>
+                    <xsl:if test="allcon_converrate">
+                        <pfx:allcon_conversionrate>
+                            <xsl:value-of select="allcon_converrate"/>
+                        </pfx:allcon_conversionrate>
+                    </xsl:if>
+                </pfx:reportline>
+            </xsl:for-each>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element ref="pfx:reportline" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>954</pd:endX>
+    <pd:endY>173</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1483599437572</pd:targetNamespace>
+    <pd:activity name="ParseClickReport">
+        <pd:type>com.tibco.plugin.parse.ParseActivity</pd:type>
+        <pd:resourceType>ae.activities.ParseActivity</pd:resourceType>
+        <pd:x>56</pd:x>
+        <pd:y>198</pd:y>
+        <config>
+            <InputType>File</InputType>
+            <Encoding>UTF8</Encoding>
+            <SpecifyStartRecord>false</SpecifyStartRecord>
+            <SkipBlankLines>false</SkipBlankLines>
+            <ParseSharedConfig>/ReportFile/HourReport.sharedparse</ParseSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <Input>
+                <fileName>
+                    <xsl:value-of select="$Start/root/mergefile"/>
+                </fileName>
+                <noOfRecords>
+                    <xsl:value-of select="1000"/>
+                </noOfRecords>
+            </Input>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:group name="Group">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>141</pd:x>
+        <pd:y>11</pd:y>
+        <pd:width>680</pd:width>
+        <pd:height>412</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>inputLoop</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:over>$Start/root/keys</pd:over>
+            <pd:iterationElementSlot>keysele</pd:iterationElementSlot>
+            <pd:indexSlot>keys</pd:indexSlot>
+            <pd:outSlot>AllKeyAllMap</pd:outSlot>
+            <pd:activityOutputName>SingleLine</pd:activityOutputName>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>Maps</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>SingleLine</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Maps</pd:from>
+            <pd:to>ParsePriceReport</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>otherwise</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ParsePriceReport</pd:from>
+            <pd:to>PriceMap</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>PriceMap</pd:from>
+            <pd:to>ConversionRate</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Maps</pd:from>
+            <pd:to>ConversionRate</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>$Start/root/groupby="n"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>ConversionRate</pd:from>
+            <pd:to>OfferNLable</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>OfferNLable</pd:from>
+            <pd:to>SingleLine</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:group name="Maps">
+            <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+            <pd:resourceType>ae.process.group</pd:resourceType>
+            <pd:x>194</pd:x>
+            <pd:y>42</pd:y>
+            <pd:width>253</pd:width>
+            <pd:height>258</pd:height>
+            <pd:collapsedWidth>57</pd:collapsedWidth>
+            <pd:collapsedHeight>70</pd:collapsedHeight>
+            <pd:groupVariables/>
+            <pd:joinToggle>inherit</pd:joinToggle>
+            <config>
+                <pd:groupType>inputLoop</pd:groupType>
+                <pd:serializable>false</pd:serializable>
+                <pd:over>$ParseClickReport/Output/Rows/root</pd:over>
+                <pd:iterationElementSlot>mapele</pd:iterationElementSlot>
+                <pd:indexSlot>map</pd:indexSlot>
+                <pd:outSlot>alllmapperkey</pd:outSlot>
+                <pd:activityOutputName>StringToMap</pd:activityOutputName>
+                <pd:accumulateOutput>true</pd:accumulateOutput>
+            </config>
+            <pd:inputBindings/>
+            <pd:expanded>true</pd:expanded>
+            <pd:transition>
+                <pd:from>start</pd:from>
+                <pd:to>StringToMap</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>xpath</pd:conditionType>
+                <pd:xpath>contains( $mapele/root/mapname,
+concat(
+"m",$Start/root/groupby,"_")
+)</pd:xpath>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>start</pd:from>
+                <pd:to>Log</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>otherwise</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>StringToMap</pd:from>
+                <pd:to>end</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>Log</pd:from>
+                <pd:to>end</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:activity name="StringToMap">
+                <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+                <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+                <pd:description>if($Start/root/groupby="offer") then
+$keysele/keys
+else
+substring-before($keysele/keys, "-")
+
+
+if($Start/root/groupby="n") then
+$keysele/keys
+else
+substring-after($keysele/keys, "-")</pd:description>
+                <pd:x>309</pd:x>
+                <pd:y>126</pd:y>
+                <config>
+                    <fileName>StringToMapStringToMap</fileName>
+                    <packageName>ReportFile.StringToMap</packageName>
+                    <fullsource>package ReportFile.StringToMap;
+import java.util.*;
+import java.io.*;
+@SuppressWarnings("unchecked")
+public class StringToMapStringToMap{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String mapname = "";
+	protected String mapvalue = "";
+	protected String keys = "";
+	protected String offer = "";
+	protected String n = "";
+	protected String conver = "";
+	protected int vals = 0;
+	public String getmapname() {
+		return mapname;
+	}
+	public void setmapname(String val) {
+		mapname = val;
+	}
+	public String getmapvalue() {
+		return mapvalue;
+	}
+	public void setmapvalue(String val) {
+		mapvalue = val;
+	}
+	public String getkeys() {
+		return keys;
+	}
+	public void setkeys(String val) {
+		keys = val;
+	}
+	public String getoffer() {
+		return offer;
+	}
+	public void setoffer(String val) {
+		offer = val;
+	}
+	public String getn() {
+		return n;
+	}
+	public void setn(String val) {
+		n = val;
+	}
+	public String getconver() {
+		return conver;
+	}
+	public void setconver(String val) {
+		conver = val;
+	}
+	public int getvals() {
+		return vals;
+	}
+	public void setvals(int val) {
+		vals = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public StringToMapStringToMap() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String mapname
+	In  : String mapvalue
+	In  : String keys
+	In  : String offer
+	In  : String n
+	Out : String keys
+	Out : String offer
+	Out : String n
+	Out : String conver
+	Out : int vals
+* Available Variables: DO NOT MODIFY *****/
+
+Map&lt;String, String&gt; StrMap = new HashMap&lt;String, String&gt;();
+StrMap = mapStringToMap(mapvalue);
+	if(StrMap.containsKey(keys)) {
+		vals=Integer.parseInt(StrMap.get(keys));
+System.out.println(" test vals : "+vals + "\n  linefeed : " + System.getProperty("line.separator"));
+	}
+
+}
+
+public static Map&lt;String, String&gt; mapStringToMap(String str) {
+		str = str.substring(1, str.length() - 1);
+		String[] strs = str.split(", ");
+		Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+		for (String string : strs) {
+			String key = string.split("=")[0];
+			
+	        try {
+				String value = string.split("=")[1];
+				map.put(key, value);
+				
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		return map;
+	}
+
+}
+</fullsource>
+                    <inputData>
+                        <row>
+                            <fieldName>mapname</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                        <row>
+                            <fieldName>mapvalue</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                        <row>
+                            <fieldName>keys</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                        <row>
+                            <fieldName>offer</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                        <row>
+                            <fieldName>n</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                    </inputData>
+                    <outputData>
+                        <row>
+                            <fieldName>keys</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                        <row>
+                            <fieldName>offer</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                        <row>
+                            <fieldName>n</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                        <row>
+                            <fieldName>conver</fieldName>
+                            <fieldType>string</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                        <row>
+                            <fieldName>vals</fieldName>
+                            <fieldType>int</fieldType>
+                            <fieldRequired>optional</fieldRequired>
+                        </row>
+                    </outputData>
+                    <byteCode>
+                        <class>
+                            <name>StringToMapStringToMap</name>
+                            <byteCode>yv66vgAAADQAkgkAIwBRCQAjAFIJACMAUwkAIwBUCQAjAFUJACMAVgkAIwBXCgAkAFgIAFkHAFoKAAoAWAoAIwBbCwBcAF0LAFwAXgcAXwoAYABhCQBiAGMHAGQKABIAWAgAZQoAEgBmCgASAGcIAGgIAGkKAGIAagoAEgBrCgBsAG0KAA8AbgoADwBvCABwCgAPAHEIAHILAFwAcwcAdAcAdQcAdgEAB21hcG5hbWUBABJMamF2YS9sYW5nL1N0cmluZzsBAAhtYXB2YWx1ZQEABGtleXMBAAVvZmZlcgEAAW4BAAZjb252ZXIBAAR2YWxzAQABSQEACmdldG1hcG5hbWUBABQoKUxqYXZhL2xhbmcvU3RyaW5nOwEABENvZGUBAA9MaW5lTnVtYmVyVGFibGUBAApzZXRtYXBuYW1lAQAVKExqYXZhL2xhbmcvU3RyaW5nOylWAQALZ2V0bWFwdmFsdWUBAAtzZXRtYXB2YWx1ZQEAB2dldGtleXMBAAdzZXRrZXlzAQAIZ2V0b2ZmZXIBAAhzZXRvZmZlcgEABGdldG4BAARzZXRuAQAJZ2V0Y29udmVyAQAJc2V0Y29udmVyAQAHZ2V0dmFscwEAAygpSQEAB3NldHZhbHMBAAQoSSlWAQAGPGluaXQ+AQADKClWAQAGaW52b2tlAQANU3RhY2tNYXBUYWJsZQcAdwEACkV4Y2VwdGlvbnMBAA5tYXBTdHJpbmdUb01hcAEAIyhMamF2YS9sYW5nL1N0cmluZzspTGphdmEvdXRpbC9NYXA7BwBfBwB4BwB0AQAJU2lnbmF0dXJlAQBJKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS91dGlsL01hcDxMamF2YS9sYW5nL1N0cmluZztMamF2YS9sYW5nL1N0cmluZzs+OwEAClNvdXJjZUZpbGUBABtTdHJpbmdUb01hcFN0cmluZ1RvTWFwLmphdmEMACUAJgwAJwAmDAAoACYMACkAJgwAKgAmDAArACYMACwALQwAQgBDAQAAAQARamF2YS91dGlsL0hhc2hNYXAMAEgASQcAdwwAeQB6DAB7AHwBABBqYXZhL2xhbmcvU3RyaW5nBwB9DAB+AH8HAIAMAIEAggEAF2phdmEvbGFuZy9TdHJpbmdCdWlsZGVyAQANIHRlc3QgdmFscyA6IAwAgwCEDACDAIUBAA4KICBsaW5lZmVlZCA6IAEADmxpbmUuc2VwYXJhdG9yDACGAIcMAIgALwcAiQwAigAzDACLAD8MAIwAjQEAAiwgDACOAI8BAAE9DACQAJEBABNqYXZhL2xhbmcvRXhjZXB0aW9uAQAtUmVwb3J0RmlsZS9TdHJpbmdUb01hcC9TdHJpbmdUb01hcFN0cmluZ1RvTWFwAQAQamF2YS9sYW5nL09iamVjdAEADWphdmEvdXRpbC9NYXABABNbTGphdmEvbGFuZy9TdHJpbmc7AQALY29udGFpbnNLZXkBABUoTGphdmEvbGFuZy9PYmplY3Q7KVoBAANnZXQBACYoTGphdmEvbGFuZy9PYmplY3Q7KUxqYXZhL2xhbmcvT2JqZWN0OwEAEWphdmEvbGFuZy9JbnRlZ2VyAQAIcGFyc2VJbnQBABUoTGphdmEvbGFuZy9TdHJpbmc7KUkBABBqYXZhL2xhbmcvU3lzdGVtAQADb3V0AQAVTGphdmEvaW8vUHJpbnRTdHJlYW07AQAGYXBwZW5kAQAtKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZ0J1aWxkZXI7AQAcKEkpTGphdmEvbGFuZy9TdHJpbmdCdWlsZGVyOwEAC2dldFByb3BlcnR5AQAmKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1N0cmluZzsBAAh0b1N0cmluZwEAE2phdmEvaW8vUHJpbnRTdHJlYW0BAAdwcmludGxuAQAGbGVuZ3RoAQAJc3Vic3RyaW5nAQAWKElJKUxqYXZhL2xhbmcvU3RyaW5nOwEABXNwbGl0AQAnKExqYXZhL2xhbmcvU3RyaW5nOylbTGphdmEvbGFuZy9TdHJpbmc7AQADcHV0AQA4KExqYXZhL2xhbmcvT2JqZWN0O0xqYXZhL2xhbmcvT2JqZWN0OylMamF2YS9sYW5nL09iamVjdDsAIQAjACQAAAAHAAQAJQAmAAAABAAnACYAAAAEACgAJgAAAAQAKQAmAAAABAAqACYAAAAEACsAJgAAAAQALAAtAAAAEQABAC4ALwABADAAAAAdAAEAAQAAAAUqtAABsAAAAAEAMQAAAAYAAQAAAA8AAQAyADMAAQAwAAAAIgACAAIAAAAGKiu1AAGxAAAAAQAxAAAACgACAAAAEgAFABMAAQA0AC8AAQAwAAAAHQABAAEAAAAFKrQAArAAAAABADEAAAAGAAEAAAAVAAEANQAzAAEAMAAAACIAAgACAAAABiortQACsQAAAAEAMQAAAAoAAgAAABgABQAZAAEANgAvAAEAMAAAAB0AAQABAAAABSq0AAOwAAAAAQAxAAAABgABAAAAGwABADcAMwABADAAAAAiAAIAAgAAAAYqK7UAA7EAAAABADEAAAAKAAIAAAAeAAUAHwABADgALwABADAAAAAdAAEAAQAAAAUqtAAEsAAAAAEAMQAAAAYAAQAAACEAAQA5ADMAAQAwAAAAIgACAAIAAAAGKiu1AASxAAAAAQAxAAAACgACAAAAJAAFACUAAQA6AC8AAQAwAAAAHQABAAEAAAAFKrQABbAAAAABADEAAAAGAAEAAAAnAAEAOwAzAAEAMAAAACIAAgACAAAABiortQAFsQAAAAEAMQAAAAoAAgAAACoABQArAAEAPAAvAAEAMAAAAB0AAQABAAAABSq0AAawAAAAAQAxAAAABgABAAAALQABAD0AMwABADAAAAAiAAIAAgAAAAYqK7UABrEAAAABADEAAAAKAAIAAAAwAAUAMQABAD4APwABADAAAAAdAAEAAQAAAAUqtAAHrAAAAAEAMQAAAAYAAQAAADMAAQBAAEEAAQAwAAAAIgACAAIAAAAGKhu1AAexAAAAAQAxAAAACgACAAAANgAFADcAAQBCAEMAAQAwAAAAZgACAAEAAAAuKrcACCoSCbUAASoSCbUAAioSCbUAAyoSCbUABCoSCbUABSoSCbUABioDtQAHsQAAAAEAMQAAACYACQAAADkABAAHAAoACAAQAAkAFgAKABwACwAiAAwAKAANAC0AOgABAEQAQwACADAAAACVAAMAAgAAAFu7AApZtwALTCq0AAK4AAxMKyq0AAO5AA0CAJkAQCorKrQAA7kADgIAwAAPuAAQtQAHsgARuwASWbcAExIUtgAVKrQAB7YAFhIXtgAVEhi4ABm2ABW2ABq2ABuxAAAAAgAxAAAAGgAGAAAASQAIAEoAEABLAB0ATAAxAE0AWgBQAEUAAAAIAAH8AFoHAEYARwAAAAQAAQAiAAkASABJAAIAMAAAAO8ABAAJAAAAYioEKrYAHARktgAdSyoSHrYAH0y7AApZtwALTStOLb42BAM2BRUFFQSiADgtFQUyOgYZBhIgtgAfAzI6BxkGEiC2AB8EMjoILBkHGQi5ACEDAFenAAg6CKcAA4QFAaf/xyywAAEAPABSAFUAIgACADEAAAAyAAwAAABTAAwAVAATAFUAGwBWADEAVwA8AFoARwBbAFIAXwBVAF0AVwBeAFoAVgBgAGEARQAAADsABP8AJAAGBwBKBwBLBwBGBwBLAQEAAP8AMAAIBwBKBwBLBwBGBwBLAQEHAEoHAEoAAQcATPkABPgABQBNAAAAAgBOAAEATwAAAAIAUA==</byteCode>
+                        </class>
+                    </byteCode>
+                </config>
+                <pd:inputBindings>
+                    <javaCodeActivityInput>
+                        <mapname>
+                            <xsl:value-of select="$mapele/root/mapname"/>
+                        </mapname>
+                        <mapvalue>
+                            <xsl:value-of select="$mapele/root/mapvalue"/>
+                        </mapvalue>
+                        <keys>
+                            <xsl:value-of select="$keysele/keys"/>
+                        </keys>
+                    </javaCodeActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="Log">
+                <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
+                <pd:resourceType>ae.activities.log</pd:resourceType>
+                <pd:x>321</pd:x>
+                <pd:y>219</pd:y>
+                <config>
+                    <role>User</role>
+                </config>
+                <pd:inputBindings>
+                    <ns0:ActivityInput>
+                        <message>
+                            <xsl:value-of select="concat($mapele/root/mapname,&quot; is excaped&quot;)"/>
+                        </message>
+                    </ns0:ActivityInput>
+                </pd:inputBindings>
+            </pd:activity>
+        </pd:group>
+        <pd:activity name="SingleLine">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:description>$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[1]/offer</pd:description>
+            <pd:x>704</pd:x>
+            <pd:y>253</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="root">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="time" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="offer" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="n" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="click" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="normal" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="rm" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="dup" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="allcon" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="conver" type="xsd:double" minOccurs="0"/>
+                                <xsd:element name="campaign_extendtype" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="out_price" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="offer_earningtype" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="in_price" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="allcon_converrate" type="xsd:double" minOccurs="0"/>
+                                <xsd:element name="offerid" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="nid" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <xsl:if test="$Start/root/jsontime">
+                        <time>
+                            <xsl:value-of select="$Start/root/jsontime"/>
+                        </time>
+                    </xsl:if>
+                    <offer>
+                        <xsl:value-of select="$OfferNLable/root/offerlabel"/>
+                    </offer>
+                    <n>
+                        <xsl:value-of select="$OfferNLable/root/nlabel"/>
+                    </n>
+                    <xsl:if test="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[1]/vals">
+                        <click>
+                            <xsl:value-of select="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[1]/vals"/>
+                        </click>
+                    </xsl:if>
+                    <xsl:if test="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[2]/vals">
+                        <normal>
+                            <xsl:value-of select="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[2]/vals"/>
+                        </normal>
+                    </xsl:if>
+                    <xsl:if test="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[3]/vals">
+                        <rm>
+                            <xsl:value-of select="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[3]/vals"/>
+                        </rm>
+                    </xsl:if>
+                    <xsl:if test="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[4]/vals">
+                        <dup>
+                            <xsl:value-of select="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[4]/vals"/>
+                        </dup>
+                    </xsl:if>
+                    <xsl:if test="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[5]/vals">
+                        <allcon>
+                            <xsl:value-of select="$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[5]/vals"/>
+                        </allcon>
+                    </xsl:if>
+                    <conver>
+                        <xsl:value-of select="if($alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[1]/vals>0) then&#xA;($ConversionRate/javaCodeActivityOutput/converrate&#xA;div&#xA;$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[1]/vals)&#xA;else&#xA;0"/>
+                    </conver>
+                    <campaign_extendtype>
+                        <xsl:value-of select="tib:substring-before-last($PriceMap/javaCodeActivityOutput/vals[2],&quot;-&quot;)"/>
+                    </campaign_extendtype>
+                    <out_price>
+                        <xsl:value-of select="tib:substring-after-last($PriceMap/javaCodeActivityOutput/vals[2],&quot;-&quot;)"/>
+                    </out_price>
+                    <offer_earningtype>
+                        <xsl:value-of select="tib:substring-before-last($PriceMap/javaCodeActivityOutput/vals[1],&quot;-&quot;)"/>
+                    </offer_earningtype>
+                    <in_price>
+                        <xsl:value-of select="tib:substring-after-last($PriceMap/javaCodeActivityOutput/vals[1],&quot;-&quot;)"/>
+                    </in_price>
+                    <allcon_converrate>
+                        <xsl:value-of select="if($alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[1]/vals>0) then &#xA;$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[5]/vals&#xA;div&#xA;$alllmapperkey/AccumulatedOutput/javaCodeActivityOutput[1]/vals&#xA;else &#xA;0"/>
+                    </allcon_converrate>
+                    <offerid>
+                        <xsl:value-of select="if($Start/root/groupby=&quot;offer&quot;) then&#xA;$keysele/keys&#xA;else&#xA;substring-before($keysele/keys, &quot;-&quot;)"/>
+                    </offerid>
+                    <nid>
+                        <xsl:value-of select="if($Start/root/groupby=&quot;n&quot;) then&#xA;$keysele/keys&#xA;else&#xA;substring-after($keysele/keys, &quot;-&quot;)"/>
+                    </nid>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="ParsePriceReport">
+            <pd:type>com.tibco.plugin.parse.ParseActivity</pd:type>
+            <pd:resourceType>ae.activities.ParseActivity</pd:resourceType>
+            <pd:x>539</pd:x>
+            <pd:y>111</pd:y>
+            <config>
+                <InputType>File</InputType>
+                <Encoding>UTF8</Encoding>
+                <SpecifyStartRecord>false</SpecifyStartRecord>
+                <SkipBlankLines>false</SkipBlankLines>
+                <ParseSharedConfig>/ReportFile/HourReport.sharedparse</ParseSharedConfig>
+            </config>
+            <pd:inputBindings>
+                <Input>
+                    <fileName>
+                        <xsl:value-of select="concat(&#xA;tib:substring-before-last($Start/root/mergefile, &quot;\&quot;),&#xA;&quot;\report.price.log_&quot;,&#xA;$Start/root/day,&#xA;&quot;.csv&quot;&#xA;)"/>
+                    </fileName>
+                    <noOfRecords>
+                        <xsl:value-of select="1000"/>
+                    </noOfRecords>
+                </Input>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="PriceMap">
+            <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+            <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+            <pd:x>672</pd:x>
+            <pd:y>114</pd:y>
+            <config>
+                <fileName>StringToMapPriceMap</fileName>
+                <packageName>ReportFile.StringToMap</packageName>
+                <fullsource>package ReportFile.StringToMap;
+import java.util.*;
+import java.io.*;
+@SuppressWarnings("unchecked")
+public class StringToMapPriceMap{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String[] mapname = null;
+	protected String[] mapvalue = null;
+	protected String keys = "";
+	protected String[] vals = null;
+	public String[] getmapname() {
+		return mapname;
+	}
+	public void setmapname(String[] val) {
+		mapname = val;
+	}
+	public String[] getmapvalue() {
+		return mapvalue;
+	}
+	public void setmapvalue(String[] val) {
+		mapvalue = val;
+	}
+	public String getkeys() {
+		return keys;
+	}
+	public void setkeys(String val) {
+		keys = val;
+	}
+	public String[] getvals() {
+		return vals;
+	}
+	public void setvals(String[] val) {
+		vals = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public StringToMapPriceMap() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String[] mapname
+	In  : String[] mapvalue
+	In  : String keys
+	Out : String[] vals
+* Available Variables: DO NOT MODIFY *****/
+vals=new String[2];
+Map&lt;String, String&gt; StrMap = new HashMap&lt;String, String&gt;();
+		for (int i = 0; i &lt; mapname.length; i++) {
+				 StrMap = mapStringToMap(mapvalue[i]);
+	vals[i]="0";
+	if(StrMap.containsKey(keys)||StrMap.containsKey(keys.split("-")[0])) {
+		vals[i]=StrMap.get(keys);
+	}
+	String keys2=keys.split("-")[0];
+	if(StrMap.containsKey(keys2)) {
+		vals[i]=StrMap.get(keys2);
+	}
+						}
+
+}
+
+public static Map&lt;String, String&gt; mapStringToMap(String str) {
+		str = str.substring(1, str.length() - 1);
+		String[] strs = str.split(", ");
+		Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+		for (String string : strs) {
+			String key = string.split("=")[0];
+			
+	        try {
+				String value = string.split("=")[1];
+				map.put(key, value);
+				
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		return map;
+	}
+
+}
+</fullsource>
+                <inputData>
+                    <row>
+                        <fieldName>mapname</fieldName>
+                        <fieldType>string</fieldType>
+                        <fieldRequired>repeating</fieldRequired>
+                    </row>
+                    <row>
+                        <fieldName>mapvalue</fieldName>
+                        <fieldType>string</fieldType>
+                        <fieldRequired>repeating</fieldRequired>
+                    </row>
+                    <row>
+                        <fieldName>keys</fieldName>
+                        <fieldType>string</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                </inputData>
+                <outputData>
+                    <row>
+                        <fieldName>vals</fieldName>
+                        <fieldType>string</fieldType>
+                        <fieldRequired>repeating</fieldRequired>
+                    </row>
+                </outputData>
+                <byteCode>
+                    <class>
+                        <name>StringToMapPriceMap</name>
+                        <byteCode>yv66vgAAADQAXwkAFgA7CQAWADwJABYAPQkAFgA+CgAXAD8IAEAHAEEHAEIKAAgAPwoAFgBDCABECwBFAEYIAEcKAAcASAsARQBJCgAHAEoKAAcASwgATAgATQsARQBOBwBPBwBQBwBRAQAHbWFwbmFtZQEAE1tMamF2YS9sYW5nL1N0cmluZzsBAAhtYXB2YWx1ZQEABGtleXMBABJMamF2YS9sYW5nL1N0cmluZzsBAAR2YWxzAQAKZ2V0bWFwbmFtZQEAFSgpW0xqYXZhL2xhbmcvU3RyaW5nOwEABENvZGUBAA9MaW5lTnVtYmVyVGFibGUBAApzZXRtYXBuYW1lAQAWKFtMamF2YS9sYW5nL1N0cmluZzspVgEAC2dldG1hcHZhbHVlAQALc2V0bWFwdmFsdWUBAAdnZXRrZXlzAQAUKClMamF2YS9sYW5nL1N0cmluZzsBAAdzZXRrZXlzAQAVKExqYXZhL2xhbmcvU3RyaW5nOylWAQAHZ2V0dmFscwEAB3NldHZhbHMBAAY8aW5pdD4BAAMoKVYBAAZpbnZva2UBAA1TdGFja01hcFRhYmxlBwBSAQAKRXhjZXB0aW9ucwEADm1hcFN0cmluZ1RvTWFwAQAjKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS91dGlsL01hcDsHAEEHABkHAE8BAAlTaWduYXR1cmUBAEkoTGphdmEvbGFuZy9TdHJpbmc7KUxqYXZhL3V0aWwvTWFwPExqYXZhL2xhbmcvU3RyaW5nO0xqYXZhL2xhbmcvU3RyaW5nOz47AQAKU291cmNlRmlsZQEAGFN0cmluZ1RvTWFwUHJpY2VNYXAuamF2YQwAGAAZDAAaABkMABsAHAwAHQAZDAAsAC0BAAABABBqYXZhL2xhbmcvU3RyaW5nAQARamF2YS91dGlsL0hhc2hNYXAMADIAMwEAATAHAFIMAFMAVAEAAS0MAFUAVgwAVwBYDABZAFoMAFsAXAEAAiwgAQABPQwAXQBeAQATamF2YS9sYW5nL0V4Y2VwdGlvbgEAKlJlcG9ydEZpbGUvU3RyaW5nVG9NYXAvU3RyaW5nVG9NYXBQcmljZU1hcAEAEGphdmEvbGFuZy9PYmplY3QBAA1qYXZhL3V0aWwvTWFwAQALY29udGFpbnNLZXkBABUoTGphdmEvbGFuZy9PYmplY3Q7KVoBAAVzcGxpdAEAJyhMamF2YS9sYW5nL1N0cmluZzspW0xqYXZhL2xhbmcvU3RyaW5nOwEAA2dldAEAJihMamF2YS9sYW5nL09iamVjdDspTGphdmEvbGFuZy9PYmplY3Q7AQAGbGVuZ3RoAQADKClJAQAJc3Vic3RyaW5nAQAWKElJKUxqYXZhL2xhbmcvU3RyaW5nOwEAA3B1dAEAOChMamF2YS9sYW5nL09iamVjdDtMamF2YS9sYW5nL09iamVjdDspTGphdmEvbGFuZy9PYmplY3Q7ACEAFgAXAAAABAAEABgAGQAAAAQAGgAZAAAABAAbABwAAAAEAB0AGQAAAAsAAQAeAB8AAQAgAAAAHQABAAEAAAAFKrQAAbAAAAABACEAAAAGAAEAAAAMAAEAIgAjAAEAIAAAACIAAgACAAAABiortQABsQAAAAEAIQAAAAoAAgAAAA8ABQAQAAEAJAAfAAEAIAAAAB0AAQABAAAABSq0AAKwAAAAAQAhAAAABgABAAAAEgABACUAIwABACAAAAAiAAIAAgAAAAYqK7UAArEAAAABACEAAAAKAAIAAAAVAAUAFgABACYAJwABACAAAAAdAAEAAQAAAAUqtAADsAAAAAEAIQAAAAYAAQAAABgAAQAoACkAAQAgAAAAIgACAAIAAAAGKiu1AAOxAAAAAQAhAAAACgACAAAAGwAFABwAAQAqAB8AAQAgAAAAHQABAAEAAAAFKrQABLAAAAABACEAAAAGAAEAAAAeAAEAKwAjAAEAIAAAACIAAgACAAAABiortQAEsQAAAAEAIQAAAAoAAgAAACEABQAiAAEALAAtAAEAIAAAAEYAAgABAAAAGiq3AAUqAbUAASoBtQACKhIGtQADKgG1AASxAAAAAQAhAAAAGgAGAAAAJAAEAAcACQAIAA4ACQAUAAoAGQAlAAEALgAtAAIAIAAAAOcABAAEAAAAjioFvQAHtQAEuwAIWbcACUwDPRwqtAABvqIAdSq0AAIcMrgACkwqtAAEHBILUysqtAADuQAMAgCaABcrKrQAAxINtgAOAzK5AAwCAJkAFiq0AAQcKyq0AAO5AA8CAMAAB1MqtAADEg22AA4DMk4rLbkADAIAmQATKrQABBwrLbkADwIAwAAHU4QCAaf/iLEAAAACACEAAAAyAAwAAAAtAAgALgAQAC8AGwAwACUAMQAtADIATgAzAGEANQBtADYAdwA3AIcALwCNADsALwAAAA8ABf0AEgcAMAE7EiX6AAUAMQAAAAQAAQAVAAkAMgAzAAIAIAAAAO8ABAAJAAAAYioEKrYAEARktgARSyoSErYADky7AAhZtwAJTStOLb42BAM2BRUFFQSiADgtFQUyOgYZBhITtgAOAzI6BxkGEhO2AA4EMjoILBkHGQi5ABQDAFenAAg6CKcAA4QFAaf/xyywAAEAPABSAFUAFQACACEAAAAyAAwAAAA+AAwAPwATAEAAGwBBADEAQgA8AEUARwBGAFIASgBVAEgAVwBJAFoAQQBgAEwALwAAADsABP8AJAAGBwA0BwA1BwAwBwA1AQEAAP8AMAAIBwA0BwA1BwAwBwA1AQEHADQHADQAAQcANvkABPgABQA3AAAAAgA4AAEAOQAAAAIAOg==</byteCode>
+                    </class>
+                </byteCode>
+            </config>
+            <pd:inputBindings>
+                <javaCodeActivityInput>
+                    <xsl:for-each select="$ParsePriceReport/Output/Rows/root">
+                        <mapname>
+                            <xsl:value-of select="current()/mapname"/>
+                        </mapname>
+                    </xsl:for-each>
+                    <xsl:for-each select="$ParsePriceReport/Output/Rows/root">
+                        <mapvalue>
+                            <xsl:value-of select="current()/mapvalue"/>
+                        </mapvalue>
+                    </xsl:for-each>
+                    <keys>
+                        <xsl:value-of select="$keysele/keys"/>
+                    </keys>
+                </javaCodeActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="ConversionRate">
+            <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+            <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+            <pd:x>560</pd:x>
+            <pd:y>252</pd:y>
+            <config>
+                <fileName>StringToMapConversionRate</fileName>
+                <packageName>ReportFile.StringToMap</packageName>
+                <fullsource>package ReportFile.StringToMap;
+import java.util.*;
+import java.io.*;
+public class StringToMapConversionRate{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected int normal = 0;
+	protected int rm = 0;
+	protected int dup = 0;
+	protected int allcon = 0;
+	protected int converrate = 0;
+	public int getnormal() {
+		return normal;
+	}
+	public void setnormal(int val) {
+		normal = val;
+	}
+	public int getrm() {
+		return rm;
+	}
+	public void setrm(int val) {
+		rm = val;
+	}
+	public int getdup() {
+		return dup;
+	}
+	public void setdup(int val) {
+		dup = val;
+	}
+	public int getallcon() {
+		return allcon;
+	}
+	public void setallcon(int val) {
+		allcon = val;
+	}
+	public int getconverrate() {
+		return converrate;
+	}
+	public void setconverrate(int val) {
+		converrate = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public StringToMapConversionRate() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : int normal
+	In  : int rm
+	In  : int dup
+	In  : int allcon
+	Out : int converrate
+* Available Variables: DO NOT MODIFY *****/
+
+converrate=normal+rm+dup+allcon;}
+}
+</fullsource>
+                <outputData>
+                    <row>
+                        <fieldName>converrate</fieldName>
+                        <fieldType>int</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                </outputData>
+                <inputData>
+                    <row>
+                        <fieldName>normal</fieldName>
+                        <fieldType>int</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                    <row>
+                        <fieldName>rm</fieldName>
+                        <fieldType>int</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                    <row>
+                        <fieldName>dup</fieldName>
+                        <fieldType>int</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                    <row>
+                        <fieldName>allcon</fieldName>
+                        <fieldType>int</fieldType>
+                        <fieldRequired>optional</fieldRequired>
+                    </row>
+                </inputData>
+                <byteCode>
+                    <class>
+                        <name>StringToMapConversionRate</name>
+                        <byteCode>yv66vgAAADQALQkABwAkCQAHACUJAAcAJgkABwAnCQAHACgKAAgAKQcAKgcAKwEABm5vcm1hbAEAAUkBAAJybQEAA2R1cAEABmFsbGNvbgEACmNvbnZlcnJhdGUBAAlnZXRub3JtYWwBAAMoKUkBAARDb2RlAQAPTGluZU51bWJlclRhYmxlAQAJc2V0bm9ybWFsAQAEKEkpVgEABWdldHJtAQAFc2V0cm0BAAZnZXRkdXABAAZzZXRkdXABAAlnZXRhbGxjb24BAAlzZXRhbGxjb24BAA1nZXRjb252ZXJyYXRlAQANc2V0Y29udmVycmF0ZQEABjxpbml0PgEAAygpVgEABmludm9rZQEACkV4Y2VwdGlvbnMHACwBAApTb3VyY2VGaWxlAQAeU3RyaW5nVG9NYXBDb252ZXJzaW9uUmF0ZS5qYXZhDAAJAAoMAAsACgwADAAKDAANAAoMAA4ACgwAHQAeAQAwUmVwb3J0RmlsZS9TdHJpbmdUb01hcC9TdHJpbmdUb01hcENvbnZlcnNpb25SYXRlAQAQamF2YS9sYW5nL09iamVjdAEAE2phdmEvbGFuZy9FeGNlcHRpb24AIQAHAAgAAAAFAAQACQAKAAAABAALAAoAAAAEAAwACgAAAAQADQAKAAAABAAOAAoAAAAMAAEADwAQAAEAEQAAAB0AAQABAAAABSq0AAGsAAAAAQASAAAABgABAAAADAABABMAFAABABEAAAAiAAIAAgAAAAYqG7UAAbEAAAABABIAAAAKAAIAAAAPAAUAEAABABUAEAABABEAAAAdAAEAAQAAAAUqtAACrAAAAAEAEgAAAAYAAQAAABIAAQAWABQAAQARAAAAIgACAAIAAAAGKhu1AAKxAAAAAQASAAAACgACAAAAFQAFABYAAQAXABAAAQARAAAAHQABAAEAAAAFKrQAA6wAAAABABIAAAAGAAEAAAAYAAEAGAAUAAEAEQAAACIAAgACAAAABiobtQADsQAAAAEAEgAAAAoAAgAAABsABQAcAAEAGQAQAAEAEQAAAB0AAQABAAAABSq0AASsAAAAAQASAAAABgABAAAAHgABABoAFAABABEAAAAiAAIAAgAAAAYqG7UABLEAAAABABIAAAAKAAIAAAAhAAUAIgABABsAEAABABEAAAAdAAEAAQAAAAUqtAAFrAAAAAEAEgAAAAYAAQAAACQAAQAcABQAAQARAAAAIgACAAIAAAAGKhu1AAWxAAAAAQASAAAACgACAAAAJwAFACgAAQAdAB4AAQARAAAATgACAAEAAAAeKrcABioDtQABKgO1AAIqA7UAAyoDtQAEKgO1AAWxAAAAAQASAAAAHgAHAAAAKgAEAAYACQAHAA4ACAATAAkAGAAKAB0AKwABAB8AHgACABEAAAAwAAMAAQAAABgqKrQAASq0AAJgKrQAA2AqtAAEYLUABbEAAAABABIAAAAGAAEAAAA1ACAAAAAEAAEAIQABACIAAAACACM=</byteCode>
+                    </class>
+                </byteCode>
+            </config>
+            <pd:inputBindings>
+                <javaCodeActivityInput>
+                    <normal>
+                        <xsl:value-of select="if(contains($Start/root/concolumn, &quot;normal&quot;))&#xA;then&#xA;$StringToMap/javaCodeActivityOutput[2]/vals&#xA;else&#xA;0"/>
+                    </normal>
+                    <rm>
+                        <xsl:value-of select="if(contains($Start/root/concolumn, &quot;rm&quot;))&#xA;then&#xA;$StringToMap/javaCodeActivityOutput[3]/vals&#xA;else&#xA;0"/>
+                    </rm>
+                    <dup>
+                        <xsl:value-of select="if(contains($Start/root/concolumn, &quot;dup&quot;))&#xA;then&#xA;$StringToMap/javaCodeActivityOutput[4]/vals&#xA;else&#xA;0"/>
+                    </dup>
+                    <allcon>
+                        <xsl:value-of select="if(contains($Start/root/concolumn, &quot;allcon&quot;))&#xA;then&#xA;$StringToMap/javaCodeActivityOutput[5]/vals&#xA;else&#xA;0"/>
+                    </allcon>
+                </javaCodeActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="OfferNLable">
+            <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+            <pd:resourceType>ae.process.subprocess</pd:resourceType>
+            <pd:x>637</pd:x>
+            <pd:y>348</pd:y>
+            <config>
+                <processName>/FrontJSONUI/Level3/Common_GenOfferNLabel.process</processName>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <offerid>
+                        <xsl:value-of select="if($Start/root/groupby=&quot;offer&quot;) then&#xA;$keysele/keys&#xA;else&#xA;substring-before($keysele/keys, &quot;-&quot;)"/>
+                    </offerid>
+                    <nid>
+                        <xsl:value-of select="if($Start/root/groupby=&quot;n&quot;) then&#xA;$keysele/keys&#xA;else&#xA;substring-after($keysele/keys, &quot;-&quot;)"/>
+                    </nid>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>ParseClickReport</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ParseClickReport</pd:from>
+        <pd:to>Group</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Group</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/pe/DeployedVarsType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions">
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <pd:name>ReportFile/BWReport_Sub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="concolumn" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="groupby" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="keys" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element name="startdate" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="enddate" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="accuracy" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>27</pd:startX>
+    <pd:startY>114</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <xsl:for-each select="$AllDayReport/AccumulatedOutput/root">
+                <alldayreport>
+                    <xsl:for-each select="pfx:reportresults">
+                        <pfx:reportresults>
+                            <xsl:for-each select="pfx:reportline">
+                                <pfx:reportline>
+                                    <xsl:if test="pfx:time">
+                                        <pfx:time>
+                                            <xsl:value-of select="pfx:time"/>
+                                        </pfx:time>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:offer_query">
+                                        <pfx:offer_query>
+                                            <xsl:value-of select="pfx:offer_query"/>
+                                        </pfx:offer_query>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:offer_link">
+                                        <pfx:offer_link>
+                                            <xsl:value-of select="pfx:offer_link"/>
+                                        </pfx:offer_link>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:n_query">
+                                        <pfx:n_query>
+                                            <xsl:value-of select="pfx:n_query"/>
+                                        </pfx:n_query>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:n_link">
+                                        <pfx:n_link>
+                                            <xsl:value-of select="pfx:n_link"/>
+                                        </pfx:n_link>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:click">
+                                        <pfx:click>
+                                            <xsl:value-of select="pfx:click"/>
+                                        </pfx:click>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:normal">
+                                        <pfx:normal>
+                                            <xsl:value-of select="pfx:normal"/>
+                                        </pfx:normal>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:conversionrate">
+                                        <pfx:conversionrate>
+                                            <xsl:value-of select="pfx:conversionrate"/>
+                                        </pfx:conversionrate>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:campaign_expendtype">
+                                        <pfx:campaign_expendtype>
+                                            <xsl:value-of select="pfx:campaign_expendtype"/>
+                                        </pfx:campaign_expendtype>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:out_price">
+                                        <pfx:out_price>
+                                            <xsl:value-of select="pfx:out_price"/>
+                                        </pfx:out_price>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:offer_earningtype">
+                                        <pfx:offer_earningtype>
+                                            <xsl:value-of select="pfx:offer_earningtype"/>
+                                        </pfx:offer_earningtype>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:in_price">
+                                        <pfx:in_price>
+                                            <xsl:value-of select="pfx:in_price"/>
+                                        </pfx:in_price>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:rm">
+                                        <pfx:rm>
+                                            <xsl:value-of select="pfx:rm"/>
+                                        </pfx:rm>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:duplicated">
+                                        <pfx:duplicated>
+                                            <xsl:value-of select="pfx:duplicated"/>
+                                        </pfx:duplicated>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:allcon">
+                                        <pfx:allcon>
+                                            <xsl:value-of select="pfx:allcon"/>
+                                        </pfx:allcon>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:allcon_conversionrate">
+                                        <pfx:allcon_conversionrate>
+                                            <xsl:value-of select="pfx:allcon_conversionrate"/>
+                                        </pfx:allcon_conversionrate>
+                                    </xsl:if>
+                                </pfx:reportline>
+                            </xsl:for-each>
+                        </pfx:reportresults>
+                    </xsl:for-each>
+                </alldayreport>
+            </xsl:for-each>
+            <NeedTime>
+                <xsl:if test="$NeedTimeToGenFiles/NeedTime/day">
+                    <day>
+                        <xsl:value-of select="$NeedTimeToGenFiles/NeedTime/day"/>
+                    </day>
+                </xsl:if>
+                <xsl:if test="$NeedTimeToGenFiles/NeedTime/reason">
+                    <reason>
+                        <xsl:value-of select="$NeedTimeToGenFiles/NeedTime/reason"/>
+                    </reason>
+                </xsl:if>
+            </NeedTime>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="alldayreport" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element ref="pfx:reportresults" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="NeedTime" minOccurs="0">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="day" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="reason" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>1010</pd:endX>
+    <pd:endY>106</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1483599437572</pd:targetNamespace>
+    <pd:group name="Day">
+        <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+        <pd:resourceType>ae.process.group</pd:resourceType>
+        <pd:x>80</pd:x>
+        <pd:y>32</pd:y>
+        <pd:width>820</pd:width>
+        <pd:height>373</pd:height>
+        <pd:collapsedWidth>57</pd:collapsedWidth>
+        <pd:collapsedHeight>70</pd:collapsedHeight>
+        <pd:groupVariables/>
+        <pd:joinToggle>inherit</pd:joinToggle>
+        <config>
+            <pd:groupType>repeat</pd:groupType>
+            <pd:serializable>false</pd:serializable>
+            <pd:indexSlot>day</pd:indexSlot>
+            <pd:outSlot>AllDayReport</pd:outSlot>
+            <pd:activityOutputName>Map Data</pd:activityOutputName>
+            <pd:repeatCondition>$day &gt; (
+tib:get-day-from-date($Start/root/enddate)
+-
+tib:get-day-from-date($Start/root/startdate)
+)</pd:repeatCondition>
+            <pd:accumulateOutput>true</pd:accumulateOutput>
+        </config>
+        <pd:inputBindings/>
+        <pd:expanded>true</pd:expanded>
+        <pd:transition>
+            <pd:from>start</pd:from>
+            <pd:to>HttpGenDayFile</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>NeedTimeToGenFiles</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Map Data</pd:from>
+            <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Group</pd:from>
+            <pd:to>Map Data</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>HttpGenDayFile</pd:from>
+            <pd:to>Group</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>xpath</pd:conditionType>
+            <pd:xpath>$HttpGenDayFile/RequestActivityOutput/asciiContent="ok"</pd:xpath>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>HttpGenDayFile</pd:from>
+            <pd:to>NeedTimeToGenFiles</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>otherwise</pd:conditionType>
+        </pd:transition>
+        <pd:group name="Group">
+            <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
+            <pd:resourceType>ae.process.group</pd:resourceType>
+            <pd:x>395</pd:x>
+            <pd:y>68</pd:y>
+            <pd:width>329</pd:width>
+            <pd:height>188</pd:height>
+            <pd:collapsedWidth>57</pd:collapsedWidth>
+            <pd:collapsedHeight>70</pd:collapsedHeight>
+            <pd:groupVariables/>
+            <pd:joinToggle>inherit</pd:joinToggle>
+            <config>
+                <pd:groupType>repeat</pd:groupType>
+                <pd:serializable>false</pd:serializable>
+                <pd:indexSlot>i</pd:indexSlot>
+                <pd:outSlot>AllHourResponse</pd:outSlot>
+                <pd:activityOutputName>CheckByDate</pd:activityOutputName>
+                <pd:repeatCondition>if($Start/root/accuracy="day") then
+$i &gt; 0
+else
+$i &gt; 22</pd:repeatCondition>
+                <pd:accumulateOutput>true</pd:accumulateOutput>
+            </config>
+            <pd:inputBindings/>
+            <pd:expanded>true</pd:expanded>
+            <pd:transition>
+                <pd:from>start</pd:from>
+                <pd:to>DayHour</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>CheckByDate</pd:from>
+                <pd:to>end</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:transition>
+                <pd:from>DayHour</pd:from>
+                <pd:to>CheckByDate</pd:to>
+                <pd:lineType>Default</pd:lineType>
+                <pd:lineColor>-16777216</pd:lineColor>
+                <pd:conditionType>always</pd:conditionType>
+            </pd:transition>
+            <pd:activity name="CheckByDate">
+                <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+                <pd:resourceType>ae.process.subprocess</pd:resourceType>
+                <pd:x>610</pd:x>
+                <pd:y>165</pd:y>
+                <config>
+                    <processName>/ReportFile/StringToMap_MapInKey.process</processName>
+                </config>
+                <pd:inputBindings>
+                    <xsl:for-each select="$Start/root">
+                        <root>
+                            <xsl:if test="$DayHour/root/day">
+                                <day>
+                                    <xsl:value-of select="$DayHour/root/day"/>
+                                </day>
+                            </xsl:if>
+                            <hour>
+                                <xsl:value-of select="$DayHour/root/hour"/>
+                            </hour>
+                            <xsl:if test="concolumn">
+                                <concolumn>
+                                    <xsl:value-of select="concolumn"/>
+                                </concolumn>
+                            </xsl:if>
+                            <xsl:if test="groupby">
+                                <groupby>
+                                    <xsl:value-of select="groupby"/>
+                                </groupby>
+                            </xsl:if>
+                            <xsl:for-each select="keys">
+                                <keys>
+                                    <xsl:value-of select="."/>
+                                </keys>
+                            </xsl:for-each>
+                            <xsl:if test="startdate">
+                                <startdate>
+                                    <xsl:value-of select="startdate"/>
+                                </startdate>
+                            </xsl:if>
+                            <xsl:if test="enddate">
+                                <enddate>
+                                    <xsl:value-of select="enddate"/>
+                                </enddate>
+                            </xsl:if>
+                            <xsl:if test="accuracy">
+                                <accuracy>
+                                    <xsl:value-of select="accuracy"/>
+                                </accuracy>
+                            </xsl:if>
+                            <mergefile>
+                                <xsl:value-of select="if(accuracy=&quot;day&quot;) then&#xA;concat(&#xA;$_globalVariables/ns:GlobalVariables/BWReport/reportFolderPath,&#xA;$DayHour/root/day,&#xA;&quot;\report.merge.log_&quot;,&#xA;$DayHour/root/day,&#xA;&quot;.csv&quot;&#xA;)&#xA;else&#xA;concat(&#xA;$_globalVariables/ns:GlobalVariables/BWReport/reportFolderPath,&#xA;$DayHour/root/day,&#xA;&quot;\report.merge.log_&quot;,&#xA;$DayHour/root/day,&#xA;&quot;T&quot;,&#xA;$DayHour/root/hour,&#xA;&quot;.csv&quot;&#xA;)"/>
+                            </mergefile>
+                            <jsontime>
+                                <xsl:value-of select="if(accuracy=&quot;day&quot;) then&#xA;$DayHour/root/day&#xA;else&#xA;concat(&#xA;$DayHour/root/day,&#xA;&quot;T&quot;,&#xA;$DayHour/root/hour&#xA;)"/>
+                            </jsontime>
+                        </root>
+                    </xsl:for-each>
+                </pd:inputBindings>
+            </pd:activity>
+            <pd:activity name="DayHour">
+                <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+                <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+                <pd:x>498</pd:x>
+                <pd:y>167</pd:y>
+                <config>
+                    <element>
+                        <xsd:element name="root">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="day" type="xsd:string" minOccurs="0"/>
+                                    <xsd:element name="hour" type="xsd:string" minOccurs="0"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </element>
+                </config>
+                <pd:inputBindings>
+                    <root>
+                        <day>
+                            <xsl:value-of select="concat(&#xA;tib:substring-before-last($Start/root/startdate, &quot;-&quot;),&#xA;&quot;-&quot;,&#xA;if(tib:get-day-from-date($Start/root/startdate)&lt;10) then &#xA;concat(&quot;0&quot;,(tib:get-day-from-date($Start/root/startdate) + $day - 1) )&#xA;else ( tib:get-day-from-date($Start/root/startdate)+ $day - 1)&#xA;)"/>
+                        </day>
+                        <hour>
+                            <xsl:value-of select="if($i >10) then ($i - 1)&#xA;else&#xA;concat(&#xA;&quot;0&quot;,($i - 1)&#xA;)"/>
+                        </hour>
+                    </root>
+                </pd:inputBindings>
+            </pd:activity>
+        </pd:group>
+        <pd:activity name="Map Data">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>798</pd:x>
+            <pd:y>173</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="root">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element ref="pfx:reportresults" minOccurs="0" maxOccurs="unbounded"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <root>
+                    <xsl:for-each select="$AllHourResponse/AccumulatedOutput/root">
+                        <pfx:reportresults>
+                            <xsl:for-each select="pfx:reportline">
+                                <pfx:reportline>
+                                    <xsl:if test="pfx:time">
+                                        <pfx:time>
+                                            <xsl:value-of select="pfx:time"/>
+                                        </pfx:time>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:offer_query">
+                                        <pfx:offer_query>
+                                            <xsl:value-of select="pfx:offer_query"/>
+                                        </pfx:offer_query>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:offer_link">
+                                        <pfx:offer_link>
+                                            <xsl:value-of select="pfx:offer_link"/>
+                                        </pfx:offer_link>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:n_query">
+                                        <pfx:n_query>
+                                            <xsl:value-of select="pfx:n_query"/>
+                                        </pfx:n_query>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:n_link">
+                                        <pfx:n_link>
+                                            <xsl:value-of select="pfx:n_link"/>
+                                        </pfx:n_link>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:click">
+                                        <pfx:click>
+                                            <xsl:value-of select="pfx:click"/>
+                                        </pfx:click>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:normal">
+                                        <pfx:normal>
+                                            <xsl:value-of select="pfx:normal"/>
+                                        </pfx:normal>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:conversionrate">
+                                        <pfx:conversionrate>
+                                            <xsl:value-of select="pfx:conversionrate"/>
+                                        </pfx:conversionrate>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:campaign_expendtype">
+                                        <pfx:campaign_expendtype>
+                                            <xsl:value-of select="pfx:campaign_expendtype"/>
+                                        </pfx:campaign_expendtype>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:out_price">
+                                        <pfx:out_price>
+                                            <xsl:value-of select="pfx:out_price"/>
+                                        </pfx:out_price>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:offer_earningtype">
+                                        <pfx:offer_earningtype>
+                                            <xsl:value-of select="pfx:offer_earningtype"/>
+                                        </pfx:offer_earningtype>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:in_price">
+                                        <pfx:in_price>
+                                            <xsl:value-of select="pfx:in_price"/>
+                                        </pfx:in_price>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:rm">
+                                        <pfx:rm>
+                                            <xsl:value-of select="pfx:rm"/>
+                                        </pfx:rm>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:duplicated">
+                                        <pfx:duplicated>
+                                            <xsl:value-of select="pfx:duplicated"/>
+                                        </pfx:duplicated>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:allcon">
+                                        <pfx:allcon>
+                                            <xsl:value-of select="pfx:allcon"/>
+                                        </pfx:allcon>
+                                    </xsl:if>
+                                    <xsl:if test="pfx:allcon_conversionrate">
+                                        <pfx:allcon_conversionrate>
+                                            <xsl:value-of select="pfx:allcon_conversionrate"/>
+                                        </pfx:allcon_conversionrate>
+                                    </xsl:if>
+                                </pfx:reportline>
+                            </xsl:for-each>
+                        </pfx:reportresults>
+                    </xsl:for-each>
+                </root>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="HttpGenDayFile">
+            <pd:type>com.tibco.plugin.http.client.HttpRequestActivity</pd:type>
+            <pd:resourceType>httppalette.httpRequest</pd:resourceType>
+            <pd:x>190</pd:x>
+            <pd:y>230</pd:y>
+            <config>
+                <inputOutputVersion>5.3.0</inputOutputVersion>
+                <newMimeSupport>true</newMimeSupport>
+                <authScheme>NONE</authScheme>
+                <serverport>12346</serverport>
+                <InputHeaders>
+                    <xsd:element name="root">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Accept" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Accept-Charset" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Accept-Encoding" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Cookie" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </InputHeaders>
+                <OutputHeaders>
+                    <xsd:element name="root">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Allow" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Content-Type" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Content-Length" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Content-Encoding" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Date" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Location" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Set-Cookie" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="Pragma" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </OutputHeaders>
+            </config>
+            <pd:inputBindings>
+                <RequestActivityInput>
+                    <RequestURI>
+                        <xsl:value-of select="concat(&#xA;&quot;/?day=&quot;,&#xA;concat(&#xA;tib:substring-before-last($Start/root/startdate, &quot;-&quot;),&#xA;&quot;-&quot;,&#xA;if(tib:get-day-from-date($Start/root/startdate)&lt;11) then &#xA;concat(&quot;0&quot;,(tib:get-day-from-date($Start/root/startdate) + $day - 1) )&#xA;else ( tib:get-day-from-date($Start/root/startdate)+ $day - 1)&#xA;)&#xA;)"/>
+                    </RequestURI>
+                </RequestActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="NeedTimeToGenFiles">
+            <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+            <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+            <pd:x>449</pd:x>
+            <pd:y>314</pd:y>
+            <config>
+                <element>
+                    <xsd:element name="NeedTime">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="day" type="xsd:string" minOccurs="0"/>
+                                <xsd:element name="reason" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </element>
+            </config>
+            <pd:inputBindings>
+                <NeedTime>
+                    <day>
+                        <xsl:value-of select="$day"/>
+                    </day>
+                    <reason>
+                        <xsl:value-of select="&quot;Need Time To Generate Report Files&quot;"/>
+                    </reason>
+                </NeedTime>
+            </pd:inputBindings>
+        </pd:activity>
+    </pd:group>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Day</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Day</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

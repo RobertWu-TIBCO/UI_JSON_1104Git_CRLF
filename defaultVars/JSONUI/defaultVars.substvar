@@ -1,0 +1,45 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>DomainName</name>
+			<value>http://www.91mobcastle.com:8080/MobCastle_UI/</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1480577519709</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>autojudgeclientort</name>
+			<value>9091</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1480577519710</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>downloadreportink</name>
+			<value>http://www.91mobcastle.com:9898/reportname=</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1480577519710</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>port</name>
+			<value>9898</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1480577519710</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>pythonworkdir</name>
+			<value>E:\SoftWares\Project\log\</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1480577519710</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>HrefLine_hostname</name>
+			<value>http://60.205.189.32:</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1480577519710</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>ProjectFolder</name>
+			<value>E:\SoftWares\Project\MobCastleAD1006RemoteReport</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1480577519710</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>csvfilefolder</name>
+			<value>E:\EasyOSLink\PCMasterMove\Documents\Tencent Files\1533661890\FileRecv\</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1480577519710</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

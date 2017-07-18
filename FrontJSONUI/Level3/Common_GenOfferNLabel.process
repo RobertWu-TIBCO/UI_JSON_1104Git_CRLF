@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <pd:name>FrontJSONUI/Level3/Common_GenOfferNLabel.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="offerid" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="nid" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>61</pd:startX>
+    <pd:startY>91</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <offerlabel>
+                <xsl:value-of select="$OfferLabel/root/commonlabel[1]"/>
+            </offerlabel>
+            <nlabel>
+                <xsl:value-of select="$NLabel/root/commonlabel[1]"/>
+            </nlabel>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="offerlabel" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="nlabel" type="xsd:string" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>454</pd:endX>
+    <pd:endY>92</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1479874558917</pd:targetNamespace>
+    <pd:activity name="OfferLabel">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>168</pd:x>
+        <pd:y>89</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_LabelGenerator.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <viewname>
+                    <xsl:value-of select="&quot;view_label_offer_status_notpause&quot;"/>
+                </viewname>
+                <xsl:if test="$Start/root/offerid">
+                    <value>
+                        <xsl:value-of select="$Start/root/offerid"/>
+                    </value>
+                </xsl:if>
+                <tablename>
+                    <xsl:value-of select="&quot;offer&quot;"/>
+                </tablename>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="NLabel">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>300</pd:x>
+        <pd:y>88</pd:y>
+        <config>
+            <processName>/FrontJSONUI/Level3/Common_LabelGenerator.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <viewname>
+                    <xsl:value-of select="&quot;view_label_n_status_notpause&quot;"/>
+                </viewname>
+                <xsl:if test="$Start/root/nid">
+                    <value>
+                        <xsl:value-of select="$Start/root/nid"/>
+                    </value>
+                </xsl:if>
+                <tablename>
+                    <xsl:value-of select="&quot;n&quot;"/>
+                </tablename>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>OfferLabel</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>OfferLabel</pd:from>
+        <pd:to>NLabel</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>NLabel</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

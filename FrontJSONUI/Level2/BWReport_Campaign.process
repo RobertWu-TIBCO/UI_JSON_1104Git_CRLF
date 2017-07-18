@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/ns/no_namespace_schema_location/FrontJSONUI/Level2/CSVFormat.sharedparse" xmlns:ns="http://www.tibco.com/pe/EngineTypes" xmlns:ns12="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns2="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns3="http://www.tibco.com/namespaces/tnt/plugins/file">
+    <xsd:import namespace="http://www.tibco.com/schemas/MobCastleAD1006RemoteReport_JSON/FrontJSONUI/Level1/Schema.xsd" schemaLocation="/FrontJSONUI/Level1/AllJSONSchema.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/ns/no_namespace_schema_location/FrontJSONUI/Level2/CSVFormat.sharedparse" schemaLocation="/FrontJSONUI/Level2/CSVFormat.sharedparse"/>
+    <pd:name>FrontJSONUI/Level2/BWReport_Campaign.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:AllJSONRequests"/>
+    <pd:startX>80</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <pfx:SubEnd>
+            <pfx:JSONResponse>
+                <xsl:value-of select="$JSON_AllResponse/ns12:ActivityOutputClass/jsonString"/>
+            </pfx:JSONResponse>
+        </pfx:SubEnd>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:SubEnd"/>
+    <pd:endX>458</pd:endX>
+    <pd:endY>200</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1478154485942</pd:targetNamespace>
+    <pd:activity name="JSON_AllResponse">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>312</pd:x>
+        <pd:y>196</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="responsestatus" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="reportlink" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="alldayreport" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element ref="pfx:reportresults" minOccurs="0" maxOccurs="unbounded"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="NeedTime" minOccurs="0">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="day" type="xsd:string" minOccurs="0"/>
+                                        <xsd:element name="reason" type="xsd:string" minOccurs="0"/>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns12:ActivityInputClass>
+                <root>
+                    <responsestatus>
+                        <xsl:value-of select="&quot;success&quot;"/>
+                    </responsestatus>
+                    <reportlink>
+                        <xsl:value-of select="&quot;concat($_globalVariables/ns2:GlobalVariables/JSONUI/downloadreportink,$GenerateCSVFile_Header/ns3:WriteActivityOutputClass/fileInfo/fullName)&quot;"/>
+                    </reportlink>
+                    <xsl:for-each select="$FilterMap/root/alldayreport">
+                        <alldayreport>
+                            <xsl:for-each select="pfx:reportresults">
+                                <pfx:reportresults>
+                                    <xsl:for-each select="pfx:reportline">
+                                        <pfx:reportline>
+                                            <xsl:if test="pfx:time">
+                                                <pfx:time>
+                                                    <xsl:value-of select="pfx:time"/>
+                                                </pfx:time>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:offer_query">
+                                                <pfx:offer_query>
+                                                    <xsl:value-of select="pfx:offer_query"/>
+                                                </pfx:offer_query>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:offer_link">
+                                                <pfx:offer_link>
+                                                    <xsl:value-of select="pfx:offer_link"/>
+                                                </pfx:offer_link>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:n_query">
+                                                <pfx:n_query>
+                                                    <xsl:value-of select="pfx:n_query"/>
+                                                </pfx:n_query>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:n_link">
+                                                <pfx:n_link>
+                                                    <xsl:value-of select="pfx:n_link"/>
+                                                </pfx:n_link>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:click">
+                                                <pfx:click>
+                                                    <xsl:value-of select="pfx:click"/>
+                                                </pfx:click>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:normal">
+                                                <pfx:normal>
+                                                    <xsl:value-of select="pfx:normal"/>
+                                                </pfx:normal>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:conversionrate">
+                                                <pfx:conversionrate>
+                                                    <xsl:value-of select="pfx:conversionrate"/>
+                                                </pfx:conversionrate>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:campaign_expendtype">
+                                                <pfx:campaign_expendtype>
+                                                    <xsl:value-of select="pfx:campaign_expendtype"/>
+                                                </pfx:campaign_expendtype>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:out_price">
+                                                <pfx:out_price>
+                                                    <xsl:value-of select="pfx:out_price"/>
+                                                </pfx:out_price>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:offer_earningtype">
+                                                <pfx:offer_earningtype>
+                                                    <xsl:value-of select="pfx:offer_earningtype"/>
+                                                </pfx:offer_earningtype>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:in_price">
+                                                <pfx:in_price>
+                                                    <xsl:value-of select="pfx:in_price"/>
+                                                </pfx:in_price>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:rm">
+                                                <pfx:rm>
+                                                    <xsl:value-of select="pfx:rm"/>
+                                                </pfx:rm>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:duplicated">
+                                                <pfx:duplicated>
+                                                    <xsl:value-of select="pfx:duplicated"/>
+                                                </pfx:duplicated>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:allcon">
+                                                <pfx:allcon>
+                                                    <xsl:value-of select="pfx:allcon"/>
+                                                </pfx:allcon>
+                                            </xsl:if>
+                                            <xsl:if test="pfx:allcon_conversionrate">
+                                                <pfx:allcon_conversionrate>
+                                                    <xsl:value-of select="pfx:allcon_conversionrate"/>
+                                                </pfx:allcon_conversionrate>
+                                            </xsl:if>
+                                        </pfx:reportline>
+                                    </xsl:for-each>
+                                </pfx:reportresults>
+                            </xsl:for-each>
+                        </alldayreport>
+                    </xsl:for-each>
+                    <xsl:copy-of select="$FilterMap/root/NeedTime"/>
+                </root>
+            </ns12:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetCampId">
+        <pd:type>com.tibco.plugin.jdbc.JDBCGeneralActivity</pd:type>
+        <pd:resourceType>ae.activities.JDBCGeneralActivity</pd:resourceType>
+        <pd:x>180</pd:x>
+        <pd:y>200</pd:y>
+        <config>
+            <timeout>10</timeout>
+            <commit>false</commit>
+            <maxRows>1000</maxRows>
+            <jdbcSharedConfig>/0920UpdateTables/MySql.sharedjdbc</jdbcSharedConfig>
+        </config>
+        <pd:inputBindings>
+            <jdbcGeneralActivityInput>
+                <statement>
+                    <xsl:value-of select="concat(&quot;select * from view_report_campaign_offer_n_id where offer_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:offerreportsearch,&#xA;&quot; and n_id=&quot;,&#xA;$Start/pfx:AllJSONRequests/pfx:nreportsearch&#xA;)"/>
+                </statement>
+            </jdbcGeneralActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SaveConcat_OfferNPair">
+        <pd:type>com.tibco.plugin.mapper.MapperActivity</pd:type>
+        <pd:resourceType>ae.activities.MapperActivity</pd:resourceType>
+        <pd:x>178</pd:x>
+        <pd:y>62</pd:y>
+        <config>
+            <element>
+                <xsd:element name="root">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="offernpair" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </element>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:for-each select="$GetCampId/jdbcGeneralActivityOutput/unknownResultset/row">
+                    <offernpair>
+                        <xsl:value-of select="concat(current()/column[2]/value,&quot;-&quot;,current()/column[3]/value)"/>
+                    </offernpair>
+                </xsl:for-each>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Catch">
+        <pd:type>com.tibco.pe.core.CatchActivity</pd:type>
+        <pd:resourceType>ae.activities.catch</pd:resourceType>
+        <pd:x>147</pd:x>
+        <pd:y>528</pd:y>
+        <pd:handler>true</pd:handler>
+        <config>
+            <catchAll>true</catchAll>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Rethrow">
+        <pd:type>com.tibco.pe.core.RethrowActivity</pd:type>
+        <pd:resourceType>ae.activities.rethrow</pd:resourceType>
+        <pd:x>286</pd:x>
+        <pd:y>527</pd:y>
+        <config/>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="FilterMap">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>310</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <processName>/ReportFile/BWReport_Sub.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:concolumn">
+                    <concolumn>
+                        <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:concolumn"/>
+                    </concolumn>
+                </xsl:if>
+                <xsl:if test="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:groupby">
+                    <groupby>
+                        <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:EditArray/pfx:groupby"/>
+                    </groupby>
+                </xsl:if>
+                <xsl:for-each select="if($Start/pfx:AllJSONRequests/pfx:EditArray/pfx:groupby=&quot;offer&quot;) then&#xA;$Start/pfx:AllJSONRequests/pfx:offerreportsearch&#xA;else if($Start/pfx:AllJSONRequests/pfx:EditArray/pfx:groupby=&quot;n&quot;) then&#xA;$Start/pfx:AllJSONRequests/pfx:nreportsearch&#xA;else&#xA;$SaveConcat_OfferNPair/root/offernpair">
+                    <keys>
+                        <xsl:value-of select="."/>
+                    </keys>
+                </xsl:for-each>
+                <xsl:if test="$Start/pfx:AllJSONRequests/pfx:startdate">
+                    <startdate>
+                        <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:startdate"/>
+                    </startdate>
+                </xsl:if>
+                <xsl:if test="$Start/pfx:AllJSONRequests/pfx:enddate">
+                    <enddate>
+                        <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:enddate"/>
+                    </enddate>
+                </xsl:if>
+                <xsl:if test="$Start/pfx:AllJSONRequests/pfx:accuracy">
+                    <accuracy>
+                        <xsl:value-of select="$Start/pfx:AllJSONRequests/pfx:accuracy"/>
+                    </accuracy>
+                </xsl:if>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetCampId</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetCampId</pd:from>
+        <pd:to>SaveConcat_OfferNPair</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Catch</pd:from>
+        <pd:to>Rethrow</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SaveConcat_OfferNPair</pd:from>
+        <pd:to>FilterMap</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>FilterMap</pd:from>
+        <pd:to>JSON_AllResponse</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JSON_AllResponse</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
